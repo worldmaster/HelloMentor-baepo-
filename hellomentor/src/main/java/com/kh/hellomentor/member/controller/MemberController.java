@@ -13,6 +13,7 @@ import com.kh.hellomentor.member.model.vo.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,8 @@ public class MemberController {
     private EmailService emailService;
 
 
+
+
     @PostMapping("login.me")
     public String loginMember(
             RedirectAttributes redirectAttributes,
@@ -82,6 +85,10 @@ public class MemberController {
 
     @PostMapping("/sign.up")
     public String insertMember(@Validated Member m, HttpSession session, Model model, BindingResult bindingResult) {
+
+
+
+
         int result = mService.insertMember(m);
         String url = "";
 
