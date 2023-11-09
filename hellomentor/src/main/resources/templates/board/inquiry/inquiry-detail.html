@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1:1문의내역_상세페이지</title>
+    <link  th:href="@{/css/normal-frame.css}" rel="stylesheet" />
+    <link  th:href="@{/css/cs-menu.css}" rel="stylesheet" />
+    <link  th:href="@{/css/inquiry-detail.css}" rel="stylesheet" />
+    
+       <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+  rel="stylesheet" />
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+  </head>
+
+  <body>
+  
+  <div th:insert="common/header :: header"></div>
+  
+  <script th:inline="javascript">
+		    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+		    var message = /*[[${message}]]*/ '';
+		
+		    // 메시지를 사용하여 alert를 생성합니다.
+		    if (message) {
+		        alert(message);
+		    }
+		</script>
+		
+    <div class="content">
+      <div class="section">
+        <div class="title">문의내역</div>
+
+        <!-- 메뉴바 -->
+        <div align="center" class="cs-menu-bar">
+          <div class="cs-menu"><a th:href="@{/noticelist}">공지사항</a></div>
+          <div class="cs-menu"><a th:href="@{/faqlist}">FAQ</a></div>
+          <div class="cs-menu"><a th:href="@{/inquiryinsert}">1:1문의</a></div>
+          <div class="cs-menu" id="selected-menu"><a th:href="@{/inquirylist}">문의내역</a></div>
+        </div>
+
+        <div class="line line1"></div>
+
+        <div class="question-section">
+          <div class="question-title">
+            <div id="q-logo">Q.</div>
+            <div class="question-info">
+              <div id="question-title" th:text="${selectedPost.postTitle}">질문제목</div>
+              <div id="question-info">
+                <div id="question-writer" th:text="${selectedPost.boardType}">카테고리</div>
+                <div id="question-create-date" th:text="${selectedPost.createDate}">작성일자</div>
+                <div id="question-status">
+                	<span th:if="${selectedPost2.isProcessed}">처리 완료</span> 
+              	  <span th:if="${!selectedPost2.isProcessed}">처리중</span>
+				</div>
+              </div>
+            </div>
+          </div>
+          <div class="question-box">
+            <div name="question" id="question" >
+            <span th:text="${selectedPost.postContent}">내용</span>
+            </div>
+          </div>
+          <br>   
+        </div>
+         <div class="inquiryAttach" th:if="${#lists.size(attachList) > 0}" >
+			            <div id="attachtext">첨부파일</div>
+			    
+	        <div th:each="file : ${attachList}">
+	            <div class="file-info">
+	                <a th:href="@{${file.filePath} + ${file.changeName}}" th:download="${file.originName}"> 
+         			  <span th:text="${file.originName}"></span></a>
+	            </div>
+	        </div>
+		</div>
+
+        <div class="line line2"></div>
+
+        <!-- 답변 미등록시 -->
+        <div class="answer-section"  th:if="${!selectedPost2.isProcessed}">
+      		  <div id="a-logo">A.</div>
+        	<div class="no-answer" >등록된 답변이 없습니다</div> 
+		</div>
+        <!-- 답변 등록시 -->
+        <div class="answer-section" th:if="${selectedPost2.isProcessed}">
+          <div id="a-logo">A.</div>
+          <div class="answer" th:text="${selectedPost2.answer}">답변</div>
+        </div>
+
+        <!-- 목록 버튼 -->
+        <button type="button" id="move-to-inquiry" th:onclick="window.location.href='/hellomentor/inquirylist'">
+          목록
+        </button>
+        <!-- 목록 버튼 끝 -->
+      </div>
+    </div>
+    
+    <div th:insert="common/footer :: footer"></div>
+    
+    
+  </body>
+</html>

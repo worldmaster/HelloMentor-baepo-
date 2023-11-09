@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 1200px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.title {
+    width: 800px;
+    margin-top: 100px;
+    font-size: 40px;
+    font-family: "bd";
+}
+
+
+.info-enroll-section {
+    margin-top: 100px;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+#user-info {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#code-lang {
+    width: 100px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-color: rgb(226, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+}
+
+.info-enroll-section>span {
+    font-size: 20px;
+    font-family: "bd";
+    margin-bottom: 8px;
+}
+
+.info-write-section {
+    border: 1px solid rgb(226, 219, 219);
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    margin-bottom: 20px;
+    width: 800px;
+}
+
+#mentoring-title {
+    height: 32px;
+    font-size: 20px;
+}
+
+.info-enroll-section>textarea {
+    resize: none;
+    min-height: 160px;
+    font-size: 20px;
+    overflow-y: hidden;
+}
+
+.info-enroll-btns {
+    margin-top: 20px;
+}
+
+.ie-btns {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-family: "bd";
+}
+
+.ie-btns:hover {
+    color: white;
+}
+
+#cancel-button {
+    background-color: #48917A;
+}
+
+#enroll-button {
+    background-color: #DFF6ED;
+}

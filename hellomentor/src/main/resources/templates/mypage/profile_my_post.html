@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="my_right_title">내가 쓴 글</div>
+<br>
+
+<div class="my_notification">
+
+    <div class="my_post_content1">
+        <div class="my_post_content1-2">
+            <select id="my_post_category">
+                <option value="" selected>분류</option>
+                <option value="">전체 보기</option>
+                <option th:each="boardType : ${boardTypes}" th:value="${boardType}" th:text="${boardType}"></option>
+            </select>
+
+        </div>
+        <div>
+        </div>
+    </div>
+
+    <div class="my_post_content2">
+        <div>
+            <span>게시판</span>
+        </div>
+        <div>
+            <span>제목</span>
+        </div>
+        <div>
+            <span>작성일자</span>
+        </div>
+    </div>
+
+    <div class="my_post_content3">
+        <div th:each="post : ${myPosts}" class="my_post_box">
+            <div class="my_post_filtered_category">
+                <span th:text="${post.boardType}">게시판</span>
+            </div>
+            <div class="my_post_filtered_title">
+                <span th:text="${post.postTitle}">제목</span>
+            </div>
+            <div class="my_post_filtered_date">
+                <span th:text="${post.createDate}">작성일자</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="my_notifi_content3">
+        <div class="my_notifi_paging">
+            <span id="previous-page" onclick="movePage(-1)">이전</span>
+            <span id="page-numbers"></span>
+            <span id="next-page" onclick="movePage(1)">다음</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const postBoxes = document.querySelectorAll('.my_post_box');
+        let currentPage = 1;
+        const itemsPerPage = 15;
+        let numberOfPages = Math.ceil(postBoxes.length / itemsPerPage);
+
+        function updatePage() {
+            const selectedCategory = $("#my_post_category").val();
+            let displayed = 0;
+
+            postBoxes.forEach(function (postBox, index) {
+                const postCategory = $(postBox).find('.my_post_filtered_category span').text();
+                const isVisible = selectedCategory === "" || postCategory === selectedCategory;
+
+                if (isVisible) {
+                    if (displayed >= (currentPage - 1) * itemsPerPage && displayed < currentPage * itemsPerPage) {
+                        $(postBox).css('display', 'flex');
+                    } else {
+                        $(postBox).css('display', 'none');
+                    }
+                    displayed++;
+                } else {
+                    $(postBox).css('display', 'none');
+                }
+            });
+
+            numberOfPages = Math.ceil(displayed / itemsPerPage);
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const pageNumberContainer = $("#page-numbers");
+            pageNumberContainer.empty();
+
+            let startPage = currentPage - 5;
+            let endPage = currentPage + 4;
+
+            if (startPage < 1) {
+                startPage = 1;
+                endPage = Math.min(10, numberOfPages);
+            }
+
+            if (endPage > numberOfPages) {
+                endPage = numberOfPages;
+                startPage = Math.max(1, numberOfPages - 9);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageSpan = document.createElement('span');
+                pageSpan.textContent = i;
+                if (i === currentPage) {
+                    pageSpan.style.fontWeight = 'bold';
+                } else {
+                    pageSpan.style.cursor = 'pointer';
+                    pageSpan.onclick = function () {
+                        currentPage = parseInt(this.textContent);
+                        updatePage();
+                    };
+                }
+                pageNumberContainer.append(pageSpan);
+            }
+
+            $("#previous-page").css('display', currentPage === 1 ? 'none' : 'inline');
+            $("#next-page").css('display', currentPage === numberOfPages ? 'none' : 'inline');
+        }
+
+        function movePage(direction) {
+            currentPage += direction;
+
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > numberOfPages) currentPage = numberOfPages;
+
+            updatePage();
+        }
+
+        $("#previous-page").click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePage();
+            }
+        });
+
+        $("#next-page").click(function () {
+            if (currentPage < numberOfPages) {
+                currentPage++;
+                updatePage();
+            }
+        });
+
+        $("#my_post_category").change(function () {
+            currentPage = 1;
+            updatePage();
+        });
+
+        updatePage(); // 초기 페이지 업데이트 호출
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<div class="my_right_title">내 정보 수정</div>
+<div class="my_editinfo_content1">
+    <div class="my_editinfo_box_1">
+        <div class="my_editinfo_profile_img">
+            <img id="profileImage" th:src=" @{${session.loginUser.profile}}" onclick="document.getElementById('fileInput').click();"/>
+        </div>
+        <label for="fileInput" id="my_profileInput">프로필 사진 변경하기</label>
+        <input type="file" id="fileInput" style="display: none;" accept="image/*" />
+    </div>
+
+    <div class="my_editinfo_box_2">
+        <div class="my_editinfo_inputbox">
+            <span>계정 ID</span>
+            <input type="text" id="edit_info_userId" th:value="${loginUser.userId}" disabled/>
+        </div>
+    </div>
+
+    <div class="my_editinfo_box_2">
+        <div class="my_editinfo_inputbox">
+            <span>이름</span>
+            <input type="text" id="edit_info_userName" th:value="${loginUser.userName}" disabled/>
+        </div>
+    </div>
+
+    <div class="my_editinfo_box_2">
+        <div class="my_editinfo_inputbox">
+            <span>현재 비밀번호</span>
+            <input type="password" id="edit_info_userPwd" value="" style="background-color: white">
+        </div>
+    </div>
+
+    <div class="my_editinfo_box_3">
+        <div class="my_inputbox_row">
+            <span>변경할 비밀번호</span>
+            <input type="password" id="edit_info_useroriginPwd" value="" style="background-color: white">
+        </div>
+        <div class="my_inputbox_row" style="margin-left: 10%">
+            <span>비밀번호 확인</span>
+            <input type="password" id="edit_info_usernewPwd" value="" style="background-color: white">
+        </div>
+    </div>
+
+    <div class="my_editinfo_box_2">
+        <div class="my_editinfo_inputbox">
+            <span>가입 상태</span>
+            <input type="text" id="edit_info_status" th:value="${loginUser.memberType == 'E' ? '멘티' : '멘토'}" disabled>
+        </div>
+    </div>
+
+    <div class="my_editinfo_box_2">
+        <div class="my_editinfo_inputbox">
+            <span>한 줄 소개</span>
+            <input type="text" id="edit_info_intro" th:value="${loginUser.introduction}"
+                   style="background-color: white">
+        </div>
+    </div>
+
+    <div class="my_editinfo_content2">
+        <div class="my_editinfo_btnbox1">
+            <button id="my_editinfo_editBtn">수정</button>
+            <button id="my_editinfo_cancelBtn">취소</button>
+        </div>
+
+        <div id="withdrawModal" class="withdrawmodal">
+            <div class="width_draw_modal_content">
+                <p>정말 탈퇴하시겠습니까?</p>
+                <button id="withdrawyesButton">예</button>
+                <button id="withdrawnoButton">아니오</button>
+            </div>
+        </div>
+
+        <div class="my_editinfo_btnbox2">
+            <button id="my_editinfo_withdrawBtn">탈퇴하기</button>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+<script>
+    document.getElementById('my_editinfo_editBtn').addEventListener('click', function () {
+        var currentPassword = document.getElementById('edit_info_userPwd').value;
+        var newPwd = document.getElementById('edit_info_useroriginPwd').value;
+        var newPasswordConfirm = document.getElementById('edit_info_usernewPwd').value;
+        var introduction = document.getElementById('edit_info_intro').value;
+
+        if (currentPassword === "") {
+            alert("현재 비밀번호를 입력하세요.");
+            return;
+        }
+
+        // 변경할 비밀번호와 비밀번호 확인이 일치하지 않으면 alert 창 띄우기
+        if (newPwd !== newPasswordConfirm) {
+            alert("비밀번호 확인이 일치하지 않습니다.");
+            return;
+        }
+
+        // 프로필 이미지 변경 여부 확인
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+        var profileImageChanged = file !== undefined;
+
+        var formData = new FormData();
+        formData.append('originPwd', currentPassword);
+        formData.append('newPwd', newPwd);
+        formData.append('intro', introduction);
+        formData.append('profileImageChanged', profileImageChanged);
+
+        if (profileImageChanged) {
+            formData.append('file', file);
+        }
+        else {
+            formData.append('file', new Blob(), 'notchanged');
+        }
+
+
+        // 프로필 업데이트 요청
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "updateProfile", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("프로필이 업데이트되었습니다.");
+                    document.getElementById('edit_info_userPwd').value = "";
+                    document.getElementById('edit_info_useroriginPwd').value = "";
+                    document.getElementById('edit_info_usernewPwd').value = "";
+                } else {
+                    alert(xhr.responseText);
+                }
+            }
+        };
+
+        xhr.send(formData);
+    });
+
+</script>
+
+
+
+<!--프로필사진 미리보기 -->
+<script>
+    document.getElementById('fileInput').addEventListener('change', function () {
+        var fileInput = document.getElementById('fileInput');
+        var profileImage = document.getElementById('profileImage');
+
+        var file = fileInput.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                profileImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+
+
+<!--탈퇴모달-->
+<script>
+
+    document.getElementById('my_editinfo_withdrawBtn').addEventListener('click', function () {
+        document.getElementById('withdrawModal').style.display = 'block';
+    });
+
+    document.getElementById('withdrawyesButton').addEventListener('click', function () {
+        // 탈퇴 처리 코드
+        document.getElementById('withdrawModal').style.display = 'none';
+    });
+
+    document.getElementById('withdrawnoButton').addEventListener('click', function () {
+        document.getElementById('withdrawModal').style.display = 'none';
+    });
+
+</script>
+</body>
+</html>

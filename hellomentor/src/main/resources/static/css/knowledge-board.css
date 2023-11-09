@@ -1,0 +1,250 @@
+.main-text {
+    margin: 70px 732px 0px 0px;
+    font-size: 40px;
+}
+
+/*분류, 검색창 시작*/
+#category-search {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 800px;
+}
+
+/*분류*/
+#knowledgekind {
+    padding-left: 10px;
+    width: 100px;
+    height: 32px;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: rgb(223, 219, 219);
+    margin-right: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+/* 검색창 */
+#keyword {
+    padding-left: 10px;
+    width: 280px;
+    height: 32px;
+    border-color: rgb(223, 219, 219);
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: none;
+    border: 1px solid rgb(231, 230, 230);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    margin-right: 10px;
+
+}
+
+#search-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn:hover #search-logo {
+    fill: #40E0D0;
+}
+
+/*분류, 검색창 끝*/
+
+
+
+
+/*조회순, 최신순 버튼*/
+
+#button-container {
+    text-align: right;
+    /* 버튼들을 오른쪽으로 정렬 */
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+#filtering-qna {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#filtering-best {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 570px;
+}
+
+#filtering-all {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#filtering-notdone {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#button-container>button {
+    font-size: 18px;
+}
+
+#button-container>button:hover {
+    color: #48917A !important;
+}
+
+.mainColor {
+    color: #40E0D0;
+}
+
+.blackColor {
+    color: black;
+}
+
+/*조회순, 최신순 버튼 끝*/
+
+
+
+
+
+
+
+/*게시판 글 시작*/
+#knowledge-area {
+    border-collapse: separate;
+    border-spacing: 0 16px;
+    font-size: 17px;
+
+}
+
+#knowledge-area tbody td:nth-child(1) {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+}
+
+#knowledge-area tbody td:nth-child(2) {
+    padding-left: 20px;
+
+}
+
+#knowledge-area tbody td:nth-child(4) {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-family: "bd";
+}
+
+#knowledge-area tbody tr {
+    background-color: #f7f7f7;
+    height: 110px;
+    text-align: center;
+}
+
+
+#knowledge-area tbody tr:hover {
+    background: #48917A;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* 호버 상태에서 더 강한 그림자 효과 추가 */
+}
+
+.loveimg {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transform: translate(-3px, 4px);
+}
+
+/*게시판 글 끝*/
+
+
+
+
+
+
+
+
+
+
+/*글작성 버튼*/
+#move-to-insert {
+    width: 900px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    margin-right: 50px;
+}
+
+#move-to-insert>button {
+    height: 36px;
+    width: 114px;
+    background: #48917A;
+    border-radius: 10px;
+    border: none;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-family: "bd";
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+
+}
+
+#move-to-insert>button:hover {
+    color: white;
+}
+
+/*글작성 버튼 끝*/
+
+
+
+
+
+/* 페이징바 */
+.pagination ul li {
+	
+	padding: 7px 12px;
+ 	margin-right: 10px; /* 버튼 간격 조정 */
+    margin-top: 20px;
+    border: none;
+    background-color: white;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid rgb(226, 219, 219);
+     display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+
+
+.pagination ul li:hover {
+    background-color: #48917A;
+    color: #fff;
+}
+.pagination ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+ .pagination ul li:last-child {
+     margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+ }
+    .pagination ul li a {
+     color: black; /* 글자 색상을 검정색으로 설정 */
+     text-decoration: none; /* 밑줄 제거 */
+ }
+/* 페이징바 끝 */

@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    height: 1436px;
+    width: 1200px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    width: 800px;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
+.title>div {
+    font-size: 40px;
+    font-family: "bd";
+}
+
+
+.info-list {
+    width: 780px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+#tokens {
+    margin-left: 10px;
+    font-family: "bd";
+    font-size: 40px;
+    color: #40E0D0;
+    margin-right: 10px;
+}
+
+.info-list span {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.charge-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-group {
+    background-color: #DFF6ED;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    width: 700px;
+    height: 100px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.radio {
+    display: none;
+}
+
+.token {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.token-price {
+    margin-right: 10px;
+    font-family: "bd";
+    font-size: 40px;
+    color: #40E0D0;
+}
+
+
+.price {
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.selected-radio {
+    border: 5px solid #40E0D0 !important;
+}
+
+
+.char-btns {
+    margin-top: 100px;
+    width: 240px;
+    display: flex;
+    justify-content: center;
+}
+
+.charge-btns {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    font-size: 20px;
+    font-family: "bd";
+    cursor: pointer;
+}
+
+.charge-btns:hover {
+    color: white
+}
+
+
+#cancel-button {
+    background-color: #48917A;
+    margin-right: 40px;
+}
+
+#pay-button {
+    background-color: #DFF6ED;
+}

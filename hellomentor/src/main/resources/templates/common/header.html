@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Header</title>
+    <!-- header 스타일 -->
+    <link th:href="@{/css/header-style.css}" rel="stylesheet"/>
+
+    <!-- jquery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<!-- 로그인 후 header -->
+<header>
+    <div class="header-wrap">
+        <div class="logo-container">
+            <!-- href에 메인페이지 주소 넣어주기-->
+            <img
+                    class="logo-img" th:onclick="'location.href=\'' + @{/main} + '\''"
+                    th:src="@{/img/HELLO_MENTOR_LOGO.png}"
+            />
+        </div>
+        <div class="navi">
+            <th:block th:if="${session.loginUser.memberType == 'E'}">
+                <div class="menubar1">
+                    <!-- 각 게시판 주소 넣어주기 -->
+                    <a th:href="@{/freelist}" class="menu">자유게시판</a>
+                    <a th:href="@{/knowledgelist}" class="menu">지식인</a>
+                    <a th:href="@{/mentoring}" class="menu">멘토링</a>
+                    <a th:href="@{/study}" class="menu">스터디</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.loginUser.memberType == 'O'}">
+                <div class="menubar2">
+                    <!-- 각 게시판 주소 넣어주기 -->
+                    <a th:href="@{/freelist}" class="menu">자유게시판</a>
+                    <a th:href="@{/knowledgelist}" class="menu">지식인</a>
+                    <a th:href="@{/mentoring}" class="menu">멘토링</a>
+                </div>
+            </th:block>
+            <div class="profile-bar">
+                <!-- 마이페이지의 alarm페이지로 이동 -->
+                <!--                <div id="alarm" th:onclick="'location.href=\'' + @{/mypage/alarm} + '\''">-->
+                <!--                    <svg-->
+                <!--                            xmlns="http://www.w3.org/2000/svg"-->
+                <!--                            width="28"-->
+                <!--                            height="32"-->
+                <!--                            viewBox="0 0 28 32"-->
+                <!--                            fill="none"-->
+                <!--                    >-->
+                <!--                        <path-->
+                <!--                                id="bell-logo"-->
+                <!--                                d="M26.9168 22.0833C26.3002 20.9166 25.5335 19.7833 24.9502 18.6499C24.3806 17.633 24.0554 16.4975 24.0002 15.3333V12.3499C24.0032 9.82685 23.1048 7.3857 21.4668 5.46659C19.9852 3.70847 17.9318 2.52833 15.6668 2.13325V1.99992C15.6668 1.55789 15.4912 1.13397 15.1787 0.821407C14.8661 0.508847 14.4422 0.333252 14.0002 0.333252C13.5581 0.333252 13.1342 0.508847 12.8217 0.821407C12.5091 1.13397 12.3335 1.55789 12.3335 1.99992V2.14992C10.0051 2.54349 7.89105 3.74839 6.36582 5.55121C4.84059 7.35403 4.00257 9.63846 4.00018 11.9999V15.3333C3.94751 16.5032 3.62219 17.6447 3.05018 18.6666C2.46684 19.7999 1.70018 20.9333 1.08351 22.0999C0.744774 22.7207 0.612266 23.4332 0.705145 24.1343C0.798023 24.8354 1.11147 25.4887 1.60018 25.9999C1.91282 26.3189 2.28637 26.5718 2.69866 26.7436C3.11094 26.9153 3.55354 27.0025 4.00018 26.9999H9.00018C9.00018 28.326 9.52696 29.5978 10.4646 30.5355C11.4023 31.4731 12.6741 31.9999 14.0002 31.9999C15.3263 31.9999 16.598 31.4731 17.5357 30.5355C18.4734 29.5978 19.0002 28.326 19.0002 26.9999H24.0002C24.448 27.0004 24.8913 26.9106 25.3037 26.7359C25.716 26.5612 26.0889 26.3052 26.4002 25.9832C26.8889 25.4721 27.2023 24.8187 27.2952 24.1176C27.3881 23.4165 27.2556 22.7041 26.9168 22.0833ZM14.0002 28.6666C13.5581 28.6666 13.1342 28.491 12.8217 28.1784C12.5091 27.8659 12.3335 27.4419 12.3335 26.9999H15.6668C15.6668 27.4419 15.4912 27.8659 15.1787 28.1784C14.8661 28.491 14.4422 28.6666 14.0002 28.6666ZM4.00018 23.6666C4.50018 22.7333 5.30018 21.5499 6.00018 20.1666C6.82656 18.686 7.28392 17.0281 7.33351 15.3333V11.9999C7.33351 10.2318 8.03589 8.53612 9.28613 7.28587C10.5364 6.03563 12.2321 5.33325 14.0002 5.33325H14.6668C15.5049 5.41279 16.3191 5.65688 17.0626 6.05156C17.8062 6.44623 18.4646 6.98372 19.0002 7.63325C20.0939 8.96011 20.6841 10.6305 20.6668 12.3499V15.3333C20.714 17.021 21.1655 18.6729 21.9835 20.1499C22.6835 21.5333 23.4835 22.7166 23.9835 23.6499H4.00018V23.6666Z"-->
+                <!--                                fill="#222221"-->
+                <!--                        />-->
+                <!--                    </svg>-->
+                <!--                    &lt;!&ndash; 빨간점은 alarm이 있을때만 보여지게 하기 &ndash;&gt;-->
+                <!--                    <div class="red-dot1 red-dot"></div>-->
+                <!--                </div>-->
+                <!-- 메세지 목록 페이지로 이동 -->
+                <th:block th:if="${session.loginUser.memberType != 'M'}">
+                    <div id="messenger" th:onclick="'location.href=\'' + @{/chat/rooms} + '\''">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="35"
+                                height="32"
+                                viewBox="0 0 35 32"
+                                fill="none"
+                        >
+                            <path
+                                    id="messenger-logo"
+                                    d="M35.0002 15.7939C34.9451 14.4266 34.3675 13.1326 33.3863 12.1787C32.4613 11.2259 31.3666 10.4541 30.1584 9.90303C30.1584 9.90303 30.0777 9.90303 30.0131 9.80619L7.98273 0.525981C7.34116 0.245189 6.64945 0.0969656 5.94916 0.0902148C5.24721 0.0795131 4.55015 0.208537 3.89854 0.469778C3.24692 0.731018 2.65378 1.11926 2.15363 1.6119C1.65348 2.10454 1.25632 2.69174 0.985248 3.33932C0.71418 3.98691 0.574625 4.68194 0.574707 5.38397C0.602434 6.32422 0.827902 7.24809 1.23643 8.0954L4.22223 15.7939L1.23643 23.5086C0.831926 24.3574 0.606669 25.2804 0.574707 26.2201C0.574655 26.9228 0.714109 27.6186 0.984984 28.2671C1.25586 28.9156 1.65277 29.5038 2.15269 29.9977C2.65262 30.4916 3.24562 30.8814 3.89732 31.1444C4.54901 31.4075 5.24644 31.5385 5.94916 31.5299C6.66034 31.5276 7.36347 31.3793 8.01501 31.0942L29.9809 21.814C30.0569 21.775 30.1275 21.7262 30.1907 21.6687C31.412 21.0693 32.5076 20.2421 33.4186 19.2317C33.8641 18.7524 34.2341 18.2082 34.5161 17.6177C34.8082 17.0523 34.9735 16.4298 35.0002 15.7939ZM5.94916 3.31811C6.30414 3.31944 6.65335 3.40812 6.96595 3.57635C7.03749 3.61283 7.11343 3.63995 7.1919 3.65704L27.8989 12.4369C28.9639 12.839 29.948 13.4294 30.804 14.18H7.06278L3.964 6.20708C3.87153 5.94791 3.82245 5.67526 3.81875 5.40011C3.81644 5.12194 3.87033 4.84617 3.97719 4.58934C4.08405 4.33251 4.24169 4.09991 4.44064 3.90548C4.63958 3.71106 4.87575 3.55881 5.13497 3.45788C5.39419 3.35695 5.67112 3.30941 5.94916 3.31811ZM3.80261 26.2201C3.81182 25.9665 3.86084 25.716 3.94786 25.4776L7.06278 17.4079H30.6749C29.866 18.1526 28.9243 18.7384 27.8989 19.1348L7.1112 27.947H6.88525C6.57689 28.1276 6.22581 28.2223 5.86846 28.2214C5.33278 28.2176 4.81915 28.0075 4.4344 27.6348C4.04964 27.262 3.82336 26.7553 3.80261 26.2201Z"
+                                    fill="#222221"
+                            />
+                        </svg>
+                        <!-- 빨간점은 메세지가 있을때만 보여지게 하기 -->
+                        <div class="red-dot2 red-dot"></div>
+                    </div>
+                </th:block>
+
+                <div id="profile-container">
+                    <!-- 해당 회원의 이미지를 끌어와 background-image에 넣어주기-->
+                    <div
+                            id="profile"
+                            th:style="'background-image: url(' + @{/{profile}(profile=${session.loginUser.profile})} + ')'"
+                    ></div>
+                    <div class="profile-box">
+                        <!-- 마이페이지 주소 넣어주기 -->
+                        <th:block th:if="${session.loginUser.memberType != 'M'}">
+                            <button
+                                    type="button"
+                                    class="mypage-btn pbox-btn"
+                                    th:onclick="'location.href=\'' + @{/mypage} + '\''"
+                            >
+                                마이페이지
+                            </button>
+                        </th:block>
+                        <th:block th:if="${session.loginUser.memberType == 'M'}">
+                            <button
+                                    type="button"
+                                    class="mypage-btn pbox-btn"
+                                    th:onclick="'location.href=\'' + @{/admin/selectList} + '\''"
+                            >
+                                관리자페이지
+                            </button>
+                        </th:block>
+                        <!-- 충전 / 환전 경로 입력 -->
+                        <th:block th:if="${session.loginUser.memberType == 'E'}">
+                            <button
+                                    type="button"
+                                    class="charge-btn12 pbox-btn"
+                                    th:onclick="'location.href=\'' +  @{/insert/token} + '\''"
+
+                            >
+                                충전하기
+                            </button>
+                        </th:block>
+                        <th:block th:if="${session.loginUser.memberType == 'O'}">
+                            <button
+                                    type="button"
+                                    class="exchange-btn12 pbox-btn"
+                                    th:onclick="'location.href=\'' + @{/exchange/token} + '\''"
+                            >
+                                환전하기
+                            </button>
+                        </th:block>
+                        <!-- 로그아웃 주소 넣어주기/ 로그아웃 후엔 다시 로그인 페이지 띄우기 -->
+                        <button
+                                type="button"
+                                class="logout-btn pbox-btn"
+                                th:onclick="'location.href=\'' + @{/logout} + '\''"
+                        >
+                            로그아웃
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    $(document).ready(function () {
+        $("#profile").mouseenter(function () {
+            $(".profile-box").addClass("scale-in-tr");
+            $(".profile-box").css("display", "flex");
+            $(".profile-box").removeClass("scale-out-tr");
+        });
+
+        $(".profile-box, #profile-container").mouseleave(function () {
+            $(".profile-box").removeClass("scale-in-tr");
+            $(".profile-box").addClass("scale-out-tr");
+        });
+
+        if ($(".red-dot1").length) {
+            $("#alarm>svg").addClass("wobble-hor-top");
+        }
+
+        if ($(".red-dot2").length) {
+            $("#messenger>svg").addClass("wobble-hor-top");
+        }
+    });
+</script>
+
+<script th:inline="javascript">
+    var memberType = [[${session.loginUser.memberType}]]
+
+    if(memberType == 'M') {
+        $('.navi').css("justify-content", "right");
+    }
+</script>
+</body>
+</html>

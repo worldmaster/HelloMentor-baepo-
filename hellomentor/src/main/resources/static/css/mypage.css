@@ -1,0 +1,690 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    box-sizing: border-box;
+    /*바꾸면 안 됨*/
+    text-align: center;
+    /*바꾸면 안 됨*/
+    width: 1200px;
+    /*바꾸면 안 됨*/
+    margin: auto;
+}
+
+ul > li {
+    list-style-type: none;
+}
+
+
+/*====================================================================================== */
+/*======================================컨텐츠===========================================*/
+/*====================================================================================== */
+.content {
+    height: 1436px;
+    /*컨텐츠 영역 사이즈*/
+    width: 1200px;
+    /*바꾸면 안 됨*/
+    margin: auto;
+}
+
+.my_content {
+    height: 94%;
+    width: 94%;
+    margin: 3% 3% 3% 3%;
+    display: flex;
+}
+
+/*====================================================================================== */
+/*======================================컨텐츠 레프트 컨테이너===========================================*/
+/*====================================================================================== */
+.my_left_container {
+    /* border: 1px solid yellow; */
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid gainsboro;
+}
+
+.my_left_container > :not(:first-child) {
+    margin-top: 9%;
+}
+
+.my_left_container [class$="-1"] {
+    text-align: left;
+    font-size: 30px;
+    line-height: 2.05;
+    font-family: "bd";
+    color: #40e0d0;
+}
+
+.my_left_container [class$="-2"],
+.my_left_container [class$="-3"],
+.my_left_container [class$="-4"],
+.my_left_container [class$="-5"] {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.65;
+    cursor: pointer;
+}
+
+.my_left_container [class$="-2"]:hover,
+.my_left_container [class$="-3"]:hover,
+.my_left_container [class$="-4"]:hover,
+.my_left_container [class$="-5"]:hover {
+    color: #48917A;
+}
+
+.my_left_container .active {
+    text-align: left;
+    line-height: 1.65;
+    font-size: 16px;
+    color: #48917A;
+}
+
+
+/*====================================================================================== */
+/*======================================컨텐츠 라이트 컨테이너===========================================*/
+/*====================================================================================== */
+/* 나중에 삭제하고 left만 include 시키기 */
+
+.my_right_container {
+    width: 80%;
+    height: 100%;
+}
+
+.my_right_container2 {
+    margin-left: 5%;
+    width: 95%;
+    height: 100%;
+}
+
+.my_right_title {
+    text-align: left;
+    font-size: 30px;
+    line-height: 2.05;
+    font-family: "bd";
+    color: #48917A;
+}
+
+.my_notification {
+    width: 100%;
+    height: 94%;
+}
+
+.my_notifi_content1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.my_notifi_number {
+    color: #40E0D0;
+}
+
+#my_notifi_category, #my_notifi_button, my_post_category {
+    border-radius: 5px;
+}
+
+#my_notifi_button {
+    background-color: #DFF6ED;
+}
+
+
+.my_notifi_box {
+    padding: 7px;
+    border-radius: 5px;
+    height: 3%;
+    background-color: #DFF6ED;
+    margin-top: 1%;
+    text-align: left;
+}
+
+#page-numbers span {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+#previous-page, #next-page {
+    cursor: pointer;
+}
+
+
+/*-----------------------홈 팔로잉 목록*/
+
+.my_following_content1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+.my_following_box {
+    display: flex;
+    width: 400px;
+    border-radius: 5px;
+    height: 150px;
+    background-color: #DFF6ED;
+    margin-top: 5%;
+}
+
+.my_following_box_1 {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my_following_box_2 {
+    text-align: left;
+    width: 65%;
+    height: 100%;
+}
+
+.my_following_profile_img {
+    width: 120px;
+    height: 120px;
+    border-radius: 120px;
+    overflow: hidden;
+}
+
+.my_following_profile_img2 {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    overflow: hidden;
+}
+
+.my_following_profile_img2 > img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.my_following_profile_img > img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.my_following_profile_name {
+    width: 97%;
+    display: flex;
+    font-size: 20px;
+    margin-top: 3%;
+    margin-left: 3%;
+    justify-content: space-between;
+}
+
+.my_following_favorite {
+    font-size: 24px;
+    margin-right: 3%;
+    text-align: right;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.my_following_favorite.clicked {
+    color: #40E0D0;
+}
+
+.my_following_favorite.scale {
+    transform: scale(1.5);
+}
+
+.my_following_profile_intro {
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+/*---------------------프로필 내정보수정*/
+.my_editinfo_content1 {
+    height: 55%;
+    width: 100%;
+}
+
+.my_editinfo_box_1 {
+    margin-top: 1%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my_editinfo_profile_img {
+    width: 250px;
+    height: 250px;
+    border-radius: 250px;
+    overflow: hidden;
+}
+
+.my_editinfo_profile_img > img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+
+.my_editinfo_box_2 {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2%;
+}
+
+.my_editinfo_box_3 {
+    display: flex;
+    margin-bottom: 2%;
+}
+
+.my_editinfo_inputbox {
+    width: 45%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+#edit_info_userId, #edit_info_userName,
+#edit_info_userPwd, #edit_info_useroriginPwd,
+#edit_info_usernewPwd, #edit_info_status, #edit_info_intro {
+    background-color: lightgray;
+    border-radius: 5px;
+    height: 35px;
+}
+
+.my_inputbox_row {
+    width: 45%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.my_editinfo_content2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    width: 100%;
+}
+
+.my_editinfo_btnbox1 {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 버튼 가로 중앙 정렬 */
+}
+
+.my_editinfo_btnbox1 > button, #withdrawyesButton, #withdrawnoButton {
+    background-color: #40E0D0;
+    border-radius: 5px;
+    width: 70px;
+    margin-left: 3%;
+    cursor: pointer;
+}
+
+.my_editinfo_btnbox2 {
+    position: absolute;
+    margin-left: 41.5%; /* 탈퇴하기 버튼을 우측으로 이동 */
+}
+
+.my_editinfo_btnbox2 > button {
+    border: none;
+    background-color: white;
+    color: #40E0D0;
+    cursor: pointer;
+}
+
+.withdrawmodal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+.width_draw_modal_content {
+    width: 400px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.my_editinfo_btnbox2 > button:focus {
+    outline: none;
+}
+
+/*프로필 내가 쓴 글*/
+
+.my_post_content1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.my_post_newfilter, .my_post_oldfilter {
+    cursor: pointer;
+}
+
+.my_post_content2 {
+    width: 100%;
+    margin-top: 3%;
+    display: flex;
+}
+
+.my_post_box {
+    display: flex;
+    padding: 7px;
+    border-radius: 5px;
+    height: 3%;
+    background-color: #DFF6ED;
+    margin-top: 1%;
+    text-align: left;
+}
+
+
+.my_post_box > div:nth-child(1), .my_post_content2 > div:nth-child(1) {
+    text-align: center;
+    width: 15%;
+}
+
+.my_post_box > div:nth-child(2), .my_post_content2 > div:nth-child(2) {
+    text-align: center;
+    width: 70%;
+}
+
+.my_post_box > div:nth-child(3), .my_post_content2 > div:nth-child(3) {
+    text-align: center;
+    width: 15%;
+}
+
+.my_post_content2 > div:nth-child(1), .my_post_content2 > div:nth-child(2), .my_post_content2 > div:nth-child(3) {
+    font-size: 24px;
+    font-family: "bd";
+}
+
+/* 개발도우미_달력 */
+
+.product-calendar-box {
+    background-color: lightgray;
+    width: 100%;
+}
+
+.product-calendar-cell {
+    width: 122.2px;
+    height: 110px;
+}
+
+.product-calendar, #calendarTitle {
+    font-size: 24px;
+    font-family: "bd";
+}
+
+#calendar td {
+    border: 1px solid black;
+}
+
+#calendar td.product-calendar-cell {
+    text-align: left;
+    vertical-align: top;
+    padding-left: 5px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+/* 멘토 신청목록*/
+
+.my_mentorapp_content1 {
+}
+
+.my_mentorapp_box {
+    display: flex;
+    width: 100%;
+    border-radius: 5px;
+    height: 175px;
+    background-color: #DFF6ED;
+    margin: 3% auto auto;
+}
+
+.my_mentorapp_box_1 {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my_mentorapp_box_2 {
+    text-align: left;
+    width: 75%;
+    height: 100%;
+}
+
+.my_mentorapp_name {
+    width: 100%;
+    display: flex;
+    font-size: 20px;
+    margin-top: 1%;
+    margin-left: 1%;
+    justify-content: space-between;
+}
+
+.my_mentorapp_favorite {
+    font-size: 24px;
+    margin-right: 3%;
+    text-align: right;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.my_mentorapp_favorite.clicked {
+    color: #40E0D0;
+}
+
+.my_mentorapp_favorite.scale {
+    transform: scale(1.5);
+}
+
+.my_mentorapp_profile_intro {
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+.my_mentorapp_title {
+    margin-top: 0.5%;
+    margin-left: 1%;
+    font-size: 24px;
+    font-family: "bd";
+}
+
+.my_mentorapp_intro {
+    margin-top: 1.5%;
+    margin-left: 1%;
+}
+
+.my_mentorapp_btnbox {
+    text-align: right;
+    /*margin-top: 3%;*/
+    margin-right: 3%;
+}
+
+.my_mentorapp_btn {
+    background-color: #DFF6ED;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.my_mentorapp_btn:hover {
+    background-color: #48917A;
+}
+
+
+.my_payment_box {
+    display: flex;
+    padding: 7px;
+    border-radius: 5px;
+    height: 3%;
+    background-color: #DFF6ED;
+    margin-top: 1%;
+    text-align: left;
+}
+
+.my_payment_content2 {
+    width: 100%;
+    margin-top: 3%;
+    display: flex;
+}
+
+
+.my_payment_box > div:nth-child(1), .my_payment_content2 > div:nth-child(1) {
+    text-align: center;
+    width: 34%;
+}
+
+.my_payment_box > div:nth-child(2), .my_payment_content2 > div:nth-child(2) {
+    text-align: center;
+    width: 33%;
+}
+
+.my_payment_box > div:nth-child(3), .my_payment_content2 > div:nth-child(3) {
+    text-align: center;
+    width: 33%;
+}
+
+.my_payment_content2 > div:nth-child(1), .my_payment_content2 > div:nth-child(2), .my_payment_content2 > div:nth-child(3), .my_payment_content2 > div:nth-child(4) {
+    font-size: 24px;
+    font-family: "bd";
+}
+
+#my_profileInput:hover, #profileImage:hover {
+    cursor: pointer;
+    color: #48917A;
+}
+
+.my_profile_input:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.my_editinfo_profile_img:hover::before {
+    content: "+";
+    position: absolute;
+    left: 50.5%;
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+button#compile-button:hover {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button#run-button:hover {
+    background-color: #008CBA;
+    color: white;
+    cursor: pointer;
+}
+
+button#clear-button:hover {
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+}
+
+.mypage_followbtnpush, .mypage_followbtnpush2 {
+    border: none;
+    box-shadow: 0px 5px 0px 0px #1E8185;
+    background: #5DC8CD;
+    width: 120px;
+    padding: 0;
+    margin: 0px 20px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 30px;
+    color: #FFF;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.mypage_followbtnpush:active, .mypage_followbtnpush2:active {
+    border: none;
+}
+
+.mypage_followbtnpush:hover {
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0px 0px 0px 0px #1E8185;
+}
+
+.mypage_followbtnpush2:hover {
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0px 0px 0px 0px #1E8185;
+}
+
+.my_btn_container1 {
+    justify-content: left;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 2%;
+}
+
+.my_btn_container2 {
+    text-align: center;
+    height: 75px;
+    padding-top: 1em;
+    width: 15%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

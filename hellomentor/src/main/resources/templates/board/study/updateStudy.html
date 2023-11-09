@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelloMentor-스터디</title>
+  <link rel="stylesheet" th:href="@{/css/updateStudy.css}" />
+
+
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<div th:insert="common/header :: header"></div>
+<div class="content">
+  <div class="section">
+    <div class="title">스터디</div>
+
+    <div class="study-detail">
+      <div class="study-info">
+        <div id="study-info1">
+          <span><b th:text="${dstudy.postTitle}"></b></span>
+          <div>
+            <div id="study-writer" th:text="${dstudy.userNo}"></div>
+            <div id="study-create-date" th:text="${dstudy.createDate}"></div>
+            <div id="study-count" th:text="'조회수 | ' + ${dstudy.views}"></div>
+          </div>
+        </div>
+        <div id="study-info2">
+          <span>현재 참여 인원</span>
+          <span th:text="${studyDetailApplicant + '명' +'/' + boardstudypeple} +'명'"></span>
+        </div>
+      </div>
+
+      <div class="study-content" th:text="${dstudy.postContent}"></div>
+    </div>
+
+
+    <!-- 신고하기 링크는 작성자는 안보임-->
+    <th:block th:if="${dstudy.userNo != loginUser.userId}">
+      <a th:attr="onclick='movePage(\'' + ${dstudy.postNo} + '\');'" class="report-this-board">신고하기</a>
+    </th:block>
+
+
+    <div class="study-btns">
+      <button type="button" class="s-btns" id="list-button" onclick="location.href='/hellomentor/study'">
+        목록
+      </button>
+      <!-- 스터디 작성자는 신청이 안보임 -->
+      <th:block th:if="${dstudy.userNo != loginUser.userId}">
+        <form id="apply-form" th:action="@{/study/applicant}" method="post">
+          <input type="hidden" name="userNo" th:value="${loginUser.userNo}"/>
+          <input type="hidden" name="postNo" th:value="${dstudy.postNo}"/>
+
+
+          <th:block th:if="${studyDetailApplicant != boardstudypeple && duStudy == null}">
+            <button type="submit" class="s-btns">신청</button>
+          </th:block>
+
+        </form>
+      </th:block>
+
+
+
+
+
+
+
+
+      <th:block th:if="${dstudy.userNo == loginUser.userId}">
+        <form method="post" th:action="@{/study/delete}" >
+          <input type="hidden" name="postNo" th:value="${dstudy.postNo}"/>
+          <button type="submit" class="s-btns" id="delete-button">삭제</button>
+        </form>
+      </th:block>
+    </div>
+
+
+
+    <div class="reply-count" id= "rcount" th:text=" '댓글 | ' + ${replyList.size()}"></div>
+    <div class="reply-write-section">
+      <textarea class="reply-write" name="replyContent" id="replyContent"></textarea>
+      <button id="reply-send" onclick="insertReply()">등록</button>
+    </div>
+
+    <table id="reply-list">
+      <tbody>
+      <th:block th:each="replyList, rowStat : ${replyList}">
+        <tr id="reply-${rowStat.index}" th:attr="data-reply-id=${replyList.replyId}">
+          <td width="550px" th:text="${replyList.replyContent}"></td>
+          <td width="80px" th:text="${replyList.userNo}"></td>
+          <td width="5px">|</td>
+          <td width="100px" th:text="${replyList.createDate}"></td>
+          <td width="50px">
+            <svg
+                    class="trash-logo"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    onclick="deleteComment(this)"
+            >
+              <path
+                      d="M3 6H21"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+              />
+              <path
+                      d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+              />
+              <path
+                      d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+              />
+              <path
+                      d="M10 11V17"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+              />
+              <path
+                      d="M14 11V17"
+                      stroke="black"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+              />
+            </svg>
+          </td>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+<script>
+      $(document).ready(function () {
+        $(".trash-logo").mouseenter(function () {
+          $(this).addClass("animate__animated animate__swing");
+        });
+
+        $(".trash-logo").mouseleave(function () {
+          $(this).removeClass("animate__animated animate__swing");
+        });
+      });
+    </script>
+
+
+<!-- 댓글 등록 -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function insertReply() {
+        var replyContent = $("#replyContent").val();
+        $.ajax({
+           url: "/hellomentor/study/insertReply",
+            type: "PUT", // POST 메서드로 변경
+            data: {
+                postNo: /*[[${postNo}]]*/,
+                replyContent: replyContent
+            },
+            success: function(result) {
+            console.log(result);
+                if (result == "1") {
+                    alert("댓글 등록 성공");
+                } else {
+                    alert("댓글 등록 실패");
+                }
+                // 댓글 목록 불러와야됨
+                selectReplyList();
+            },
+            complete: function() {
+                $("#replyContent").val("");
+            }
+        });
+    }
+    /*]]>*/
+
+   //댓글 목록 조회
+    const selectReplyList = () => {
+        $.ajax({
+            url: "/hellomentor/study/selectReplyList",
+            data: { postNo: /*[[${postNo}]]*/ },
+            success: function(replyList) {
+                console.log(replyList);
+                let html = "";
+                for (let reply of replyList) {
+                    html += "<tr data-reply-id='"+reply.replyId+"'>";
+                    html += "<td width='550px'>" + reply.replyContent + "</td>";
+                    html += "<td width='80px'>" + reply.userNo + "</td>";
+                    html += "<td width='5px'>|</td>";
+                    html += "<td width='100px'>" + reply.createDate + "</td>";
+                    html += "<td width='50px'>";
+                    html += "<svg class='trash-logo' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' onclick='deleteComment(this)'>";
+                    html += "<path d='M3 6H21' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />";
+                    html += "<path d='M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />";
+                    html += "<path d='M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />";
+                    html += "<path d='M10 11V17' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />";
+                    html += "<path d='M14 11V17' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />";
+                    html += "</svg>";
+                    html += "</td>";
+                    html += "</tr>";
+                }
+
+                $("#reply-list tbody").html(html);
+                $("#rcount").html("댓글 | " + replyList.length);
+            }
+        });
+    }
+    </script>
+
+<script th:inline="javascript">
+    function deleteComment(svgElement) {
+        // 여기에서 댓글 삭제 요청을 서버로 보낼 수 있습니다.
+        // svgElement는 클릭한 SVG 요소를 나타냅니다.
+
+        var replyId = $(svgElement).closest("tr").data("reply-id");
+        console.log(replyId);
+
+        // 이제 replyId를 사용하여 AJAX 요청을 서버로 보내서 댓글 삭제를 처리할 수 있습니다.
+        $.ajax({
+            url: "/hellomentor/study/deleteReply",
+            type: "POST",
+            data: { replyId: replyId },
+            success: function(data) {
+                console.log(data);
+                if (data === 1) {
+                    // 삭제 성공 시 화면에서 해당 댓글을 제거하거나 업데이트할 수 있습니다.
+                    //$(svgElement).closest("tr").remove();
+                     alert("댓글 삭제에 성공했습니다.");
+                     selectReplyList();
+                } else {
+                    alert("댓글 삭제에 실패했습니다.");
+                }
+            },
+            error: function() {
+                alert("댓글 삭제 중 오류가 발생했습니다.");
+            }
+        });
+    }
+</script>
+
+<!--<script th:inline="javascript">-->
+<!--  var studyDetailApplicant = [[${studyDetailApplicant}]];-->
+<!--  var boardstudypeople = [[${boardstudypeople}]];-->
+
+<!--  if(studyDetailApplicant == boardstudypeople) {-->
+<!--    $.ajax({-->
+<!--      url: "/room",-->
+<!--      type : "POST",-->
+<!--      data : {-->
+<!--        name : [[${dstudy.postTitle}]]-->
+<!--      },-->
+<!--      success : function (data) {-->
+<!--        console.log(data);-->
+<!--      },-->
+<!--      error: function () {-->
+<!--        alert("채팅방 생성 오류");-->
+<!--      }-->
+<!--    });-->
+<!--  }-->
+
+<!--</script>-->
+
+<script>
+  function movePage(no) {
+    var url = "/hellomentor/report/" + no;
+    window.location.href = url;
+  }
+</script>
+
+
+
+</body>
+</html>

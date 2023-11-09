@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-문의관리</title>
+
+  
+    <link th:href="@{/css/admin-question-answer-style.css}" type="text/css" rel="stylesheet" />
+    <link th:href="@{/css/cs-menu.css}" type="text/css" rel="stylesheet" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="question-wrap">
+        <div id="question-headline">문의내역</div>
+
+        <div align="center" class="cs-menu-bar">
+           <div class="cs-menu">
+               <a th:href="@{/noticelist}">공지사항</a>
+            </div>
+            <div class="cs-menu">
+               <a th:href="@{/faqlist}">FAQ</a>
+            </div>
+            <div class="cs-menu">
+               <a th:href="@{/inquiryinsert}">1:1문의</a>
+            </div>
+          <div class="cs-menu" id="selected-menu"><a th:href="@{/inquirylist}">문의내역</a></div>
+        </div>
+
+        <div class="line line1"></div>
+
+        <div class="question-section">
+          <div class="question-title">
+            <div id="q-logo">Q.</div>
+            <div class="question-info">
+              <div id="question-title" th:text="${selectedPost.postTitle}">질문제목</div>
+              <div id="question-info">
+                <div id="question-writer" th:text="${selectedPost.boardType}">카테고리</div>
+                <div id="question-create-date" th:text="${selectedPost.createDate}">작성일자</div>
+                <div id="question-status">
+                   <span th:if="${selectedPost2.isProcessed}">처리 완료</span> 
+                   <span th:if="${!selectedPost2.isProcessed}">처리중</span>
+            </div>
+              </div>
+            </div>
+          </div>
+          <div class="question-box">
+            <div name="question" id="question" th:text="${selectedPost.postContent}">질문</div>
+          </div>
+        </div>
+
+       <form th:action="@{/admin/QuestionWrite}" id="question-form" method="post">
+        <div class="line line2"></div>
+        <div class="answer-section">
+          <div id="a-logo">A.</div>
+          <textarea
+            name="postContent"
+            id="answer"
+            placeholder="(이곳에 답변을 등록해주세요)"
+          ></textarea>
+        </div>
+        <div class="send-btn">
+          <button id="back-btn" type="button" onclick="">목록</button>
+          <button id="send-btn" type="submit" form="question-form">
+            답변등록
+          </button>
+        </div>
+        <input type="hidden" name="postNo" th:value="${selectedPost.postNo}" />
+        </form>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("textarea").on("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+      });
+    </script>
+  </body>
+</html>

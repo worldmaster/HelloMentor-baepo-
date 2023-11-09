@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-신고상세</title>
+    
+    <link th:href="@{/css/admin-report-detail-style.css}" type="text/css" rel="stylesheet" />
+    
+    <link 
+    th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+    rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+  </head>
+  <body>
+    <div class="content">
+      <div class="sideMenuBar">
+        <div class="sideMenus">
+         <div class="sideMenu"><a th:href="@{/sideMember}">회원관리</a></div>
+            <div class="sideMenu"><a th:href="@{/inquirylist}">문의관리</a></div>
+            <div class="sideMenu"><a th:href="@{/admin/memberReport}">신고관리</a></div>
+            <div class="sideMenu"><a th:href="@{/noticelist}">공지사항</a></div>
+        </div>
+      </div>
+  
+      <div class="section">
+        <div class="report-detail-wrap">
+          <div class="report-title">신고 관리</div>
+          <div class="report-section">
+            <div class="report-info">
+              <div id="category">카테고리 : 
+                             <span th:switch="${bReport1.boardType}">
+                             <span th:case="'A'">문의게시판</span>
+                             <span th:case="'F'">자유게시판</span>
+                             <span th:case="'K'">지식인게시판</span>
+                             <span th:case="'S'">스터디게시판</span>
+                              </span>
+                              </div>
+              <div id="report-target-info">
+                <div id="board-title">제목 : <span th:text="${bReport1.postTitle}"></span></div>
+                <div id="board-writer">게시글 작성자 : <span th:text="${mReport1.userId}"></span></div>
+              </div>
+              <div id="writer-info">
+                <div id="writer">신고자 : <span th:text="${mReport2.userId}"></span></div>
+                <div id="report-create-date">신고일 : <span th:text="${bReport2.createDate}"></span></div>
+              </div>
+            </div>
+            <div class="report-form">
+              <div id="report-title-box">
+                <input
+                  type="text"
+                  id="report-title"
+                  th:value="${bReport2.postTitle}"
+                  readonly
+                />
+              </div>
+              <div id="report-content-box">
+                <textarea id="report-content" readonly th:text="${bReport2.postContent}"></textarea>
+              </div>
+              
+               <div>
+               <div th:unless="${attachment}">
+               <p>첨부파일 : 없음</p>
+               </div>
+               <div id="report-attach" th:if="${attachment}">
+                첨부파일 : <a th:if="${attachment.filePath != null}" th:href="@{${attachment.filePath + '/' + attachment.changeName}}" th:download="${attachment.changeName}" th:text="${attachment.changeName}"></a>
+               </div>
+               </div>
+              
+            </div>
+            <div class="report-accept-btns">
+              <button
+                class="report-btn report-list-btn"
+                type="button"
+                onclick=""
+              ><div class=""><a th:href="@{/admin/memberReport}">
+              목록</a></div>
+              </button>
+              <button
+    class="report-btn report-accept-btn"
+    type="button"
+    id="accept-button"
+    th:attr="data-postno=${bReport2.postNo}, data-userno=${bReport2.userNo}" th:onclick="acceptReport(this)">
+  접수
+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script th:inline="javascript">
+  /* 스크립트에서 타임리프 변수 사용 */
+  /* 클릭된 버튼으로부터 데이터를 읽어서 AJAX 요청을 보내는 함수 */
+  function acceptReport(button) {
+    var postNo = button.getAttribute("data-postno");
+    var userNo = button.getAttribute("data-userno");
+    
+    $.ajax({
+      type: "POST",
+      url: "/hellomentor/admin/reportSend",
+      data: {
+        postNo: postNo,
+        userNo: userNo
+      },
+      success: function(response) {
+        alert("신고처리 완료 및 알람전송이 완료됐습니다.");
+        window.location.href = "http://localhost:8082/hellomentor/admin/memberReport";
+        /* 여기에서 추가적인 처리를 할 수 있습니다. */
+      },
+      error: function(error) {
+        console.error("요청 실패:", error);
+        /* 여기에서 오류 처리를 할 수 있습니다. */
+      }
+    });
+  }
+</script>
+  </body>
+</html>

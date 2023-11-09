@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-FAQ</title>
+
+    <link th:href="@{/css/normal-frame.css}" type="text/css" rel="stylesheet" />
+    <link th:href="@{/css/FAQ.css}" type="text/css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="section">
+        <div class="title">FAQ</div>
+
+        <form th:action="@{/admin/faqWrite}" id="faq-form" method="post">
+          <div class="faq-form">
+            <select name="categoryId" id="faq-category">
+              <option value="10">계정</option>
+              <option value="11">결제/환불</option>
+              <option value="12">서비스</option>
+              <option value="13">오류</option>
+            </select>
+            <input
+              type="text"
+              name="pTitle"
+              id="faq-title"
+              placeholder="제목을 입력해주세요."
+              required
+            />
+
+            <textarea
+              name="faqContent"
+              id="faq-content"
+              placeholder="내용을 입력해주세요."
+            ></textarea>
+          </div>
+
+          <div align="center">
+            <button type="button" onclick="" class="faq-btns" id="faq-list-btn">
+            <a th:href="@{/faqlist}">
+            목록
+            </a>
+            </button>
+            <button type="submit" class="faq-btns" form="faq-form" id="faq-enroll-btn">
+              등록
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("textarea").on("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+      });
+    </script>
+  </body>
+</html>

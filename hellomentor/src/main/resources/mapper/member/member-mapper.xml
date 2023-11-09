@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+    <resultMap id="memberResultSet" type="member">
+        <id column="USER_NO" property="userNo"/>
+        <result column="USER_ID" property='userId'/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
+        <result column="ENROLL_DATE" property="enrollDate"/>
+        <result column="STATUS" property="status"/>
+        <result column="INTRODUCTION" property="introduction"/>
+        <result column="MEMBER_TYPE" property="memberType"/>
+        <result column="TOKEN" property="token"/>
+        <result column="GRADE" property="grade"/>
+    </resultMap>
+
+    <resultMap id="profileResultSet" type="profile">
+        <id column="ATTACHMENT_ID" property="attachmentId"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="FILE_ORIGIN_NAME" property="originName"/>
+        <result column="FILE_CHANGE_NAME" property="changeName"/>
+        <result column="FILE_PATH" property="filePath"/>
+        <result column="FILE_SIZE" property="fileSize"/>
+    </resultMap>
+
+    <resultMap id="PaymentResultMap" type="payment">
+        <id column="PAYMENT_NO" property="paymentNo"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="PAY_DATE" property="paymentDate"/>
+        <result column="PAY_CONTENT" property="payContent"/>
+        <result column="PRICE" property="price"/>
+        <result column="PAY_TYPE" property="payType"/>
+    </resultMap>
+
+    <resultMap id="calendarResultMap" type="calendar">
+        <id column="TASK_ID" property="taskId"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="TODO_CONTENT" property="todoContent"/>
+        <result column="TODO_DEADLINE" property="todoDeadline"/>
+    </resultMap>
+
+
+    <select id="loginUser" parameterType="member" resultMap="memberResultSet">
+        SELECT *
+        FROM MEMBER
+        WHERE USER_ID = #{userId}
+          AND USER_PWD = #{userPwd}
+          AND STATUS = 'Y'
+    </select>
+    
+    <select id="idCheck" parameterType="string" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE USER_ID= #{userId}
+</select>
+
+    <insert id="insertMember" parameterType="member">
+        INSERT INTO MEMBER
+        (USER_ID,
+         USER_PWD,
+         USER_NAME,
+         PHONE,
+         EMAIL,
+         ENROLL_DATE,
+         STATUS,
+         INTRODUCTION,
+         MEMBER_TYPE,
+         TOKEN,
+         GRADE)
+        VALUES (#{userId}, #{userPwd}, #{userName}, #{phone}, #{email}, DEFAULT,
+                'Y', #{introduction}, #{memberType}, 0, 'BYTE')
+    </insert>
+
+    <select id="selectProfile" parameterType="int" resultMap="profileResultSet">
+        SELECT *
+        FROM PROFILE_IMG
+        WHERE USER_NO = #{userNo}
+    </select>
+
+    <select id="getFollowList" parameterType="int" resultMap="memberResultSet">
+        SELECT M.*
+        FROM FOLLOW AS F
+                 JOIN MEMBER AS M ON F.TO_USER = M.USER_NO
+        WHERE F.FROM_USER = #{userNo}
+        ORDER BY M.USER_ID ASC;
+    </select>
+
+    <select id="getFollowingProfileList" parameterType="int" resultMap="profileResultSet">
+        SELECT M.*, P.*
+        FROM MEMBER AS M
+                 INNER JOIN FOLLOW AS F ON M.USER_NO = F.TO_USER
+                 LEFT JOIN PROFILE_IMG AS P ON M.USER_NO = P.USER_NO
+        WHERE F.FROM_USER = #{userNo}
+        ORDER BY M.USER_NO ASC
+    </select>
+
+    <select id="getFollowerList" parameterType="int" resultMap="memberResultSet">
+        SELECT M.*
+        FROM FOLLOW AS F
+                 JOIN MEMBER AS M ON F.FROM_USER = M.USER_NO
+        WHERE F.TO_USER = #{userNo}
+        ORDER BY M.USER_NO ASC;
+    </select>
+
+    <select id="getFollowerProfileList" parameterType="int" resultMap="profileResultSet">
+        SELECT M.*, P.*
+        FROM MEMBER AS M
+                 INNER JOIN FOLLOW AS F ON M.USER_NO = F.FROM_USER
+                 LEFT JOIN PROFILE_IMG AS P ON M.USER_NO = P.USER_NO
+        WHERE F.TO_USER = #{userNo}
+        ORDER BY M.USER_NO ASC;
+    </select>
+
+    <update id="updateProfile" parameterType="member">
+        UPDATE MEMBER
+        SET USER_PWD     = #{userPwd},
+            INTRODUCTION = #{introduction}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateProfileImg" parameterType="profile">
+        UPDATE PROFILE_IMG
+        SET FILE_CHANGE_NAME = #{changeName},
+            FILE_SIZE        = #{fileSize},
+            FILE_PATH        = #{filePath},
+            FILE_ORIGIN_NAME = #{originName}
+        WHERE USER_NO = #{userNo}
+    </update>
+
+    <!-- MemberMapper.xml -->
+
+    <insert id="insertProfileImg" parameterType="profile">
+        INSERT INTO PROFILE_IMG (USER_NO, FILE_ORIGIN_NAME, FILE_CHANGE_NAME, FILE_PATH, FILE_SIZE)
+        VALUES (#{userNo},
+                #{originName},
+                #{changeName},
+                #{filePath},
+                #{fileSize})
+    </insert>
+
+
+    <select id="isProfileImgExists" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM PROFILE_IMG
+        WHERE USER_NO = #{userNo}
+    </select>
+
+    <select id="getPaymentHistory" resultMap="PaymentResultMap">
+        SELECT P.*
+        FROM PAYMENT P
+        WHERE USER_NO = 1
+          and PAY_TYPE = 'P'
+    </select>
+
+    <select id="getExchangeHistory" resultMap="PaymentResultMap">
+        SELECT P.*
+        FROM PAYMENT P
+        WHERE USER_NO = #{userNo}
+          and PAY_TYPE = 'E'
+    </select>
+
+    <insert id="saveMemo" parameterType="calendar">
+        INSERT INTO CALENDAR(USER_NO, TODO_CONTENT, TODO_DEADLINE)
+        VALUES (#{userNo},
+                #{todoContent},
+                #{todoDeadline})
+    </insert>
+
+    <update id="updateMemo" parameterType="calendar">
+        UPDATE CALENDAR
+        SET TODO_CONTENT = #{todoContent}
+        WHERE USER_NO = #{userNo}
+          AND TODO_DEADLINE = #{todoDeadline}
+    </update>
+
+    <select id="isMemoExists" parameterType="calendar" resultMap="calendarResultMap">
+        SELECT C.*
+        FROM CALENDAR C
+        WHERE USER_NO = #{userNo}
+          AND TODO_DEADLINE = #{todoDeadline}
+    </select>
+
+    <delete id="deleteMemo" parameterType="calendar">
+        DELETE
+        FROM CALENDAR
+        WHERE USER_NO = #{userNo}
+          AND TODO_DEADLINE = #{todoDeadline}
+    </delete>
+
+    <select id="loadMemo" parameterType="calendar" resultMap="calendarResultMap">
+        SELECT TODO_CONTENT
+        FROM CALENDAR
+        WHERE USER_NO = #{userNo} AND TODO_DEADLINE = #{todoDeadline}
+    </select>
+
+    <update id="performExit" parameterType="int">
+        UPDATE MEMBER
+        SET STATUS = 'N'
+        WHERE USER_NO = #{userNo}
+    </update>
+
+    <select id="selectToken" parameterType="member" resultType="int">
+        SELECT COALESCE(token, 0)
+        FROM MEMBER
+        WHERE USER_NO = #{userNo}
+    </select>
+
+    <!-- memberMapper.updateToken -->
+    <update id="updateToken" parameterType="member">
+        UPDATE MEMBER
+        SET TOKEN = #{token}
+        WHERE USER_NO = #{userNo}
+    </update>
+
+    <!-- memberMapper.insertPayment -->
+    <insert id="insertPayment" parameterType="payment">
+        INSERT INTO PAYMENT(USER_NO, PAY_DATE, PAY_CONTENT, PRICE, PAY_TYPE)
+        VALUES (#{userNo}, CURRENT_DATE(), '토큰충전1', #{price}, 'T')
+    </insert>
+
+
+    <update id="exchangeToken" parameterType="member">
+        UPDATE MEMBER
+        SET TOKEN = 0
+        WHERE USER_NO = #{userNo}
+    </update>
+
+    <select id="selectupdateToken" parameterType="int" resultType="int">
+        SELECT TOKEN FROM
+            MEMBER
+        WHERE USER_NO = #{userNo}
+    </select>
+
+    <insert id="insertPaymentResult" parameterType="int">
+        INSERT INTO PAYMENT(USER_NO, PAY_DATE, PAY_CONTENT, PRICE, PAY_TYPE)
+        VALUES (#{userNo}, CURRENT_DATE(), '토큰환전1', #{price}, 'E')
+    </insert>
+
+
+
+</mapper>
+

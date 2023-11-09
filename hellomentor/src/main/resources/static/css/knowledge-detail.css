@@ -1,0 +1,358 @@
+/* 게시글 정보 테이블 시작 */
+
+.question-language {
+    margin-top: 40px;
+    width: 820px;
+    display: flex;
+    align-items: center;
+    transform: translate(-10px, 0px);
+}
+
+#question-language {
+    text-align: left;
+    color: #48917A;
+    font-size: 40px;
+    font-family: "bd";
+    height: 80px;
+}
+
+.knowledge-info {
+    width: 800px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.knowledge-title {
+    font-size: 20px;
+    font-family: "bd";
+}
+
+#knowledge-info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#knowledge-count {
+    display: flex;
+    align-items: center;
+}
+
+#knowledge-count>span {
+    margin-left: 4px;
+}
+
+.seeimg1 {
+    padding: 0px;
+    width: 26px;
+    height: 26px;
+}
+
+#knowledge-chosen {
+    font-size: 20px;
+    font-family: "bd";
+    color: #40E0D0;
+}
+
+/* 게시글 정보 테이블 끝 */
+
+
+
+
+/* 게시글 내용 시작 */
+.knowledge-content {
+    font-size: 17px;
+    width: 800px;
+    border-radius: 10px;
+    border: 1px solid #48917A;
+    text-align: left;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+    min-height: 150px;
+}
+
+ .image-container {
+    max-width: 700px; /* 원하는 최대 너비(px) 설정 */
+    max-height: 700px; /* 원하는 최대 높이(px) 설정 */
+    text-align: center; /* 이미지 중앙 정렬을 위한 설정 */
+  }
+
+  .image-container img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+/* 게시글 내용 끝 */
+
+
+/* 신고하기 버튼 */
+#move-to-report {
+    width: 800px;
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+     cursor: pointer;
+}
+
+#move-to-report a {
+    text-decoration: none;
+    color: #48917A;
+    font-size: 17px;
+
+}
+
+
+
+/*목록,삭제 버튼*/
+
+.knowledge-btns {
+    width: 300px;
+    height: 32px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.knowledge-btns button {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    font-size: 20px;
+    font-family: "bd";
+    cursor: pointer;
+}
+
+.knowledge-btns button:hover {
+    color: white;
+}
+
+#move-to-change {
+    background-color: #48917A;
+}
+
+
+#move-to-delete {
+    background-color: #DFF6ED;
+}
+
+
+/*목록 삭제 버튼 끝*/
+
+
+
+/*하트 버튼 */
+.heart-logo {
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.heart-logo:hover {
+    fill: #40E0D0;
+}
+
+.heart-red {
+    fill: #40E0D0;
+}
+
+
+
+#count-love {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+
+
+
+/*글작성 버튼*/
+.knowledge-reply {
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    
+}
+
+
+#move-to-insert {
+    height: 44px;
+    width: 184px;
+    background: #40E0D0;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    font-family: "bd";
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+     cursor: pointer;
+}
+
+#move-to-insert:hover {
+    color: white;
+}
+
+/*글작성 버튼 끝*/
+
+
+
+
+
+
+
+
+/*답변 시작 */
+
+/*답변 갯수 글자*/
+#answer-language {
+    margin-top: 40px;
+    width: 820px;
+}
+
+#answer-logo {
+    color: #48917A;
+    font-size: 40px;
+    font-family: "bd";
+}
+
+#answer-quantity {
+    font-size: 25px;
+    font-family: "bd";
+    margin-left: 10px;
+}
+
+
+
+/* 게시글 정보 테이블 시작 */
+.chosen-reply-section {
+    width: 800px;
+    margin-top: 20px;
+}
+
+.chosen-reply-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+/* 게시글 정보 테이블 끝 */
+
+/* 답변 내용 시작 */
+.correct-content {
+    font-size: 17px;
+    width: 800px;
+    border-radius: 10px;
+    border: 4px solid #40E0D0;
+    text-align: left;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+    min-height: 150px;
+}
+
+/* 게시글 내용 끝 */
+
+
+
+
+
+
+
+
+
+/* 일반 답변자, 답변*/
+/* 게시글 정보 테이블 시작 */
+.knowledge-reply-list {
+    margin-top: 20px;
+}
+
+.reply-section {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reply-info {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+
+/* 채택하기 버튼 */
+
+.insert-correct {
+    font-size: 17px;
+    height: 36px;
+    width: 120px;
+    background: #40E0D0;
+    border-radius: 10px;
+    border: 0px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    font-family: "bd";
+    margin-left:100px;
+}
+
+.insert-correct:hover {
+    color: white;
+}
+
+.delete-reply {
+    width: 120px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trash-logo:hover {
+    cursor: pointer;
+}
+
+.trash-logo:hover path {
+    stroke: red;
+}
+
+/* 게시글 정보 테이블 끝 */
+
+/* 답변 내용 시작 */
+.answer-content {
+    font-size: 17px;
+    width: 800px;
+    border-radius: 10px;
+    border: 1px solid #48917A;
+    text-align: left;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+    min-height: 150px;
+}
+
+.answer-edit {
+    margin-top: 10px;
+    width: 800px;
+    height: 20px;
+    display: flex;
+    justify-content: right;
+     cursor: pointer;
+}
+
+.answer-edit>a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #48917A;
+}
+
+
+/* 게시글 내용 끝 */

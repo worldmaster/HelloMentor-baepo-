@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HelloMentor-채팅</title>
+
+    <link th:href="@{/css/chatroom-style.css}" rel="stylesheet"/>
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<!--    <script src="/webjars/jquery/dist/jquery.min.js"></script>-->
+<!--    <script src="/webjars/sockjs-client/sockjs.min.js"></script>-->
+<!--    <script src="/webjars/stomp-websocket/stomp.min.js"></script>-->
+
+</head>
+<body>
+
+<div th:insert="common/header :: header"></div>
+<th:block th:fragment="content">
+    <div class="content">
+        <div class="chatroom">
+            <div class="chatsection chatsection1">
+                <div class="chatroom-name">[[${room.name}]]</div>
+                <div class="chatroom-list-btn" th:onclick="'location.href=\'' + @{/chat/rooms} + '\''">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="38"
+                            height="30"
+                            viewBox="0 0 38 30"
+                            fill="none"
+                    >
+                        <path
+                                d="M0.25 2.49935C0.25 1.94681 0.469493 1.41691 0.860194 1.02621C1.25089 0.635509 1.7808 0.416016 2.33333 0.416016H35.6667C36.2192 0.416016 36.7491 0.635509 37.1398 1.02621C37.5305 1.41691 37.75 1.94681 37.75 2.49935C37.75 3.05188 37.5305 3.58179 37.1398 3.97249C36.7491 4.36319 36.2192 4.58268 35.6667 4.58268H2.33333C1.7808 4.58268 1.25089 4.36319 0.860194 3.97249C0.469493 3.58179 0.25 3.05188 0.25 2.49935ZM35.6667 12.916H2.33333C1.7808 12.916 1.25089 13.1355 0.860194 13.5262C0.469493 13.9169 0.25 14.4468 0.25 14.9993C0.25 15.5519 0.469493 16.0818 0.860194 16.4725C1.25089 16.8632 1.7808 17.0827 2.33333 17.0827H35.6667C36.2192 17.0827 36.7491 16.8632 37.1398 16.4725C37.5305 16.0818 37.75 15.5519 37.75 14.9993C37.75 14.4468 37.5305 13.9169 37.1398 13.5262C36.7491 13.1355 36.2192 12.916 35.6667 12.916ZM35.6667 25.416H2.33333C1.7808 25.416 1.25089 25.6355 0.860194 26.0262C0.469493 26.4169 0.25 26.9468 0.25 27.4993C0.25 28.0519 0.469493 28.5818 0.860194 28.9725C1.25089 29.3632 1.7808 29.5827 2.33333 29.5827H35.6667C36.2192 29.5827 36.7491 29.3632 37.1398 28.9725C37.5305 28.5818 37.75 28.0519 37.75 27.4993C37.75 26.9468 37.5305 26.4169 37.1398 26.0262C36.7491 25.6355 36.2192 25.416 35.6667 25.416Z"
+                                fill="#48917A"
+                        />
+                    </svg>
+                </div>
+            </div>
+            <div class="chatsection chatsection2">
+                <ul class="display-chatting">
+                    <th:block th:each="message : ${messages}">
+                        <th:block th:if="${message.writer == loginUser.userId}">
+                            <li class="myChat">
+                                <span class="chatDate" th:text="${message.sendDateTime}"></span>
+                                <p class="chat" th:text="${message.message}"></p>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${message.writer != loginUser.userId}">
+                            <li>
+                                <div class="chatProfile" th:style="'background-image: url(' + @{/{profile}(profile=${message.profile})} + ')'"></div>
+                                <b th:text="${message.writer}"></b>
+                                <p class="chat" th:text="${message.message}"></p>
+                                <span class="chatDate" th:text="${message.sendDateTime}"></span>
+                            </li>
+                        </th:block>
+                    </th:block>
+                </ul>
+            </div>
+            <div class="chatsection chatsection3">
+                <div>
+                    <textarea id="chat-write-area"></textarea>
+                </div>
+                <button id="send-btn" type="button">전송</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<div th:insert="common/footer :: footer"></div>
+
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+
+        var roomName = [[${room.name}]];
+        var roomId = [[${room.roomId}]];
+        var userId = [[${loginUser.userId}]];
+        // var userNo = [[${loginUser.userNo}]] + "";
+
+        console.log(roomName + ", " + roomId + ", " + userId);
+
+        var sockJs = new SockJS("http://localhost:8082/hellomentor/stomp/chat");
+        //1. SockJS를 내부에 들고있는 stomp를 내어줌
+        var stomp = Stomp.over(sockJs);
+
+
+        //2. connection이 맺어지면 실행
+        stomp.connect({}, function () {
+            console.log("STOMP Connection")
+
+            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+            stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                var content = JSON.parse(chat.body);
+
+                var writer = content.writer;
+                var str = '';
+
+                if (writer === userId) {
+                    str = "<li class='myChat'>";
+                    str += "<span class='chatDate'>" + getCurrentDateTime() + "</span>";
+                    str += "<p class='chat'>" + content.message + "</p>";
+                    str += "</li>";
+                    $(".display-chatting").append(str);
+                } else {
+                    str = "<li>";
+                    str += "<b>" + writer + "</b>";
+                    str += "<p class='chat'>" + content.message + "</p>";
+                    str += "<span class='chatDate'>" + getCurrentDateTime() + "</span>";
+                    str += "</li>";
+                    $(".display-chatting").append(str);
+                }
+
+                // $(".display-chatting").append(str);
+            });
+
+            // //3. send(path, header, message)로 메세지를 보낼 수 있음
+            // stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: userId}))
+        });
+
+        $("#send-btn").on("click", function (e) {
+            var msg = document.getElementById("chat-write-area");
+
+            console.log(userId + ":" + msg.value);
+            stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: userId}));
+            msg.value = '';
+        });
+    });
+
+    function getCurrentDateTime() {
+        const now = new Date();
+
+        const year = now.getFullYear();
+
+        // JavaScript의 getMonth()는 0부터 시작하므로 +1 해줍니다.
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+
+        const date = String(now.getDate()).padStart(2, '0');
+
+        const hours = String(now.getHours()).padStart(2, '0');
+
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+    }
+</script>
+
+</body>
+</html>

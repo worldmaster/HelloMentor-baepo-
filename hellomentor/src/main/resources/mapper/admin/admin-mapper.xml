@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+
+	<resultMap id="memberResultSet" type="member">
+   <id column="USER_NO" property="userNo"/>
+   <result column="USER_ID" property='userId'/>
+   <result column="USER_PWD" property="userPwd"/>
+   <result column="USER_NAME" property="userName"/>
+   <result column="PHONE" property="phone"/>
+   <result column="EMAIL" property="email"/>
+   <result column="ENROLL_DATE" property="enrollDate"/>
+   <result column="STATUS" property="status"/>
+   <result column="INTRODUTION" property="introduction"/>
+   <result column="MEMBER_TYPE" property="memberType"/>
+   <result column="TOKEN" property="token"/>
+   <result column="GRADE" property="grade"/>
+</resultMap>
+
+<resultMap id="boardResultMap" type="board">
+    <id column="POST_NO" property="postNo"/>
+    <result column="USER_WRITER_NO" property="userNo"/>
+    <result column="POST_TITLE" property="postTitle"/>
+    <result column="POST_CONTENT" property="postContent"/>
+    <result column="IS_DELETE" property="isDeleted"/>
+    <result column="VIEWS" property="views"/>
+    <result column="CREATE_DATE" property="createDate"/>
+    <result column="BOARD_TYPE" property="boardType"/>
+</resultMap> 
+	
+    <resultMap id="MentorResultSet" type="mentoring">
+        <id column="MENTOR_REGIS_NO" property="regisNo"/>
+		<id column="USER_NO" property="userNo"/>
+		<result column="TITLE" property="title"/>
+        <result column="CONTENT_1" property="content1"/>
+        <result column="CONTENT_2" property="content2"/>
+        <result column="CONTENT_3" property="content3"/>
+        <result column="CODE_LANG" property="codeLang"/>
+	</resultMap>
+	
+	<resultMap id="studyResultSet" type="study">
+		<id column="POST_NO" property="postNo"/>
+		<result column="PEOPLE" property="people"/>
+	</resultMap>
+	
+	<resultMap id="reportResultSet" type="report">
+		<id column="POST_NO" property="postNo"/>
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="USER_NO" property="userNo" />
+		<result column="POST_ID" property="postId" />
+		<result column="STATUS" property="status"/>
+	</resultMap>
+	
+	<resultMap id="inquiryResultSet" type="inquiry">
+		<id column="POST_NO" property="postNo"/>
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="IS_PROCESSED" property="isProcessed" />
+		<result column="IQ_ANSWER" property="iqAnswer" />
+	</resultMap>
+	
+	<resultMap id="CATEGORYResultSet" type="inquiry">
+		<id column="POST_NO" property="postNo"/>
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="IS_PROCESSED" property="isProcessed" />
+		<result column="IQ_ANSWER" property="iqAnswer" />
+	</resultMap>
+	
+	<resultMap id="attachmentResultSet" type="attachment">
+		<id column="ATTACHMENT_ID" property="attachmentId"/>
+		<result column="POST_NO" property="postNo" />
+		<result column="FILE_ORIGIN_NAME" property="originName" />
+		<result column="FILE_CHANGE_NAME" property="changeName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+	</resultMap>
+	
+	<resultMap id="notificationResultSet" type="notification">
+		<id column="NOTIF_ID" property="notifId"/>
+		<result column="USER_NO" property="postNo" />
+		<result column="NOTIF_CONTENT" property="content" />
+		<result column="NOTIF_CREATE_DATE" property="createDate" />
+		<result column="NOTIF_IS_READ" property="notifRead" />
+		<result column="POST_NO" property="postNo" />
+	</resultMap>
+	
+	<resultMap id="profileResultSet" type="profile">
+		<id column="ATTACHMENT_ID" property="attachmentId"/>
+		<result column="USER_NO" property="userNo" />
+		<result column="FILE_CHANGE_NAME" property="changeName" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_ORIGIN_NAME" property="originName" />
+	</resultMap>
+	
+	
+	<select id="selectMList" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_TYPE = 'E' OR MEMBER_TYPE = 'O'
+	</select>
+	
+	<select id="selectSList" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM STUDY
+	</select>
+	
+	<select id="selectRList" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM REPORT_BOARD
+	</select>
+	
+	<select id="selectIList" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM INQUIRY_BOARD
+	</select>
+	
+	 <select id="getSideMemberList" resultType="member">
+	    SELECT *
+	    FROM MEMBER
+	    WHERE MEMBER_TYPE = 'E' OR MEMBER_TYPE = 'O'
+	    LIMIT #{start}, #{pageSize}
+    </select>
+    
+    <select id="completeRListCount" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM REPORT_BOARD
+		WHERE STATUS = #{statusFilter}
+	</select>
+    
+   <select id="searchMemberList" resultType="member">
+    SELECT *
+    FROM MEMBER
+    WHERE
+        <choose>
+            <when test="searchOption == 'id'">
+                USER_ID LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="searchOption == 'name'">
+                USER_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+        </choose>
+    LIMIT #{start}, #{pageSize}    
+</select>
+
+    <select id="selectMemberListCount" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE
+		<choose>
+            <when test="searchOption == 'id'">
+                USER_ID LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="searchOption == 'name'">
+                USER_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+        </choose>
+	</select>
+	
+<select id="detailViewMember" resultType="member">
+    SELECT *
+    FROM MEMBER
+    WHERE USER_NO = #{userNo}
+</select>
+
+<select id="detailViewMemberIntro" resultType="mentoring">
+    SELECT *
+    FROM MENTOR
+    WHERE USER_NO = #{userNo}
+</select>
+
+<select id="detailViewMemberBoardListF" resultType="board" resultMap="boardResultMap">
+    SELECT *
+    FROM BOARD
+    WHERE USER_WRITER_NO = #{userNo} AND BOARD_TYPE = 'F'
+</select>
+<select id="detailViewMemberBoardListK" resultType="board" resultMap="boardResultMap">
+    SELECT *
+    FROM BOARD
+    WHERE USER_WRITER_NO = #{userNo} AND BOARD_TYPE = 'K'
+</select>
+<select id="detailViewMemberBoardListS" resultType="board" resultMap="boardResultMap">
+    SELECT *
+    FROM BOARD
+    WHERE USER_WRITER_NO = #{userNo} AND BOARD_TYPE = 'S'
+</select>
+
+<select id="reportList" resultMap="boardResultMap">
+SELECT 
+B.POST_NO, 
+B.USER_WRITER_NO, 
+B.POST_TITLE, 
+B.POST_CONTENT, 
+B.CREATE_DATE, 
+C.CATEGORY AS BOARD_TYPE
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+ </select>
+
+<select id="reportList2" resultMap="memberResultSet">
+SELECT B.POST_NO, M.USER_ID
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+</select>
+
+<select id="reportList3" resultMap="reportResultSet">
+SELECT B.POST_NO, R.STATUS
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+</select>	
+
+<select id="completereportList" resultMap="boardResultMap">
+SELECT 
+B.POST_NO, 
+B.USER_WRITER_NO, 
+B.POST_TITLE, 
+B.POST_CONTENT, 
+B.CREATE_DATE, 
+C.CATEGORY AS BOARD_TYPE
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+WHERE R.STATUS = #{status}
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+</select>
+
+<select id="completereportList2" resultMap="memberResultSet">
+SELECT B.POST_NO, M.USER_ID
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+WHERE R.STATUS = #{status}
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+</select>
+
+<select id="completereportList3" resultMap="reportResultSet">
+SELECT B.POST_NO, R.STATUS
+FROM BOARD B
+INNER JOIN REPORT_BOARD R ON B.POST_NO = R.POST_NO
+INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+WHERE R.STATUS = #{status}
+<if test="order == 'ASC'">
+    ORDER BY B.POST_NO ASC
+  </if>
+  <if test="order == 'DESC'">
+    ORDER BY B.POST_NO DESC
+  </if>
+LIMIT #{start}, #{pageSize}
+</select>	
+
+<!-- (보드객체, 멤버객체)
+신고를 당한 사람의 ID(Member), 신고당한 사람이 올린 게시글 이름, 신고를 당한 사람의 보드의 타입을 알수있고, 카테고리 욕설인지 뭔지 체크 가능함.
+디테일뷰에서 신고를 한 사람의 정보를 찾는 쿼리문, 디테일뷰에서 신고대상자의 ID를 찾는 쿼리문 -->
+
+<select id="detailViewReport1" resultType="board" resultMap="boardResultMap">
+    SELECT M.USER_ID, B.BOARD_TYPE, B.POST_TITLE
+    FROM REPORT_BOARD R
+    INNER JOIN BOARD B ON B.POST_NO = R.POST_ID
+    INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+    INNER JOIN MEMBER M ON R.USER_NO = M.USER_NO
+    WHERE R.POST_NO = #{postNo};
+</select>
+
+<select id="detailViewReport2" resultType="member" resultMap="memberResultSet">
+    SELECT M.USER_ID, B.BOARD_TYPE, B.POST_TITLE
+    FROM REPORT_BOARD R
+    INNER JOIN BOARD B ON B.POST_NO = R.POST_ID
+    INNER JOIN CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+    INNER JOIN MEMBER M ON R.USER_NO = M.USER_NO
+    WHERE R.POST_NO = #{postNo};
+</select>
+
+<!-- (보드객체, 멤버객체)
+신고한 날짜, 선택한 게시글의 신고자의 아이디와 신고글의 내용을 얻을수있음. -->
+
+<select id="detailViewReport3" resultType="board" resultMap="boardResultMap">
+    SELECT B.POST_TITLE, B.POST_CONTENT, B.CREATE_DATE, B.POST_NO, M.USER_ID, B.USER_WRITER_NO
+    FROM BOARD B
+    INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+    WHERE B.POST_NO = #{postNo};
+</select>
+
+<select id="detailViewReport4" resultType="member" resultMap="memberResultSet">
+    SELECT B.POST_TITLE, B.POST_CONTENT, B.CREATE_DATE, M.USER_ID
+    FROM BOARD B
+    INNER JOIN MEMBER M ON B.USER_WRITER_NO = M.USER_NO
+    WHERE B.POST_NO = #{postNo};
+</select>	
+	
+<select id="reportAttachment" resultType="attachment">
+SELECT * 
+FROM ATTACHMENT
+WHERE POST_NO = #{postNo};
+</select>
+
+<update id="reportSend">
+    UPDATE REPORT_BOARD
+    SET STATUS = 'Y'
+    WHERE POST_NO = #{postNo}
+</update>
+
+<insert id="reportAlramSend">
+INSERT INTO NOTIFICATIONS (USER_NO, NOTIF_CONTENT, POST_NO)
+VALUES ( #{userNo}, "신고접수가 완료됐습니다." , #{postNo})
+</insert>
+
+ <insert id="sendNoticeBoard">
+        INSERT INTO BOARD (USER_WRITER_NO, POST_TITLE, POST_CONTENT,BOARD_TYPE)
+        VALUES ( 1, #{pTitle}, #{pContent},'N')
+ </insert>
+ 
+  <insert id="sendFaqBoard">
+        INSERT INTO BOARD (USER_WRITER_NO, POST_TITLE, POST_CONTENT,BOARD_TYPE)
+        VALUES ( 1, #{pTitle}, #{pContent},'Q')
+ </insert>
+
+ <insert id="sendNotice">
+       INSERT INTO INQUIRY_BOARD (POST_NO, CATEGORY_ID)
+       SELECT last_insert_id(), #{categoryId}
+ </insert>
+
+<update id="QUpdate">
+    UPDATE INQUIRY_BOARD
+    SET IQ_ANSWER = #{pContent},
+    	IS_PROCESSED = TRUE
+    WHERE POST_NO = #{postNo}
+</update>
+ 
+ <select id="getprofile" resultMap="profileResultSet">
+	    SELECT *
+	    FROM PROFILE_IMG
+ 	    WHERE USER_NO = #{userNo}
+    </select>   
+
+</mapper>

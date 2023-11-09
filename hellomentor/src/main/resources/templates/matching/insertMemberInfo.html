@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelloMentor-정보등록</title>
+
+  <link th:href="@{/css/insertMemberInfo.css}" rel="stylesheet" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:insert="common/header :: header"></div>
+<div class="content">
+  <div class="section">
+
+    <!-- 멘티 로그인 시 -->
+    <th:block th:if="${loginUser.memberType == 'E'}">
+      <div class="title">멘티 정보 등록</div>
+    </th:block>
+
+    <th:block th:if="${loginUser.memberType == 'O'}">
+      <!-- 멘토 로그인 시 -->
+      <div class="title">멘토 정보 등록</div>
+    </th:block>
+
+    <form id="user-info-enroll" th:action="@{/mentoring/insert}"  method="post">
+      <div class="info-enroll-section">
+        <div id="user-info">
+          <input type="hidden" id="userNo" name="userNo" th:value="${loginUser.userNo}" />
+
+          <th:block th:if="${loginUser.memberType == 'E'}">
+            <b>멘티 |</b>
+          </th:block>
+          <!-- 멘토 로그인 시 -->
+          <th:block th:if="${loginUser.memberType == 'O'}">
+
+            <b>멘토 |</b>
+          </th:block>
+          <th:block th:text="${loginUser.userId}">
+        </div>
+
+        <select id="code-lang" name="codeLang">
+          <option value="C언어">C언어</option>
+          <option value="JAVA">JAVA</option>
+          <option value="C++">C++</option>
+          <option value="React">React</option>
+          <option value="Python">Python</option>
+          <option value="JacaScript">JavaScript</option>
+        </select>
+
+        <th:block th:if="${loginUser.memberType == 'O'}">
+          <span>멘토링 제목을 입력해주세요</span>
+          <input
+                  class="info-write-section"
+                  id="mentoring-title"
+                  name="title"
+                  placeholder="ex) 자바의 신. 나한테 배우면 다 고수"
+          />
+        </th:block>
+
+        <!-- 멘티 로그인 시 -->
+        <th:block th:if="${loginUser.memberType == 'E'}">
+          <span>원하는 멘토링 방식을 입력해주세요</span>
+        </th:block>
+        <!-- 멘토 로그인 시 -->
+        <th:block th:if="${loginUser.memberType == 'O'}">
+          <!-- <span>커리어 정보를 입력해주세요.</span> -->
+        </th:block>
+        <textarea
+                class="info-write-section"
+                id="content1"
+                name="content1"
+                placeholder="ex) 삼성 하청의 하청의 SI 회사 말단 사원"
+        ></textarea>
+
+        <span>학력 정보 및 현재 개발 능력을 입력해주세요.</span>
+        <textarea
+                class="info-write-section"
+                id="content2"
+                name="content2"
+                placeholder="ex) 프린스턴 대학 컴공과 졸업"
+        ></textarea>
+
+        <span>자신을 소개해주세요.</span>
+        <textarea
+                class="info-write-section"
+                id="content3"
+                name="content3"
+                placeholder="ex) 저도 초반엔 개발을 못했지만..."
+        ></textarea>
+      </div>
+    </form>
+    <div class="info-enroll-btns">
+      <button type="button" class="ie-btns" id="cancel-button" onclick="">
+        취소
+      </button>
+      <button
+              type="submit"
+              class="ie-btns"
+              id="enroll-button"
+              form="user-info-enroll"
+      >
+        신청
+      </button>
+    </div>
+  </div>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+<script>
+      $(document).ready(function () {
+        $("textarea").on("input", function () {
+          this.style.height = "auto";
+          this.style.height = this.scrollHeight + "px";
+        });
+      });
+    </script>
+
+
+<script th:inline="javascript">
+    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+    var message = /*[[${message}]]*/ '';
+
+    // 메시지를 사용하여 alert를 생성합니다.
+    if (message) {
+        alert(message);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Footer</title>
+    <!-- header 스타일 -->
+    <link th:href="@{/css/footer-style.css}" rel="stylesheet"/>
+
+    <!-- jquery cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<!-- footer -->
+<!-- 로그인 전 후 모두 같으나 로그인 전에 community, helper의 링크들 클릭시 로그인이 필요하다는 alert 메세지 띄우기-->
+<footer>
+    <div class="footer-wrap">
+        <div class="footer-navi">
+            <div class="footer-content1">
+                <div class="footer-logo-container">
+                    <img
+                            class="footer-logo-img"
+                            th:src="@{/img/HELLO_MENTOR_LOGO.png}"
+                            th:onclick="'location.href=\'' + @{/main} + '\''"
+                    />
+                </div>
+                <div class="social-bar">
+                    <img
+                            id="insta-logo"
+                            th:src="@{/img/Instagram.png}"
+                            onclick="location.href=''"
+                    />
+                    <img
+                            id="twitter-logo"
+                            th:src="@{/img/Twitter.png}"
+                            onclick="location.href=''"
+                    />
+                    <img
+                            id="facebook-logo"
+                            th:src="@{/img/Facebook.png}"
+                            onclick="location.href=''"
+                    />
+                </div>
+            </div>
+            <div class="footer-content2">
+                <div class="footer-menu1 footer-menu">
+                    <ul>
+                        Community
+                        <li>
+                            <a th:href="@{/freelist}">자유게시판</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/knowledge-board}">지식인</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/study}">스터디모집</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/mentoring}">멘토링</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-menu2 footer-menu">
+                    <ul>
+                        Helper
+                        <li>
+                            <a th:href="@{/noticelist}">공지사항</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/inquirylist}">문의하기</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/faqlist}">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-menu3 footer-menu">
+                    <ul>
+                        About Us
+                        <li>
+                            <a href="">상세정보</a>
+                        </li>
+                        <li>
+                            <a href="">채용정보</a>
+                        </li>
+                        <li>
+                            <a href="">광고문의</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div id="copy-content">
+                <p>
+                    상호명: (주)헬로우멘토 | 대표명: 신용수, 정승훈, 김정찬, 임재린,
+                    이찬우<br/>
+                    사업자등록번호: 111-22-3333 | 통신판매업신고번호: 제
+                    2023-서울강남-00001호 | 직업정보 제공사업 신고번호:
+                    A00001000001<br/>
+                    주소: 서울 강남구 테헤란로14길 6 남도빌딩 2층, 3층, 4층(06234) |
+                    고객센터 : info@hellomentor.kr (영업시간 평일 10:00~17:00) 주말 ·
+                    공휴일 휴무<br/>
+                    © 2023 (주)헬로우멘토, Inc. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    height: 600px;
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    border: 1px solid lightgray;
+}
+
+.sideMenuBar {
+    border-right: 1px solid lightgray;
+    height: 600px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideMenus {
+    width: 80px;
+    height: 348px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+}
+
+.sideMenu>a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.sideMenu>a:hover {
+    color: #40E0D0;
+    font-family: "bd";
+}
+
+.section {
+    width: 1000px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-board {
+    width: 800px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-rows {
+    width: 700px;
+    height: 212px;
+    display: flex;
+}
+
+.dr-line {
+    border-bottom: 2px dashed lightgray;
+}
+
+.dash-cell {
+    width: 350px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dc-line {
+    border-right: 2px dashed lightgray;
+}
+
+.dash-box {
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    background-color: #DFF6ED;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-box:hover {
+    cursor: pointer;
+}
+
+.dash-subtitle {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.dash-count {
+    font-size: 50px;
+    font-family: "bd";
+}

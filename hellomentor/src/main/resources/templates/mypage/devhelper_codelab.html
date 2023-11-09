@@ -1,0 +1,103 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+
+<body>
+<div class="my_right_title">코드 실험실</div>
+<label for="class">Enter Class Name:</label>
+<input type="text" id="class" th:onblur="check()"/>
+<span id="classname-error" style="color: red;"></span>
+<br /><br />
+<button id="compile-button" onclick="compile()">COMPILE</button>
+<button id="run-button" onclick="run()">RUN</button>
+<button id="clear-button" onclick="empty()">CLEAR</button>
+<br /><br />
+<textarea rows="10" cols="100" id="maincode" name="maincode"></textarea>
+<br /><br />
+<textarea rows="10" cols="100" id="output" name="output" readonly="readonly"></textarea>
+
+
+
+<script>
+
+
+    function check() {
+        var classname = document.getElementById("class").value.trim();
+        var errorSpan = document.getElementById("classname-error");
+
+        if (classname === "") {
+            errorSpan.textContent = "클래스 이름을 입력해주세요.";
+            document.getElementById("maincode").value = "";
+        } else {
+            errorSpan.textContent = "";
+            document.getElementById("maincode").value = "public class " + classname + "{\n\t public static void main(String[] args){ \n\n\n\t\t} \n}";
+        }
+    }
+
+
+    function  compile() {
+        console.log("compiling");
+        if(document.getElementById("maincode")==""){
+            alert("코드를 입력해주세요.");
+        }
+        else{
+
+            var code=encodeURIComponent(document.getElementById("maincode").value);
+            var url = "Compile?code=" + code + "&className=" + document.getElementById("class").value;
+
+            if(window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange=function(){
+                if(xmlhttp.readyState==4 && xmlhttp.status==200){
+                    document.getElementById("output").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("POST",url,true);
+            xmlhttp.send();
+        }
+        console.log("compiled !!");
+    }
+
+
+    function run() {
+
+        var url = "Run?classname=" + document.getElementById("class").value;
+
+        if(window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }
+        else{
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4 && xmlhttp.status==200){
+                document.getElementById("output").innerHTML=xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("POST",url,true);
+        xmlhttp.send();
+    }
+
+
+
+
+    function empty() {
+
+        document.getElementById("class").value="";
+        document.getElementById("maincode").value="";
+        document.getElementById("output").value="";
+
+    }
+</script>
+</body>
+</html>

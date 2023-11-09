@@ -1,0 +1,162 @@
+/* 작성 폼 시작 */
+#inquiry-table {
+    font-size: 17px;
+    margin-top: 80px;
+    border-spacing: 0 20px;
+    
+}
+
+#inquiry-table tr td {
+    text-align: left;
+
+}
+
+#inquiry-table tr th {
+    text-align: left;
+}
+
+
+/* 분류 */
+#inquiry-kind {
+    width: 192px;
+    height: 32px;
+    font-size: 17px;
+    border-radius: 10px;
+    border-color: rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    padding-left: 10px;
+
+}
+
+#inquiry-kind:focus {
+    border-color: #48917A;
+    outline: none;
+}
+
+
+
+/* 제목 */
+#inquiry-title {
+    font-size: 17px;
+    width: 540px;
+    height: 32px;
+    border-radius: 10px;
+    padding-left: 10px;
+    border: 1px solid rgb(223, 219, 219);
+
+}
+
+#inquiry-title:focus {
+    border-color: #48917A;
+    outline: none;
+}
+
+
+
+/* 내용 */
+#inquiry-content {
+    font-size: 17px;
+    width: 540px;
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    text-align: left;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+    min-height: 350px;
+    vertical-align: top;
+    resize: none;
+}
+
+#inquiry-content:focus {
+    border-color: #48917A;
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 첨부파일 */
+
+
+#file-list{
+	margin-bottom: 15px;
+	transform:translate(10px,0px);
+}
+#file-plus {
+    font-size: 17px;
+    color: #48917A;
+    text-decoration: none;
+    margin-bottom: 10px;
+   
+}
+#free-file {
+     color: rgb(95, 95, 95);
+    font-size: 12px;
+     transform:translate(-5px,0px);
+}
+#file-delete {
+    font-size: 17px;
+    color: #48917A;
+    text-decoration: none;
+}
+
+input[type=file]::file-selector-button {
+            border: 0px solid black;
+            font-size: 15px;
+     
+            background-color: #ffffff;
+            cursor: pointer;
+            font-weight: 1000;
+            
+        }
+
+
+
+
+
+/* 취소, 작성 버튼 */
+#inquiry-reset {
+    font-size: 17px;
+    height: 36px;
+    width: 100px;
+    background: #DFF6ED;
+    border-radius: 10px;
+    border: 0px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+#inquiry-reset:hover {
+    color: white;
+}
+
+#inquiry-submit {
+    font-size: 17px;
+    height: 36px;
+    width: 100px;
+
+    background: #48917A;
+    border-radius: 10px;
+    border: 0px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+#inquiry-submit:hover {
+    color: white;
+}
+
+/* 취소, 작성 버튼 끝 */

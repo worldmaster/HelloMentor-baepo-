@@ -1,0 +1,245 @@
+/*분류, 검색창 시작*/
+#category-search {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 800px;
+}
+
+
+
+/*분류*/
+#freekind {
+    padding-left: 10px;
+    width: 100px;
+    height: 32px;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: rgb(223, 219, 219);
+    margin-right: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+/* 검색창 */
+#keyword {
+    padding-left: 10px;
+    width: 280px;
+    height: 32px;
+    border-color: rgb(223, 219, 219);
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: none;
+    border: 1px solid rgb(231, 230, 230);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    margin-right: 10px;
+
+}
+
+#search-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn:hover #search-logo {
+    fill: #40E0D0;
+}
+
+/*분류, 검색창 끝*/
+
+
+
+
+/*조회순, 최신순 버튼*/
+
+#button-container {
+    text-align: right;
+    /* 버튼들을 오른쪽으로 정렬 */
+    width: 800px;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#align-see {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#align-new {
+    background-color: white;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/*조회순, 최신순 버튼 끝*/
+
+
+
+/*핫게시글 시작*/
+#hot-area {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 17px;
+    margin-top: 20px;
+}
+
+#hot-area tbody td:nth-child(1) {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-family: "bd";
+}
+
+#hot-area tbody td:nth-child(2) {
+    font-family: "bd";
+    cursor: pointer;
+}
+
+#hot-area tbody td:nth-child(3) {
+    font-family: "bd";
+}
+
+#hot-area tbody td:nth-child(4) {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-family: "bd";
+}
+
+#hot-area tbody tr {
+    background-color: #40E0D0;
+    height: 48px;
+    text-align: center;
+}
+
+#hot-area tbody tr:hover {
+    background: #48917A;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* 호버 상태에서 더 강한 그림자 효과 추가 */
+}
+
+/*핫게시글 끝*/
+
+
+
+
+/*게시판 글 시작*/
+#free-area {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    font-size: 17px;
+}
+
+#free-area tbody td:nth-child(1) {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#free-area tbody td:nth-child(2) {
+    font-family: "bd";
+    cursor: pointer;
+}
+
+#free-area tbody td:nth-child(4) {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#free-area tbody tr {
+    background-color: #f7f7f7;
+    height: 48px;
+    text-align: center;
+
+}
+
+#free-area tbody tr:hover {
+    background: #48917A;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* 호버 상태에서 더 강한 그림자 효과 추가 */
+}
+
+
+/*게시판 글 끝*/
+
+
+
+
+
+
+
+/*글작성 버튼*/
+#move-to-insert {
+    width: 900px;
+    display: flex;
+    justify-content: right;
+    margin-top: 40px;
+}
+
+#move-to-insert>button {
+    height: 36px;
+    width: 114px;
+    background: #48917A;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 18px;
+    font-family: "bd";
+    cursor: pointer;
+}
+
+#move-to-insert>button:hover {
+    color: white;
+}
+
+/*글작성 버튼 끝*/
+
+
+
+
+
+/* 페이징바 */
+.pagination ul li {
+	
+	padding: 7px 12px;
+ 	margin-right: 10px; /* 버튼 간격 조정 */
+    margin-top: 20px;
+    border: none;
+    background-color: white;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid rgb(226, 219, 219);
+     display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+
+
+.pagination ul li:hover {
+    background-color: #48917A;
+    color: #fff;
+}
+.pagination ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+ .pagination ul li:last-child {
+     margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+ }
+    .pagination ul li a {
+     color: black; /* 글자 색상을 검정색으로 설정 */
+     text-decoration: none; /* 밑줄 제거 */
+ }
+/* 페이징바 끝 */

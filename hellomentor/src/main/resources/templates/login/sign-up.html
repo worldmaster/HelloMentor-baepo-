@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-회원가입</title>
+
+     <link th:href="@{/css/sign-up-style.css}" rel="stylesheet" />
+     <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+     rel="stylesheet" />
+     
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="logo-container" onclick="location.href=''">
+         <img th:src="@{/img/HELLO_MENTOR_LOGO.png}" />
+      </div>
+
+      <div class="sign-upMain">
+        <!-- 멘티 선택시 -->
+        <div id="sign-upTitle">
+                             회원가입하기
+                              </div>
+        <!-- 멘토 선택시 -->
+        <!-- <div id="sign-upTitle">멘토 가입하기</div> -->
+        
+        <form action="/sign.up" id="enroll-form" method="post" th:action="@{/sign.up}">
+          <div id="sign-up">
+            <div>
+           <!-- <p th:text="${param.mValue}"></p> -->
+              <span>아이디</span>
+              <br />
+               <input type="hidden" name="memberType" th:value="${param.mValue}">
+              <input
+                type="text"
+                name="userId"
+                id="userId"
+                placeholder="4~15자 이내로 입력해주세요"
+                minlength="4"
+                maxlength="15"
+                required
+              />
+              <button type="button" id="idDuplicatedCheck">중복확인</button><br>
+              <span id="idCheckResult" style="font-size: inherit; font-weight: normal; color: black;"></span>
+              <br />
+              <span>비밀번호</span>
+              <br />
+              <input
+                type="password"
+                name="userPwd"
+                id="userPwd"
+                placeholder="최소 6자 이상"
+                maxlength="25"
+                required
+              /><br />
+              <span id="passwordCheckResult" style="font-size: 12px; font-weight: normal; color: black;"></span>
+              <br />
+              <span>비밀번호 확인</span>
+              <br />
+              <input
+                type="password"
+                name="checkPwd"
+                id="checkPwd"
+                placeholder="같은 비밀번호를 입력하세요"
+                maxlength="25"
+                required
+              /><br />
+              <br />
+              <span>휴대전화 번호</span>
+              <br />
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="(-)을 입력해주세요"
+                maxlength="25"
+                required
+              /><br />
+              <br />
+              <span>실명</span>
+              <br />
+              <input
+                type="text"
+                name="userName"
+                id="userName"
+                placeholder="홍길동"
+                maxlength="25"
+                required
+              /><br />
+              <br />
+              <span>이메일</span>
+              <br />
+              <div class="form-group last mb-4 email_input">
+								<label for="memail" id="mailTxt"></label> 
+								<input type="text" class="form-control"
+								 id="memail"
+								 placeholder="이메일을 입력해주세요" 
+								 name="email"
+								minlength="8"
+                                maxlength="30"
+								 required/>
+								 
+							<button class="btn btn-outline-primary" 
+							type="button" id="checkEmail">인증번호</button>
+							</div>
+							<!-- <span>이메일 인증번호</span> -->
+
+							<div class="form-group last mb-4 check_input">
+								<label for="memailconfirm" id="memailconfirmTxt" ></label> <br>
+								<input type="text"
+								 minlength="4"
+								 class="form-control" id="memailconfirm" placeholder="인증번호를 입력해주세요" required/>
+							</div>
+              <br />
+              <span>한줄소개</span>
+              <br />
+              <textarea
+                type="text"
+                name="introduce"
+                id="introduce"
+                maxlength="50"
+                required
+              ></textarea>
+            </div>
+          </div> <br />
+           <button type="submit" id="sign-upBtn">가입</button>
+          <br />
+        </form>
+      </div>
+    </div>
+<script th:inline="javascript">
+        var message = /*[[${message}]]*/ '';
+
+        // 메시지를 사용하여 alert를 생성합니다.
+        if (message) {
+            alert(message);
+        }
+</script>
+
+<script>
+     $(document).ready(function() {
+    	 $("#userPwd, #checkPwd").on("input", function() {
+             const userPwd = $("#userPwd").val();
+             const checkPwd = $("#checkPwd").val();
+
+             if (userPwd === checkPwd) {
+            	 $("#passwordCheckResult").text("(비밀번호가 일치합니다.)");
+            	 updateSignUpButtonStatus1(true);
+                 $("#passwordCheckResult").css({
+                     "color": "#0D6EFD",
+                     "font-weight": "bold",
+                     "font-size": "10px"
+                 });
+             } else {
+                 $("#passwordCheckResult").text("(비밀번호가 일치하지 않습니다.)");
+                 $("#sign-upBtn").prop("disabled", true);
+                 $("#passwordCheckResult").css({
+                     "color": "red",
+                     "font-weight": "bold",
+                     "font-size": "10px"
+                 });
+             }
+         });
+    	   
+    	 $("#userId").on("input", function() {
+ 	        const userId = $(this).val();
+ 	        if (userId.length >= 1) {
+ 	            $("#idCheckResult").empty();
+ 	            updateSignUpButtonStatus1(false); 
+ 	            // 아이디에 적어놓은걸 수정하려고 건들면 다시 중복검사를 유도하기위해 가입버튼 비활성화
+ 	        }
+ 	    });
+    	 
+    	    $("#idDuplicatedCheck").click(function() {
+    	        idCheck();
+    	    });
+
+    	    function idCheck() {
+    	        const userId = $("#userId").val();
+    	        if (userId.length >= 4 && userId.length <= 15) { // 아이디 길이가 4 이상 15 이하일 때만 검사
+    	            $.ajax({
+    	                url: "/hellomentor/member/idCheck.me",
+    	                data: {
+    	                    userId: userId
+    	                },
+    	                success: function(result) {
+    	                    if (result == 1) {
+    	                        $("#idCheckResult").text("이미 사용중인 아이디입니다.");
+    	                        $("#sign-upBtn").prop("disabled", true);
+    	                        $("#userId").val("");
+    	                        $("#userId").focus();
+    	                        $("#idCheckResult").css({
+    	                            "color": "red",
+    	                            "font-weight": "bold",
+    	                            "font-size": "10px"
+    	                        });
+    	                    } else {
+    	                        $("#idCheckResult").text("사용 가능한 아이디입니다.");
+    	                        updateSignUpButtonStatus1(true);
+    	                        $("#userId").focus();
+    	                        $("#idCheckResult").css({
+    	                            "color": "#0D6EFD",
+    	                            "font-weight": "bold",
+    	                            "font-size": "10px"
+    	                        });
+    	                    }
+    	                }
+    	             // 비밀번호 입력란이 변경될 때마다 가입 버튼 상태 업데이트
+    	            });
+    	        } else {
+    	            $("#idCheckResult").text("아이디를 정확히 입력해주세요.");
+    	            $("#sign-upBtn").prop("disabled", true);
+    	            $("#userId").focus();
+                    $("#idCheckResult").css({
+                        "color": "red",
+                        "font-weight": "bold",
+                        "font-size": "10px"
+                    });
+    	        }
+    	    }
+    	    
+    	    // 가입 버튼 활성화/비활성화 함수
+            function updateSignUpButtonStatus1(isValid) {
+            var userId = $("#userId").val();
+            var userPwd = $("#userPwd").val();
+            var checkPwd = $("#checkPwd").val();
+            var email = $("#memail").val();
+            //var checkEmail = $checkEmail.is(":disabled"); // "인증번호 발송" 버튼의 상태를 확인
+            
+            if (email && userId && userPwd && checkPwd && isValid) {
+                $("#sign-upBtn").prop("disabled", false); // 모든 조건이 만족하고 인증번호가 정상이면 가입 버튼 활성화
+            } else {
+                $("#sign-upBtn").prop("disabled", true); // 그 외의 경우 가입 버튼 비활성화
+            }
+        }
+    	    
+    	 
+    	});
+</script>
+
+<script>
+$(document).ready(function () {
+    var $memail = $("#memail");
+    var $checkEmail = $("#checkEmail");
+    var $memailconfirm = $("#memailconfirm");
+    var $memailconfirmTxt = $("#memailconfirmTxt");
+    var emconfirmchk = false; // 인증번호 확인 상태를 나타내는 변수
+    var isValidEmail = false; // 이메일 인증번호의 유효성 여부를 나타내는 변수
+    
+    emconfirmchk = false;
+    setValidationMessage($memailconfirmTxt, false, "인증번호가 잘못되었습니다");
+    isValidEmail = false;
+    
+    // 인증번호가 잘못된 경우 가입 버튼 비활성화
+    
+    $("#sign-upBtn").prop("disabled", true);
+    // 이메일 인증번호 발송
+    $checkEmail.click(function () {
+        var email = $memail.val(); // 이메일 값을 가져옴
+        $.ajax({
+            method: "POST",
+            url: "/hellomentor/login/mailConfirm",
+            data: {
+                "email": email // 가져온 이메일 값을 전달
+            },
+            success: function (data) {
+                alert("해당 이메일로 인증번호 발송이 완료되었습니다. \n 확인부탁드립니다.");
+                updateSignUpButtonStatus(false);
+                console.log("data : " + data);
+                chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
+            }
+        });
+    });
+
+     // 이메일 인증번호 체크 함수
+    function chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt) {
+        $memailconfirm.on("input", function () {
+            if (data == $memailconfirm.val()) {
+            	emconfirmchk = true;
+                $memailconfirmTxt.html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+                $("#emconfirmchk").css({
+                	"color": "#0D6EFD",
+                    "font-weight": "bold",
+                    "font-size": "10px"
+                });
+                // 인증번호가 정상인 경우 가입 버튼 활성화
+                updateSignUpButtonStatus(true);
+            } else {
+           	 emconfirmchk = false;
+           	$memailconfirmTxt.html("<span id='emconfirmchk'>인증번호가 잘못되었습니다.</span>");
+            $("#emconfirmchk").css({
+                "color": "red",
+                "font-weight": "bold",
+                "font-size": "10px"
+            });
+             // 인증번호가 잘못된 경우 가입 버튼 비활성화
+             updateSignUpButtonStatus(false);
+        }
+        });
+    }
+    
+    // 가입 버튼 활성화/비활성화 함수
+        function updateSignUpButtonStatus(isValid) {
+        var userId = $("#userId").val();
+        var userPwd = $("#userPwd").val();
+        var checkPwd = $("#checkPwd").val();
+        var email = $("#memail").val();
+        var checkEmail = $checkEmail.is(":disabled"); // "인증번호 발송" 버튼의 상태를 확인
+        
+        if (email && userId && userPwd && checkPwd && checkEmail === false && isValid) {
+            $("#sign-upBtn").prop("disabled", false); // 모든 조건이 만족하고 인증번호가 정상이면 가입 버튼 활성화
+        } else {
+            $("#sign-upBtn").prop("disabled", true); // 그 외의 경우 가입 버튼 비활성화
+        }
+    }
+
+    // 유효성 메시지 설정 함수
+    function setValidationMessage(element, isValid, message) {
+        var $messageSpan = $("<span>").attr("id", "emconfirmchk").text(message);
+        if (isValid) {
+            $messageSpan.css({
+                "color": "#0D6EFD",
+                "font-weight": "bold",
+                "font-size": "10px"
+            });
+        } else {
+            $messageSpan.css({
+                "color": "#FA3E3E",
+                "font-weight": "bold",
+                "font-size": "10px"
+            });
+        }
+        element.html($messageSpan);
+    }
+});
+</script>
+  </body>
+</html>
+
+

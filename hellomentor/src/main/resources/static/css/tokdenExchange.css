@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 1200px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    width: 800px;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
+.title>div {
+    font-size: 40px;
+    font-family: "bd";
+}
+
+
+.info-list {
+    width: 780px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-bottom: 216px;
+}
+
+#tokens {
+    margin-left: 10px;
+    font-family: "bd";
+    font-size: 40px;
+    color: #40E0D0;
+    margin-right: 10px;
+}
+
+.info-list span {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+
+
+.exchange-container {
+    width: 660px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+}
+
+label {
+    display: block;
+    font-size: 20px;
+}
+
+#bank-select {
+    padding-left: 10px;
+    width: 120px;
+    height: 32px;
+    border-radius: 10px;
+    border-color: rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+#account-number {
+    padding-left: 10px;
+    width: 360px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.exc-btns {
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.exchange-btns {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    font-size: 20px;
+    font-family: "bd";
+    cursor: pointer;
+}
+
+.exchange-btns:hover {
+    color: white;
+}
+
+
+#cancel-button {
+    background-color: #48917A;
+    margin-right: 40px;
+}
+
+#pay-button {
+    background-color: #DFF6ED;
+}

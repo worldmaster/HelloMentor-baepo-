@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+
+<div class="my_following_content1">
+    <div th:each="item : ${combinedList}" class="my_following_box">
+        <div class="my_following_box_1">
+            <div class="my_following_profile_img">
+                <img th:src="@{${item.profile.filePath} + ${item.profile.changeName}}"/>
+            </div>
+        </div>
+        <div class="my_following_box_2">
+            <div class="my_following_profile_name" th:text="${item.member.userName}">
+            </div>
+            <div class="my_following_profile_intro" th:text="${item.member.introduction}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my_following_content2">
+    <div class="my_following_paging">
+        <span id="previous-page" onclick="movePage(-1)">이전</span>
+        <span id="page-numbers"></span>
+        <span id="next-page" onclick="movePage(1)">다음</span>
+    </div>
+</div>
+
+<script>
+    // 팔로잉 리스트 탭 별모양 클릭 구현
+
+    var favoriteElements = document.querySelectorAll('.my_following_favorite');
+    favoriteElements.forEach(function (favoriteElement) {
+        favoriteElement.addEventListener('click', function () {
+            if (favoriteElement.classList.contains('clicked')) {
+                favoriteElement.classList.remove('clicked');
+            } else {
+                favoriteElement.classList.add('clicked');
+            }
+
+            favoriteElement.classList.add('scale');
+            setTimeout(function () {
+                favoriteElement.classList.remove('scale');
+            }, 200);
+        });
+    });
+
+</script>
+
+<script>
+    var currentPage = 1;
+    var itemsPerPage = 8;
+    var numberOfPages = Math.ceil(document.querySelectorAll('.my_following_box').length / itemsPerPage);
+
+    function updatePage() {
+        var start = (currentPage - 1) * itemsPerPage;
+        var end = start + itemsPerPage;
+
+        document.querySelectorAll('.my_following_box').forEach((item, index) => {
+            item.style.display = index >= start && index < end ? '' : 'none';
+        });
+
+        var pageNumberContainer = document.getElementById('page-numbers');
+        pageNumberContainer.innerHTML = '';
+
+        var startPage = currentPage - 5;
+        var endPage = currentPage + 4;
+
+        if (startPage < 1) {
+            startPage = 1;
+            endPage = Math.min(10, numberOfPages);
+        }
+
+        if (endPage > numberOfPages) {
+            endPage = numberOfPages;
+            startPage = Math.max(1, numberOfPages - 9);
+        }
+
+        for (var i = startPage; i <= endPage; i++) {
+            var pageSpan = document.createElement('span');
+            pageSpan.textContent = i;
+            if (i === currentPage) {
+                pageSpan.style.fontWeight = 'bold';
+            } else {
+                pageSpan.style.cursor = 'pointer';
+                pageSpan.onclick = function () {
+                    currentPage = parseInt(this.textContent);
+                    updatePage();
+                };
+            }
+            pageNumberContainer.appendChild(pageSpan);
+        }
+
+        document.getElementById('previous-page').style.display = currentPage === 1 ? 'none' : 'inline';
+        document.getElementById('next-page').style.display = currentPage === numberOfPages ? 'none' : 'inline';
+    }
+
+    function movePage(direction) {
+        currentPage += direction;
+
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > numberOfPages) currentPage = numberOfPages;
+
+        updatePage();
+    }
+
+    updatePage();
+
+</script>
+
+</body>
+</html>

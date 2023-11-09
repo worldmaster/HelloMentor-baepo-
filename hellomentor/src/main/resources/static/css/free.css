@@ -1,0 +1,150 @@
+/* 작성 폼 시작 */
+#free-table {
+    font-size: 17px;
+    margin-top: 120px;
+    border-spacing: 20px;
+    margin-bottom: 40px;
+}
+
+#free-table tr td {
+    text-align: left;
+
+}
+
+#free-table tr th {
+    text-align: left;
+}
+
+
+
+
+
+
+/* 제목 */
+#free-title {
+    font-size: 17px;
+    width: 650px;
+    height: 30px;
+    border-radius: 10px;
+    padding-left: 10px;
+    border: 1px solid rgb(223, 219, 219);
+}
+
+#free-title:focus {
+    border-color: #48917A;
+    outline: none;
+}
+
+
+
+/* 내용 */
+#free-content {
+    font-size: 17px;
+    width: 650px;
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    text-align: left;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+    min-height: 350px;
+    vertical-align: top;
+    resize: none;
+}
+
+#free-content:focus {
+    border-color: #48917A;
+    outline: none;
+}
+
+
+
+
+
+
+
+/* 첨부파일 */
+
+#file-list{
+	margin-bottom: 15px;
+}
+#file-plus {
+    font-size: 17px;
+    color: #48917A;
+    text-decoration: none;
+    margin-bottom: 10px;
+   
+}
+#free-file {
+     color: rgb(95, 95, 95);
+    font-size: 12px;
+     transform:translate(-5px,0px);
+}
+#file-delete {
+    font-size: 17px;
+    color: #48917A;
+    text-decoration: none;
+}
+
+input[type=file]::file-selector-button {
+            border: 0px solid black;
+            font-size: 15px;
+     
+            background-color: #ffffff;
+            cursor: pointer;
+            font-weight: 1000;
+            
+        }
+
+#uploaded-file{
+	font-size: 15px;
+	color: rgb(95, 95, 95);
+    text-decoration: none;
+}
+#uploaded-delete {
+    font-size: 17px;
+    color: #48917A;
+    text-decoration: none;
+    margin-left : 10px;
+}
+
+
+
+/* 취소, 작성 버튼 */
+#free-back {
+    font-size: 17px;
+    height: 36px;
+    width: 100px;
+    background: #DFF6ED;
+    border-radius: 10px;
+    border: 0px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+#free-back:hover {
+    color: white;
+}
+
+#free-change,
+#free-enroll {
+    font-size: 17px;
+    height: 36px;
+    width: 100px;
+    background: #48917A;
+    border-radius: 10px;
+    border: 0px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+#free-change:hover {
+    color: white;
+}
+
+#free-enroll:hover {
+    color: white;
+}
+
+/* 취소, 작성 버튼 끝 */

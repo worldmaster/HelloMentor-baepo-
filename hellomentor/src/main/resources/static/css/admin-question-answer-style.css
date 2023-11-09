@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 1200px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question-wrap {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#question-headline {
+    width: 800px;
+    margin-top: 100px;
+    font-size: 40px;
+    font-family: "bd";
+}
+
+.line {
+    width: 900px;
+    height: 2px;
+    background-color: #D9D9D9;
+    margin-bottom: 36px;
+}
+
+.line1 {
+    margin-top: 70px;
+}
+
+.line2 {
+    margin-top: 32px;
+}
+
+
+.question-section {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question-title {
+    width: 100%;
+    height: 64px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#q-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    color: #48917A;
+}
+
+.question-info {
+    margin-left: 20px;
+    width: 804px;
+    height: 64px;
+    font-size: 20px;
+}
+
+#question-title {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 20px;
+    font-family: "bd";
+}
+
+#question-info {
+    width: 70%;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#question-status {
+    font-family: "bd";
+}
+
+.question-box {
+    width: 900px;
+    display: flex;
+    justify-content: right;
+}
+
+#question {
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    padding: 10px;
+    width: 860px;
+    min-height: 150px;
+    font-size: 20px;
+}
+
+.answer-section {
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#a-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    color: #48917A;
+}
+
+
+#answer {
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    width: 860px;
+    min-height: 150px;
+    font-size: 20px;
+    padding: 10px;
+    resize: none;
+    overflow: hidden;
+}
+
+.send-btn {
+    margin-top: 40px;
+    width: 240px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.send-btn button {
+    border: none;
+    width: 100px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: "bd";
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+.send-btn button:hover {
+    cursor: pointer;
+    color: white;
+}
+
+#back-btn {
+    background-color: #48917A;
+}
+
+#send-btn {
+    background-color: #DFF6ED;
+}

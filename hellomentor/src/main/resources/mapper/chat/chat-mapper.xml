@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatMapper">
+
+    <resultMap id="chatRoomResultSet" type="chatRoomDTO">
+        <id column="CHATROOM_ID" property="roomId"/>
+        <result column="CHATROOM_NAME" property="name"/>
+        <result column="CHATROOM_TYPE" property="chatRoomType"/>
+        <result column="RELATED_NO" property="relatedNo"/>
+    </resultMap>
+
+    <resultMap id="messageResultSet" type="chatMessageDTO">
+        <result column="CHATROOM_ID" property="roomId"/>
+        <result column="USER_ID" property="writer"/>
+        <result column="PROFILE" property="profile"/>
+        <result column="MESSAGE_TEXT" property="message"/>
+        <result column="SEND_DATETIME" property="sendDateTime"/>
+    </resultMap>
+
+    <select id="findAllRooms" parameterType="int" resultMap="chatRoomResultSet">
+        SELECT *
+        FROM CHATROOM C
+        JOIN CHATROOM_PERSON P ON C.CHATROOM_ID = P.CHATROOM_ID
+        WHERE USER_NO = #{userNo}
+    </select>
+
+    <select id="findRoomById" parameterType="string" resultMap="chatRoomResultSet">
+        SELECT *
+        FROM CHATROOM
+        WHERE CHATROOM_ID = #{roomId}
+    </select>
+
+    <select id="findMessageById" parameterType="string" resultMap="messageResultSet">
+        SELECT * , M.USER_ID, CONCAT(P.FILE_PATH, P.FILE_CHANGE_NAME) AS PROFILE
+        FROM MESSAGE A
+        JOIN MEMBER M ON A.USER_NO = M.USER_NO
+        JOIN PROFILE_IMG P ON M.USER_NO = P.USER_NO
+        WHERE CHATROOM_ID = #{roomId}
+        ORDER BY SEND_DATETIME
+    </select>
+
+    <insert id="insertMessage" parameterType="chatMessageDTO">
+        <selectKey resultType="int" keyProperty="userNo" order="BEFORE">
+            SELECT USER_NO FROM MEMBER WHERE USER_ID = #{writer}
+        </selectKey>
+
+        INSERT INTO MESSAGE (CHATROOM_ID, USER_NO, MESSAGE_TEXT)
+        VALUES (#{roomId}, #{userNo}, #{message})
+    </insert>
+
+    <select id="findStudyTitle" parameterType="int" resultType="string">
+        SELECT POST_TITLE
+        FROM BOARD
+        WHERE POST_NO = #{postNo}
+    </select>
+
+    <insert id="createStudyRoom" parameterType="chatRoomDTO">
+        INSERT INTO CHATROOM (CHATROOM_ID, CHATROOM_NAME, CHATROOM_TYPE, RELATED_NO)
+        VALUES (#{roomId}, #{name}, #{chatRoomType}, #{relatedNo})
+    </insert>
+
+    <insert id="createMentoringRoom" parameterType="chatRoomDTO">
+        INSERT INTO CHATROOM (CHATROOM_ID, CHATROOM_NAME, CHATROOM_TYPE, RELATED_NO)
+        VALUES (#{roomId}, #{name}, #{chatRoomType}, #{relatedNo})
+    </insert>
+
+    <select id="findStudyApplicants" parameterType="int" resultType="int">
+        SELECT USER_NO
+        FROM STUDY_APPLICANT
+        WHERE POST_NO = #{postNo}
+    </select>
+
+    <insert id="insertChatMember" parameterType="hashmap">
+        INSERT INTO CHATROOM_PERSON
+        VALUES (#{roomId}, #{userNo})
+    </insert>
+
+    <resultMap id="mentoringResult2" type="mentoring">
+        <id column="MENTOR_REGIS_NO" property="regisNo"/>
+        <result column="TITLE" property="title"/>
+    </resultMap>
+
+    <select id="findMentorTitle" parameterType="int" resultMap="mentoringResult2">
+        SELECT TITLE, MENTOR_REGIS_NO
+        FROM MENTOR
+        WHERE USER_NO = #{mentorNo}
+    </select>
+</mapper>

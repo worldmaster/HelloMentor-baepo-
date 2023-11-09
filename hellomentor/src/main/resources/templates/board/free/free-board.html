@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자유게시판_메인페이지</title>
+    <link  th:href="@{/css/normal-frame.css}" rel="stylesheet" />
+    <link th:href="@{/css/free-board.css}" rel="stylesheet" />
+
+    <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+  	rel="stylesheet" />
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+  </head>
+  <body>
+  <script th:inline="javascript">
+					    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+					    var message = /*[[${message}]]*/ '';
+					
+					    // 메시지를 사용하여 alert를 생성합니다.
+					    if (message) {
+					        alert(message);
+					    }
+			</script>
+			
+  <div th:insert="common/header :: header"></div>
+  
+  
+    <div class="content">
+      <div class="section">
+        <h1 class="title">자유게시판</h1>
+
+
+<script>
+    $(document).ready(function () {
+        var currentIndex = 0;
+        var sliderItems = $("#slider ul li");
+
+        // 첫 번째 아이템 표시
+        sliderItems.eq(currentIndex).fadeIn();
+
+        // 다음 아이템 표시 함수
+        function showNextItem() {
+            sliderItems.eq(currentIndex).fadeOut();
+            currentIndex = (currentIndex + 1) % sliderItems.length;
+            sliderItems.eq(currentIndex).fadeIn();
+        }
+
+        // 일정 시간마다 다음 아이템 표시
+        setInterval(showNextItem, 5000); // 5초마다 전환
+    });
+</script>
+
+ <!--    분류, 검색창 -->
+        <form th:action="@{/freelist}" method="get">
+          <div id="category-search">
+            <select name="freekind" id="freekind">
+              <option value="">선택</option>
+              <option value="userId">작성자</option>
+              <option value="postTitle">제목</option>
+              <option value="postContent">내용</option>
+            </select>
+
+            <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" />
+            <button type="submit" id="search-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 36 36"
+                fill="none"
+              >
+                <path
+                  id="search-logo"
+                  d="M34.8017 32.1983L26.735 24.15C28.7487 21.5892 29.8402 18.4244 29.8333 15.1667C29.8333 12.2659 28.9732 9.43023 27.3616 7.01831C25.75 4.60639 23.4593 2.72653 20.7794 1.61644C18.0994 0.506355 15.1504 0.215906 12.3053 0.781822C9.46029 1.34774 6.84694 2.7446 4.79577 4.79577C2.7446 6.84694 1.34774 9.46029 0.781822 12.3053C0.215906 15.1504 0.506355 18.0994 1.61644 20.7794C2.72653 23.4593 4.60639 25.75 7.01831 27.3616C9.43023 28.9732 12.2659 29.8333 15.1667 29.8333C18.4244 29.8402 21.5892 28.7487 24.15 26.735L32.1983 34.8017C32.5436 35.1469 33.0118 35.3408 33.5 35.3408C33.9882 35.3408 34.4564 35.1469 34.8017 34.8017C35.1469 34.4564 35.3408 33.9882 35.3408 33.5C35.3408 33.0118 35.1469 32.5436 34.8017 32.1983ZM7.39334 23.0317C5.57256 21.2512 4.42597 18.8941 4.14919 16.3625C3.8724 13.831 4.48257 11.2818 5.8756 9.14994C7.26862 7.01807 9.35819 5.43558 11.7878 4.67247C14.2174 3.90935 16.8365 4.01288 19.1983 4.9654C21.5601 5.91791 23.5183 7.6604 24.7387 9.89558C25.9591 12.1308 26.3661 14.7201 25.8904 17.2219C25.4146 19.7237 24.0856 21.983 22.1299 23.6142C20.1743 25.2454 17.7132 26.1475 15.1667 26.1667C12.2503 26.1641 9.45426 25.0035 7.39334 22.94V23.0317Z"
+                  fill="#222221"
+                />
+              </svg>
+            </button>
+          </div>
+        </form> 
+  <!--  분류, 검색창 끝 -->
+
+        <div id="button-container">
+          <!-- 비동기식 list 조회 -->
+          <button id="align-see" onclick="filterFreeView()">조회순</button>
+          |
+          <button id="align-new" onclick="window.location.href='/hellomentor/freelist'">최신순</button>
+          <input type="hidden" id="views" name="views" th:value="1" />
+        </div>
+        
+	<script>
+	        function filterFreeView() {
+	            // 입력값 가져오기
+	            var freeValue  = document.getElementById('views').value;
+	
+	            // 값과 함께 URL로 이동
+	            window.location.href = '/hellomentor/freelist?views=' + encodeURIComponent(freeValue);
+	        }
+	    </script>
+         <!-- 핫 게시글 -->
+        <table align="center" id="hot-area">
+          <thead>
+            <tr>
+              <th width="150">작성자</th>
+              <th width="550">제목</th>
+              <th width="70">조회수</th>
+              <th width="70">추천수</th>
+            </tr>
+          </thead>
+          <tbody>
+			<tr th:each="item2 : ${combinedList2}" class="movingDetailFree">
+              <td th:text="${item2[0].userNo}">사용자 ID</td>
+             <td width="550" th:text="${item2[0].postTitle}">제목</td>
+              <td th:text="${item2[0].views}">조회수</td>
+              <td th:text="${item2[1].upVotes}">추천수</td>
+              <input type="hidden" name="postNo" th:value="${item2[0].postNo}" />
+            </tr>
+          </tbody>
+        </table>
+        <!-- 핫 게시글 끝 -->
+
+        <!-- 일반 게시글 -->
+        
+        <table align="center" id="free-area">
+          <tbody>
+        	<tr th:if="${#lists.isEmpty(combinedList)}">
+				<td width="840">글이 존재하지 않습니다</td>
+			</tr>
+			<tr th:each="item : ${combinedList}"  class="movingDetailFree">
+              <td width="150" th:text="${item[0].userNo}">사용자 ID</td>
+              <td width="550" th:text="${item[0].postTitle}">제목</td>
+              <td width="70" th:text="${item[0].views}">조회수</td>
+              <td width="70" th:text="${item[1].upVotes}">추천수</td>
+              <input type="hidden" name="postNo" th:value="${item[0].postNo}" />
+            </tr>
+          </tbody>
+        </table>
+        <!-- 일반 게시글 끝 -->
+<script>
+	    document.addEventListener("DOMContentLoaded", function () {
+	        // 각 <tr> 요소에 대한 클릭 이벤트 리스너 추가
+	        var rows = document.querySelectorAll(".movingDetailFree");
+	        rows.forEach(function (row) {
+	            row.addEventListener("click", function () {
+	                // 해당 행의 데이터를 가져와서 URL을 생성
+	                 var postNoInput = row.querySelector("input[type=hidden][name='postNo']");
+	           		 var postNo = postNoInput.value;
+	          		var url = "/hellomentor/freedetail?fno=" + postNo;
+	                // 페이지 이동
+	                window.location.href = url;
+	            });
+	        });
+	    });
+	</script>
+			
+        <div id="move-to-insert">
+        	<button th:onclick="|window.location.href='/hellomentor/freeinsert'|">글 작성</button>
+        </div>
+
+        <!--페이징바-->
+         <div class="pagination">
+				<ul>
+					<li th:if="${currentPage > 1}"><a
+						th:href="@{${'/freelist?page=' + (currentPage - 1) + (freekind != null ? '&freekind=' + freekind : '') + (keyword != null ? '&keyword=' + keyword : '')+ (views != null ? '&views=' + views : '')}}">이전</a>
+					</li>
+					<li
+						th:each="page, i : ${#numbers.sequence((currentPage - 5 < 1 ? 1 : currentPage - 5), (currentPage + 4 > totalPages ? totalPages : currentPage + 4))}"
+						th:classappend="${page == currentPage} ? 'active' : ''"><a
+						th:href="@{${'/freelist?page=' + page + (freekind != null ? '&freekind=' + freekind : '') + (keyword != null ? '&keyword=' + keyword : '')+ (views != null ? '&views=' + views : '')}}"
+						th:text="${page}"></a></li>
+					<li th:if="${currentPage < totalPages}"><a
+						th:href="@{${'/freelist?page=' + (currentPage + 1) + (freekind != null ? '&freekind=' + freekind : '') + (keyword != null ? '&keyword=' + keyword : '')+ (views != null ? '&views=' + views : '')}}">다음</a>
+					</li>
+				</ul>
+			</div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#search-btn").mouseenter(function () {
+          $("#search-btn>svg").addClass("animate__animated animate__swing");
+        });
+
+        $("#search-btn").mouseleave(function () {
+          $("#search-btn>svg").removeClass("animate__animated animate__swing");
+        });
+      });
+    </script>
+    
+    <div th:insert="common/footer :: footer"></div>
+    
+    
+  </body>
+</html>

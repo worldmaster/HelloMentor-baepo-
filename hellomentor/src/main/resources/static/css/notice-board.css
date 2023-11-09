@@ -1,0 +1,192 @@
+/*분류, 검색창 시작*/
+#kind-search {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 800px;
+}
+
+/*분류*/
+#ntkind {
+    padding-left: 10px;
+    width: 160px;
+    height: 32px;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    margin-right: 10px;
+}
+
+
+/* 검색창 */
+#keyword {
+    padding-left: 10px;
+    width: 280px;
+    height: 32px;
+    border-color: rgb(223, 219, 219);
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: none;
+    border: 1px solid rgb(231, 230, 230);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    margin-right: 10px;
+
+}
+
+
+#search-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn:hover #search-logo {
+    fill: #40E0D0;
+}
+
+/*분류, 검색창 끝*/
+
+
+
+.trashbtn {
+    background-color: white;
+    width: 40px;
+}
+
+.trash-logo:hover {
+    cursor: pointer;
+}
+
+.trash-logo:hover path {
+    stroke: red;
+}
+
+
+
+
+
+/*게시판 글 시작*/
+#notice-area {
+    margin-top: 40px;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    font-size: 17px;
+
+}
+
+#notice-area tbody td:nth-child(1) {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#notice-area tbody td:nth-child(2) {
+    font-family: "bd";
+    cursor: pointer;
+}
+
+#notice-area tbody td:nth-child(3) {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#notice-area tbody tr {
+    background-color: #dff6ed;
+    height: 44px;
+    transition: background-color 0.05s ease-in-out, box-shadow 0.2s ease-in-out;
+    /* 그림자 효과에 대한 트랜지션 추가 */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    /* 그림자 효과 추가 */
+
+}
+
+#notice-area tbody tr:hover {
+    background: #48917A;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* 호버 상태에서 더 강한 그림자 효과 추가 */
+}
+
+#notice-area>tbody>tr>td {
+    text-align: center;
+}
+
+/*게시판 글 끝*/
+
+
+
+
+
+
+
+/*글작성 버튼*/
+#move-to-insert {
+    width: 900px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    margin-right : 50px;
+}
+
+#move-to-insert>button {
+    height: 36px;
+    width: 114px;
+    background-color: #48917A;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    font-size: 18px;
+    font-family: "bd";
+}
+
+#move-to-insert>button:hover {
+    color: white;
+}
+
+/*글작성 버튼 끝*/
+
+
+
+
+
+/* 페이징바 */
+.pagination ul li {
+	
+	padding: 7px 12px;
+ 	margin-right: 10px; /* 버튼 간격 조정 */
+    margin-top: 20px;
+    border: none;
+    background-color: white;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid rgb(226, 219, 219);
+     display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+
+
+.pagination ul li:hover {
+    background-color: #48917A;
+    color: #fff;
+}
+.pagination ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+ .pagination ul li:last-child {
+     margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+ }
+    .pagination ul li a {
+     color: black; /* 글자 색상을 검정색으로 설정 */
+     text-decoration: none; /* 밑줄 제거 */
+ }
+/* 페이징바 끝 */

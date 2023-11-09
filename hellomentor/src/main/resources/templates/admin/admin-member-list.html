@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-회원관리</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link th:href="@{/css/admin-member-list-style.css}" type="text/css" rel="stylesheet" />
+    <link 
+    th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+    rel="stylesheet" 
+    />
+
+    
+  </head>
+  <body>
+     <div th:insert="common/header :: header"></div>
+  
+    <div class="content">
+      <div class="sideMenuBar">
+        <div class="sideMenus">
+          <div class="sideMenu"><a th:href="@{/sideMember}">회원관리</a></div>
+            <div class="sideMenu"><a th:href="@{/inquirylist}">문의관리</a></div>
+            <div class="sideMenu"><a th:href="@{/admin/memberReport}">신고관리</a></div>
+            <div class="sideMenu"><a th:href="@{/noticelist}">공지사항</a></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="member-list-wrap">
+          <div class="member-title">회원 관리</div>
+          
+        <form action="/hellomentor/admin/sideMemberList" method="get">
+        <div class="member-searchbar">
+        <select id="search-option" name="searchOption">
+            <option value="id">아이디</option>
+            <option value="name">이름</option>
+        </select>
+        <input type="text" id="keyword" name="keyword" />
+        <button type="submit" id="search-btn">
+                
+       
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                >
+                  <path
+                    id="search-logo"
+                    d="M34.8017 32.1983L26.735 24.15C28.7487 21.5892 29.8402 18.4244 29.8333 15.1667C29.8333 12.2659 28.9732 9.43023 27.3616 7.01831C25.75 4.60639 23.4593 2.72653 20.7794 1.61644C18.0994 0.506355 15.1504 0.215906 12.3053 0.781822C9.46029 1.34774 6.84694 2.7446 4.79577 4.79577C2.7446 6.84694 1.34774 9.46029 0.781822 12.3053C0.215906 15.1504 0.506355 18.0994 1.61644 20.7794C2.72653 23.4593 4.60639 25.75 7.01831 27.3616C9.43023 28.9732 12.2659 29.8333 15.1667 29.8333C18.4244 29.8402 21.5892 28.7487 24.15 26.735L32.1983 34.8017C32.5436 35.1469 33.0118 35.3408 33.5 35.3408C33.9882 35.3408 34.4564 35.1469 34.8017 34.8017C35.1469 34.4564 35.3408 33.9882 35.3408 33.5C35.3408 33.0118 35.1469 32.5436 34.8017 32.1983ZM7.39334 23.0317C5.57256 21.2512 4.42597 18.8941 4.14919 16.3625C3.8724 13.831 4.48257 11.2818 5.8756 9.14994C7.26862 7.01807 9.35819 5.43558 11.7878 4.67247C14.2174 3.90935 16.8365 4.01288 19.1983 4.9654C21.5601 5.91791 23.5183 7.6604 24.7387 9.89558C25.9591 12.1308 26.3661 14.7201 25.8904 17.2219C25.4146 19.7237 24.0856 21.983 22.1299 23.6142C20.1743 25.2454 17.7132 26.1475 15.1667 26.1667C12.2503 26.1641 9.45426 25.0035 7.39334 22.94V23.0317Z"
+                    fill="#222221"
+                  />
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="member-list">
+            <table id="member-list">
+              <thead>
+                <tr>
+                  <th width="50px">NO.</th>
+                  <th width="150px">아이디</th>
+                  <th width="150px">이름</th>
+                  <th width="100px">멘토/멘티</th>
+                  <th width="100px">회원상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="member : ${sideMember}" th:onclick="'javascript:redirectToMemberDetail(\'' + ${member.userNo} + '\');'">
+                <td th:text="${member.userNo}"></td>
+                <td th:text="${member.userId}"></td>
+                <td th:text="${member.userName}"></td>
+                <td th:switch="${member.memberType}">
+                              <span th:case="'E'">멘티</span>
+                             <span th:case="'O'">멘토</span>
+                              </td>
+                <td th:switch="${member.status}">
+                              <span th:case="'Y'">활동회원</span>
+                             <span th:case="'N'">탈퇴회원</span>
+                              </td>
+                <!-- 다른 필드들을 추가하세요 -->
+               </tr>
+              </tbody>
+            </table>
+          </div>
+   
+
+<div class="pagination">
+    <ul>
+        <li th:if="${currentPage > 1}">
+            <a th:href="@{${'/admin/sideMemberList?page=' + (currentPage - 1) + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}">이전</a>
+        </li>
+       <li th:each="page, i : ${#numbers.sequence((currentPage - 5 < 1 ? 1 : currentPage - 5), (currentPage + 4 > totalPages ? totalPages : currentPage + 4))}"
+        th:classappend="${page == currentPage} ? 'active' : ''">
+            <a th:href="@{${'/admin/sideMemberList?page=' + page + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}" th:text="${page}"></a>
+        </li>
+        <li th:if="${currentPage < totalPages}">
+            <a th:href="@{${'/admin/sideMemberList?page=' + (currentPage + 1) + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}">다음</a>
+        </li>
+    </ul>
+</div> 
+
+
+    <script>
+      $(document).ready(function () {
+        $("#search-btn").mouseenter(function () {
+          $("#search-btn>svg").addClass("animate__animated animate__swing");
+        });
+
+        $("#search-btn").mouseleave(function () {
+          $("#search-btn>svg").removeClass("animate__animated animate__swing");
+        });
+      });
+    </script>
+    
+
+     <script th:inline="javascript">
+        var DetailUrl = /*[[@{/memberDetail}]]*/'';
+    </script>
+   
+    <script>
+        function redirectToMemberDetail(userNo) {
+            var url = DetailUrl + '?userNo=' + userNo;
+            window.location.href = url;
+        }
+    </script>
+ 
+  </body>
+</html>

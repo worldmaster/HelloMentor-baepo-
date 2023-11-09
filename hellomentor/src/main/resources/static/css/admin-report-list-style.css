@@ -1,0 +1,241 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    height: 900px;
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    border: 1px solid lightgray;
+}
+
+.sideMenuBar {
+    border-right: 1px solid lightgray;
+    height: 900px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px 40px 432px 40px;
+}
+
+.sideMenus {
+    width: 80px;
+    height: 348px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+}
+
+.sideMenu>a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.sideMenu>a:hover {
+    color: #40E0D0;
+     font-family: "bd";
+}
+
+.section {
+    width: 1000px;
+    height: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.report-list-wrap {
+    width: 800px;
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.report-title {
+    width: 600px;
+    height: 40px;
+    margin-top: 80px;
+    font-size: 40px;
+    font-family: "bd";
+}
+
+.list-order {
+    margin-top: 10px;
+    width: 600px;
+    height: 20px;
+    display: flex;
+    justify-content: right;
+    font-size: 20px;
+}
+
+#old-order {
+    margin-left: 20px;
+}
+
+#new-order:hover {
+    cursor: pointer;
+    color: #40E0D0;
+}
+
+#old-order:hover {
+    cursor: pointer;
+    color: #40E0D0;
+}
+
+.report-accept {
+    width: 600px;
+    height: 32px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 20px;
+}
+
+/* 토글버튼 */
+
+.wrap {
+    margin-left: 20px;
+}
+
+.wrap .button {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    border-radius: 25px;
+    background-color: #48917A;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.wrap .button h3 {
+    margin-left: 10px;
+    line-height: 50px;
+    color: #fff;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+#check {
+    display: none;
+}
+
+.wrap .button .inside {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    transform: translateY(-50%);
+    transition: all 0.2s;
+}
+
+.wrap input:checked~label .button {
+    background-color: #40E0D0;
+}
+
+.wrap input:checked~label .button h3 {
+    opacity: 1;
+}
+
+.wrap input:checked~label .button .inside {
+    left: 35px;
+}
+
+.report-list {
+    width: 800px;
+    height: 600px;
+    margin-top: 20px;
+}
+
+#report-list {
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+}
+
+#report-list>thead {
+    font-size: 20px;
+}
+
+#report-list>tbody>tr>td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+#report-list>tbody>tr>td:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+#report-list>tbody>tr {
+    background-color: #DFF6ED;
+    height: 40px;
+    font-size: 20px;
+}
+
+#report-list>tbody>tr:hover {
+    background-color: #48917A;
+    color: white;
+    cursor: pointer;
+}
+
+.paging-area button {
+    padding: 7px 12px;
+    margin: 30px 2px;
+    border: none;
+    background-color: white;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid rgb(226, 219, 219);
+    font-family: "bd";
+
+}
+
+.paging-area button.active {
+    background-color: #48917A;
+    color: #fff;
+}
+
+.paging-area button:hover {
+    background-color: #48917A;
+    color: #fff;
+}
+
+.pagination ul {
+    list-style: none; /* 블릿 기호 제거 */
+    padding: 0; /* 리스트의 패딩 제거 */
+    margin: 0; /* 리스트의 마진 제거 */
+}
+
+.pagination li {
+    display: inline; /* 항목을 가로로 나열 */
+    margin-right: 10px; /* 항목 사이의 간격을 조절할 수 있음 */
+}
+
+.pagination a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    padding: 5px 10px; /* 링크 내용에 패딩 추가 (선택 사항) */
+    background-color: #f2f2f2; /* 배경색 설정 (선택 사항) */
+    color: #333; /* 텍스트 색상 설정 (선택 사항) */
+}
+
+.pagination a:hover {
+    background-color: #ddd; /* 마우스 오버 시 배경색 변경 (선택 사항) */
+}
+.pagination li.active a {
+    background-color: #ddd; /* 현재 페이지 버튼 배경색 변경 */
+    color: #fff; /* 현재 페이지 버튼 텍스트 색상 변경 */
+}

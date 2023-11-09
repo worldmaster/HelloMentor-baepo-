@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자유게시판_글작성</title>
+    <link  th:href="@{/css/normal-frame.css}" rel="stylesheet" />
+    <link  th:href="@{/css/free.css}" rel="stylesheet" />
+    
+   <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+ 	 rel="stylesheet" />
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+  </head>
+  <body>
+  
+  <div th:insert="common/header :: header"></div>
+  
+    <div class="content">
+      <div class="section">
+        <div class="title">자유게시판</div>
+
+         <form id="freeForm" th:action="@{/freeupdate}" method="post"  enctype="multipart/form-data"> 
+          <!-- 회원가입form안에.txt -->
+             <input type="hidden" name="postNo" th:value="${postNo}" />
+          <table id="free-table">
+            <tr>
+              <th>제목</th>
+              <td>
+                <input
+                  type="text"
+                  id="free-title"
+                  name="postTitle"
+                  placeholder="제목을 입력하세요"
+                  required
+                  th:value="${selectedPost.postTitle}"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <th>내용</th>
+              <td>
+                <textarea
+                  id="free-content"
+                  name="postContent"
+                  required
+                  placeholder="내용을 입력하세요"
+                  th:text="${selectedPost.postContent}"
+                ></textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <th  style="vertical-align: top;">첨부파일</th>
+              <td >
+                <div class="form-group" id="file-list">
+		        <a href="#this" onclick="addFile()" id="file-plus">파일추가</a>
+		        </div>
+		         <div th:each="attachList : ${attachList}">
+		          <a th:href="@{${attachList.filePath} + ${attachList.changeName}}" th:download="${attachList.originName}"> 
+				     <span th:text="${attachList.originName}"  id='uploaded-file'></span>
+				     </a>
+				     <a href='#this' name='file-delete' id='uploaded-delete' class="delete-image" th:attr="data-attachmentid=${attachList.attachmentId}"  onclick="deleteAttachment(this)">삭제</a>
+				</div>
+				
+              </td>
+            </tr>
+          </table>
+          <div align="center">
+            <button type="reset" id="free-back">취소</button>
+       
+            <!-- 수정시 -->
+            <button type="submit" id="free-change">수정</button> 
+          </div>
+         </form> 
+      </div>
+    </div>
+    
+    <div th:insert="common/footer :: footer"></div>
+    
+  
+    <script>
+    //var deletedAttachmentIds = [];
+
+    function deleteAttachment(ele) {
+        // 이미 삭제된 이미지인지 확인하고 배열에 추가
+        /* if (!deletedAttachmentIds.includes(attachmentId)) {
+            deletedAttachmentIds.push(attachmentId);
+        } */
+        const input = document.createElement("input");
+        input.setAttribute('type','hidden');
+        input.setAttribute('name','deletedAttachmentIds');
+        input.value = ele.dataset.attachmentid;
+        
+        const form = document.querySelector("#freeForm");
+        form.append(input);
+        
+        /* <input type="hidden" name="deletedAttachmentIds" th:value="${deletedAttachmentIds}">
+        // hidden input 엘리먼트를 사용하여 deletedAttachmentIds 값을 폼 데이터로 업데이트
+        var hiddenInput = document.querySelector('input[name="deletedAttachmentIds"]');
+        if (hiddenInput) {
+            hiddenInput.value = JSON.stringify(deletedAttachmentIds);
+        } */
+    }
+
+</script>
+    
+    
+    
+     <script type="text/javascript">
+    $(document).ready(function() {
+        $("a[name='file-delete']").on("click", function(e) {
+            e.preventDefault();
+            deleteFile($(this));
+        });
+    })
+ 
+    function addFile() {
+        var str = "<div class='file-group'><input type='file' id='free-file' name='upfile'><a href='#this' name='file-delete' id='file-delete'>삭제</a></div>";
+        $("#file-list").append(str);
+        $("a[name='file-delete']").on("click", function(e) {
+            e.preventDefault();
+            deleteFile($(this));
+        });
+    }
+ 
+    function deleteFile(obj) {
+        obj.parent().remove();
+    }
+</script>
+
+    <script th:inline="javascript">
+		    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+		    var message = /*[[${message}]]*/ '';
+		
+		    // 메시지를 사용하여 alert를 생성합니다.
+		    if (message) {
+		        alert(message);
+		    }
+		</script>
+    
+  </body>
+</html>

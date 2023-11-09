@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'bd';
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Bd.eot');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Bd.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'rg';
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.eot');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'th';
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Th.eot');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Th.woff') format('woff');
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "rg";
+    box-sizing: border-box;
+}
+
+footer {
+    width: 1200px;
+    height: 440px;
+    margin: auto;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+}
+
+.footer-wrap {
+    margin: auto;
+    width: 1000px;
+    height: 400px;
+}
+
+.footer-navi {
+    width: 100%;
+    height: 300px;
+    display: flex;
+}
+
+.footer-content1 {
+    width: 428px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-logo-container {
+    width: 428px;
+    height: 61px;
+    margin-top: 55px;
+}
+
+.footer-logo-img {
+    height: 61px;
+    object-fit: contain;
+}
+
+.footer-logo-container:hover {
+    cursor: pointer;
+}
+
+.social-bar {
+    width: 220px;
+    height: 48px;
+    margin-top: 90px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-content2 {
+    width: 572px;
+    height: 300px;
+    display: flex;
+
+}
+
+.footer-menu {
+    width: 180px;
+    height: 240px;
+    margin-top: 12px;
+}
+
+.footer-menu1 {
+    margin-left: 60px;
+}
+
+.footer-menu>ul {
+    list-style-type: none;
+    font-size: 20px;
+    font-family: "bd";
+}
+
+.footer-menu>ul>li {
+    margin-top: 20px;
+    margin-left: 8px;
+}
+
+
+.footer-menu a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.footer-menu a:hover {
+    color: #40E0D0;
+}
+
+.copyright {
+
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#copy-content {
+    width: 95%;
+    height: 80px;
+}
+
+#copy-content>p {
+    font-size: 10px;
+    line-height: 20px;
+}

@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'rg';
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.eot');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.woff') format('woff');
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "rg";
+    box-sizing: border-box;
+}
+
+.content {
+    margin: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: radial-gradient(circle,
+            rgba(232, 255, 252, 1.0) 35%,
+            rgba(144, 255, 241, 1.0) 80%);
+}
+
+.logo-container {
+    margin-top: 40px;
+}
+
+.logo-container>img {
+    width: 300px;
+}
+
+.logo-container:hover {
+    cursor: pointer;
+}
+
+.choose-wrap {
+    margin-top: 100px;
+    width: 1040px;
+    height: 590px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.choose1 {
+    background-color: white;
+    border: 1px solid rgb(226, 219, 219);
+    width: 500px;
+    height: 590px;
+    border-radius: 10px;
+}
+
+.choose2 {
+    background-color: white;
+    border: 1px solid rgb(226, 219, 219);
+    width: 500px;
+    height: 590px;
+    border-radius: 10px;
+}
+
+.choose {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.choose:hover {
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+
+.choose-title {
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.choose-text {
+    margin-top: 40px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 28px;
+}

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HelloMentor-멘토링</title>
+    <link th:href="@{/css/matching-list.css}" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div th:insert="common/header :: header"></div>
+<div class="content">
+    <div class="section">
+        <th:block th:if="${loginUser.memberType == 'O'}">
+            <div class="title">멘티링</div>
+        </th:block>
+
+        <!-- 멘티 로그인의 경우 해당 title로 교체 -->
+        <th:block th:if="${loginUser.memberType == 'E'}">
+            <div class="title">멘토링</div>
+        </th:block>
+
+
+        <div class="search-option">
+            <div>
+                <form action="/hellomentor/mentoring" method="get">
+                    <div class="search-bar">
+                        <select id="search-option" name="searchOption">
+                            <th:block th:if="${loginUser.memberType == 'E'}">
+                            <option value="title">제목</option>
+                            <option value="codeLang">언어</option>
+                            </th:block>
+
+                            <th:block th:if="${loginUser.memberType == 'O'}">
+                                <option value="codeLang">언어</option>
+                            </th:block>
+                        </select>
+                        <input type="text" id="keyword" name="keyword"/>
+                        <button type="submit" id="search-btn">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36"
+                                 fill="none">
+                                <path id="search-logo"
+                                      d="M34.8017 32.1983L26.735 24.15C28.7487 21.5892 29.8402 18.4244 29.8333 15.1667C29.8333 12.2659 28.9732 9.43023 27.3616 7.01831C25.75 4.60639 23.4593 2.72653 20.7794 1.61644C18.0994 0.506355 15.1504 0.215906 12.3053 0.781822C9.46029 1.34774 6.84694 2.7446 4.79577 4.79577C2.7446 6.84694 1.34774 9.46029 0.781822 12.3053C0.215906 15.1504 0.506355 18.0994 1.61644 20.7794C2.72653 23.4593 4.60639 25.75 7.01831 27.3616C9.43023 28.9732 12.2659 29.8333 15.1667 29.8333C18.4244 29.8402 21.5892 28.7487 24.15 26.735L32.1983 34.8017C32.5436 35.1469 33.0118 35.3408 33.5 35.3408C33.9882 35.3408 34.4564 35.1469 34.8017 34.8017C35.1469 34.4564 35.3408 33.9882 35.3408 33.5C35.3408 33.0118 35.1469 32.5436 34.8017 32.1983ZM7.39334 23.0317C5.57256 21.2512 4.42597 18.8941 4.14919 16.3625C3.8724 13.831 4.48257 11.2818 5.8756 9.14994C7.26862 7.01807 9.35819 5.43558 11.7878 4.67247C14.2174 3.90935 16.8365 4.01288 19.1983 4.9654C21.5601 5.91791 23.5183 7.6604 24.7387 9.89558C25.9591 12.1308 26.3661 14.7201 25.8904 17.2219C25.4146 19.7237 24.0856 21.983 22.1299 23.6142C20.1743 25.2454 17.7132 26.1475 15.1667 26.1667C12.2503 26.1641 9.45426 25.0035 7.39334 22.94V23.0317Z"
+                                      fill="#222221"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+
+                <div class="order-option">
+                    <a href="">신규가입순</a>
+                    <span>|</span>
+                    <a href="">최근등록순</a>
+                </div>
+            </div>
+        </div>
+
+
+        <input type="hidden" id="memberType" th:value="${session.loginUser.memberType}"/>
+
+        <input type="hidden" id="token" th:value="${session.loginUser.token}"/>
+
+        <input type="hidden" id="token1" th:value="100"/>
+
+        <div class="list-section">
+            <div class="item-list">
+                <th:block th:if="${loginUser.memberType == 'E'}">
+                    <th:block th:each="mentor : ${list}">
+                        <div class="list-item" data-post-id="${mentor.regisNo}">
+                            <!-- 멘티 로그인의 경우 아래 정보가 뜬다-->
+                            <p th:text="${mentor.title}"></p>
+                            <p th:text="${mentor.member.userId}"></p>
+                            <p th:text="${mentor.member.introduction}"></p>
+                            <p th:text="${mentor.codeLang}"></p>
+                            <input type="hidden" th:value="${mentor.regisNo}"/>
+                            <input type="hidden" th:value="${mentor.userNo}"/>
+                        </div>
+                    </th:block>
+                </th:block>
+
+                <th:block th:if="${loginUser.memberType == 'O'}">
+                    <th:block th:each="mentor : ${list}">
+                        <div class="list-item">
+                            <!-- 멘토 로그인의 경우 아래 정보가 뜬다-->
+                            <p th:text="${mentor.member.userId}"></p>
+                            <p th:text="${mentor.member.introduction}"></p>
+                            <p th:text="${mentor.codeLang}"></p>
+                            <input type="hidden" id="post-no" th:value="${mentor.regisNo}"/>
+                            <input type="hidden" id="user-no" th:value="${mentor.userNo}"/>
+                        </div>
+                    </th:block>
+                </th:block>
+
+
+            </div>
+        </div>
+
+
+        <div class="write-my-info">
+            <button class="wmi-btn" onclick="location.href='/hellomentor/mentoring/insert'">내 정보 작성</button>
+            <!-- 작성을 완료한 회원의 경우에만 내 정보 수정 -->
+            <!-- <button class="wmi-btn" onclick="">내 정보 수정</button> -->
+        </div>
+
+
+        <div class="pagination">
+            <ul>
+                <li th:if="${currentPage > 1}">
+                    <a
+                            th:href="@{${'/mentoring?page=' + (currentPage - 1) + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}">이전</a>
+                </li>
+                <li th:each="page, i : ${#numbers.sequence((currentPage - 5 < 1 ? 1 : currentPage - 5), (currentPage + 4 > totalPages ? totalPages : currentPage + 4))}"
+                    th:classappend="${page == currentPage} ? 'active' : ''">
+                    <a th:if="${page >= 1 and page <= totalPages}"
+                       th:href="@{${'/mentoring?page=' + page + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:if="${currentPage < totalPages}">
+                    <a
+                            th:href="@{${'/mentoring?page=' + (currentPage + 1) + (searchOption != null ? '&searchOption=' + searchOption : '') + (keyword != null ? '&keyword=' + keyword : '')}}">다음</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+<!--첫번째 모달창 이거는 또 다른 데이터가 나와야됨.-->
+<div id="main-modal" class="modal">
+    <div class="modal-content">
+    </div>
+</div>
+
+
+<script>
+    //모달창
+    document.addEventListener("DOMContentLoaded", function () {
+        const listItems = document.querySelectorAll(".list-item");
+        const mainModal = document.getElementById("main-modal");
+        const payBtn = document.querySelectorAll(".pay-btn");
+        const suggestBtn = document.querySelector(".suggest-btn");
+
+        listItems.forEach((item) => {
+            console.log("dd");
+            item.addEventListener("click", function () {
+                let postNo = item.querySelector("input").value;
+                let userNo = item.querySelector("input").nextElementSibling.value;
+                console.log(userNo);
+                console.log(postNo);
+                openModalWithPostNo(postNo, userNo);
+            });
+        });
+
+        function openModalWithPostNo(postNo, userNo) {
+            // AJAX 요청을 보내어 postId를 컨트롤러에 전달하고 데이터를 조회
+
+            $.ajax({
+                url: `/hellomentor/detail/mentoring`, // URL을 수정하여 postNo를 전달
+                type: "GET",
+                data: {postNo: postNo}, //데이터를 본문에 포함
+                dataType: 'json',
+                success: function (data) {
+                    // AJAX 요청이 성공하면 데이터를 받아와서 상세 모달에 적절하게 렌더링
+                    console.log(data);
+                    const member = data.member;
+                    const mentor = data.mentor;
+                    const profile = data.profile;
+
+
+                    // 이전 데이터를 지우고 새로운 HTML을 생성
+                    let html = "";
+                    const memberType = document.getElementById("memberType");
+                    console.log(memberType.value);
+                    if (memberType.value === 'O') {
+                        html += `<div class="detail_user">
+                        <div class="detail-section1">
+                            <div class="profile-img-container">
+                              <img src="${data.profile.filePath}${data.profile.changeName}"/>
+
+                            </div>
+                            <div class="infomation">
+                                <div>${data.member.userId}</div>
+                                <button class="Ofollow-button">팔로우</button>
+                            </div>
+                        </div>
+                        <div class="introduce-line">한줄 자기소개</div>
+                        <div class="detail-section2">
+                            <!-- 멘토로 로그인하면 아래 정보가 뜬다 -->
+                            <span>원하는 멘토링</span>
+                            <div>${data.mentor.content1}</div>
+                            <span>멘티 학력 정보 및 개발 능력</span>
+                            <div>${data.mentor.content2}</div>
+                            <span>멘티 자기소개</span>
+                            <div>${data.mentor.content3}</div>
+                        </div>
+                            <button class="suggest-btn">제안하기</button>
+                    </div>`;
+                    } else if (memberType.value === 'E') {
+                        html += `<div class="detail_user">
+                        <div class="detail-section1">
+                            <div class="profile-img-container">
+                      <img th:src="@{${data.profile.filePath} + ${data.profile.changeName}}"/>
+                            </div>
+                            <div class="infomation">
+                                <div>${data.member.userId}</div>
+                                <button class="Efollow-button">팔로우</button>
+                            </div>
+                        </div>
+                        <div class="introduce-line">${data.member.introduction}</div>
+                        <div class="detail-section2">
+                            <!-- 멘티로 로그인하면 아래 정보가 뜬다 -->
+                            <span>${data.mentor.userNo}</span>
+                            <span>${data.mentor.title}</span>
+                            <span>멘토 커리어</span>
+                            <div>${data.mentor.content1}</div>
+                            <span>멘토 학력 정보 및 개발 능력</span>
+                            <div>${data.mentor.content2}</div>
+                            <span>멘토 자기소개</span>
+                            <div>${data.mentor.content3}</div>
+                            <!-- 멘티 로그인 시 -->
+                        </div>
+
+                            <input type="hidden" id="user-no" th:value="${mentor.userNo}">
+                              <div id="pay-token" class="pay-token" name="payToken" value="100"><b>결제 토큰 | 100토큰 </b></div>
+                            <button class="pay-btn">결제하기</button>
+                    </div>`;
+
+                    }
+
+                    $(document).off('click', '.pay-btn'); // 이전 이벤트 핸들러 제거
+                    // 동적으로 생성된 버튼에 이벤트 핸들러 추가(결제)
+                    $(document).on('click', '.pay-btn', function (event) {
+                        event.stopPropagation();
+                        mainModal.style.display = "none";
+
+                        // 사용자에게 결제 여부를 묻는 확인 창을 띄웁니다.
+                        let userChoice1 = confirm("결제하시겠습니까?");
+
+                        if (userChoice1) {
+                            // 확인 버튼을 누른 경우
+                            // 토큰 가져오기 (로그인한 회원의 토큰)
+                            const tokenStr = document.getElementById("token").value;
+                            const token = parseInt(tokenStr, 10);
+
+                            // 토큰 가져오기 (계산해야 될 토큰)
+                            const tokenStr1 = document.getElementById("token1").value;
+                            const token1 = parseInt(tokenStr1, 10);
+
+                            if (token < token1) {
+                                // 사용자의 토큰이 부족한 경우
+                                let topUpChoice = confirm("토큰이 모자랍니다. 토큰을 충전 후 이용해주세요.");
+                            } else {
+                                console.log(postNo);
+                                console.log(userNo);
+                                console.log(token1);
+
+                                // AJAX 요청을 사용하여 데이터를 컨트롤러로 전송
+                                $.ajax({
+                                    url: '/hellomentor/payment', // 실제 컨트롤러의 엔드포인트
+                                    type: 'POST',
+                                    data: {
+                                        postNo: postNo,
+                                        userNo: userNo,
+                                        token1: token1
+                                        // 나중에 필요한 데이터를 여기에 추가할 수 있음
+                                    },
+                                    success: function (data) {
+                                        console.log(data);
+                                        alert("결제가 완료되었습니다.");
+                                        // 결제 정보를 보내고 회원 토큰 차감 컨트롤러에서 작업하면됨.
+                                    },
+                                    error: function () {
+                                        alert("결제 중 오류가 발생했습니다.");
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    $(document).off('click', '.suggest-btn'); // 이전 이벤트 핸들러 제거
+                    $(document).on('click', '.suggest-btn', function (event) {
+                        event.stopPropagation();
+                        mainModal.style.display = "none";
+                        console.log("제안직전");
+
+                        // 사용자에게 알람창을 보여주고 선택을 받습니다.
+                        let userChoice = confirm("제안하시겠습니까?");
+
+                        if (userChoice) {
+                            // 확인 버튼을 누른 경우
+                            console.log("제안완료");
+                            $.ajax({
+                                url: '/hellomentor/suggest', // 실제 컨트롤러의 엔드포인트
+                                type: 'POST',
+                                data: {
+                                    postNo: postNo,
+                                    userNo: userNo,
+                                    // 나중에 필요한 데이터를 여기에 추가할 수 있음
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    alert("제안이 완료되었습니다");
+                                    // 결제 정보를 보내고 회원 토큰 차감 컨트롤러에서 작업하면됨.
+                                },
+                                error: function () {
+                                    alert("제안 중 오류가 발생했습니다.");
+                                }
+                            });
+                        } else {
+                            // 취소 버튼을 누른 경우
+                            alert("제안을 취소했습니다.");
+                        }
+                    });
+
+
+                    $(document).ready(function () {
+                        // 멘토의 팔로우 상태 불러오기
+                        const mentorUserNo = 3; // 멘토의 userNo (임의로 지정, 실제로는 동적으로 설정해야 함)
+                        const mentorLocalStorageKey = `mentorFollowStatus_${mentorUserNo}`;
+                        const mentorFollowStatus = localStorage.getItem(mentorLocalStorageKey);
+
+                        if (mentorFollowStatus === "following") {
+                            // 멘토 팔로잉 상태로 변경
+                            $('.Ofollow-button').text("팔로잉").css("background-color", "#48917A");
+                        } else {
+                            // 멘토 팔로우 상태로 초기화
+                            $('.Ofollow-button').text("팔로우").css("background-color", "#DFF6ED");
+                        }
+
+                        // 멘티의 팔로우 상태 불러오기
+                        const menteeUserNo = 4; // 멘티의 userNo (임의로 지정, 실제로는 동적으로 설정해야 함)
+                        const menteeLocalStorageKey = `menteeFollowStatus_${menteeUserNo}`;
+                        const menteeFollowStatus = localStorage.getItem(menteeLocalStorageKey);
+
+                        if (menteeFollowStatus === "following") {
+                            // 멘티 팔로잉 상태로 변경
+                            $('.Efollow-button').text("팔로잉").css("background-color", "#48917A");
+                        } else {
+                            // 멘티 팔로우 상태로 초기화
+                            $('.Efollow-button').text("팔로우").css("background-color", "#DFF6ED");
+                        }
+                    });
+
+
+                    // 동적으로 생성된 버튼에 이벤트 핸들러 추가(팔로우)
+                    //멘토로 로그인 했을경우
+                    $(document).on('click', '.Ofollow-button', function (event) {
+                        const $this = $(this);
+                        // 버튼의 현재 텍스트 가져오기
+                        const buttonText = $this.text();
+
+                        console.log("awdwadawd");
+                        console.log(userNo);
+
+                        const localStorageKey = `mentorFollowStatus_${userNo}`;
+
+                        console.log(localStorageKey + "로컬스토리지");
+
+                        if (buttonText === "팔로우") {
+                            // "팔로잉"으로 변경
+                            $this.text("팔로잉");
+                            $this.css("background-color", "#48917A");
+                            console.log("팔로우", userNo);
+
+                            console.log(localStorageKey + "로컬스토리지");
+                            // 로컬 스토리지에 상태 저장
+                            localStorage.setItem("mentorFollowStatus", "following");
+
+                            $.ajax({
+                                url: '/hellomentor/follow', // 실제 컨트롤러의 엔드포인트
+                                type: 'POST',
+                                data: {
+                                    userNo: userNo //팔로우를 하는사람
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                },
+                                error: function () {
+
+                                }
+                            });
+
+                        } else if (buttonText === "팔로잉") {
+                            // "팔로우"로 변경
+                            $this.text("팔로우");
+                            $this.css("background-color", "#DFF6ED");
+                            // 로컬 스토리지에서 상태 제거
+                            localStorage.removeItem("mentorFollowStatus");
+
+                            console.log("언팔로우", userNo);
+
+                            $.ajax({
+                                url: '/hellomentor/unfollow', // 실제 컨트롤러의 엔드포인트
+                                type: 'POST',
+                                data: {
+                                    userNo: userNo //팔로우를 하는사람
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                },
+                                error: function () {
+
+                                }
+                            });
+                        }
+
+
+                    })
+
+                    //멘티로 로그인 했을경우
+                    $(document).on('click', '.Efollow-button', function (event) {
+                        const $this = $(this);
+                        // 버튼의 현재 텍스트 가져오기
+                        const buttonText = $this.text();
+                        if (buttonText === "팔로우") {
+                            // "팔로잉"으로 변경
+                            $this.text("팔로잉");
+                            $this.css("background-color", "#48917A");
+                            localStorage.setItem("menteeFollowStatus", "following");
+                            console.log("팔로우", userNo);
+
+                            $.ajax({
+                                url: '/hellomentor/follow', // 실제 컨트롤러의 엔드포인트
+                                type: 'POST',
+                                data: {
+                                    userNo: userNo //팔로우를 하는사람
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                },
+                                error: function () {
+
+                                }
+                            });
+
+                        } else if (buttonText === "팔로잉") {
+                            // "팔로우"로 변경
+                            $this.text("팔로우");
+                            $this.css("background-color", "#DFF6ED");
+                            localStorage.removeItem("menteeFollowStatus");
+                            console.log("언팔로우", userNo);
+
+                            $.ajax({
+                                url: '/hellomentor/unfollow', // 실제 컨트롤러의 엔드포인트
+                                type: 'POST',
+                                data: {
+                                    userNo: userNo //팔로우를 하는사람
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                },
+                                error: function () {
+
+                                }
+                            });
+                        }
+
+
+                    })
+
+
+                    // 모달 내용을 설정
+                    mainModal.querySelector(".modal-content").innerHTML = html;
+                    // 모달 내용을 보여줌
+                    mainModal.style.display = "grid";
+                },
+                error: function () {
+                    alert("데이터를 불러오는데 실패했습니다.");
+                },
+            });
+        }
+
+        // 모달 외부를 클릭하면 모달창이 닫히도록 설정
+        window.addEventListener("click", function (event) {
+            if (event.target === mainModal) {
+                mainModal.style.display = "none";
+            }
+        });
+    });
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#search-btn").mouseenter(function () {
+            $("#search-btn>svg").addClass("animate__animated animate__swing");
+        });
+
+        $("#search-btn").mouseleave(function () {
+            $("#search-btn>svg").removeClass("animate__animated animate__swing");
+        });
+
+        $(".list-item").mouseenter(function () {
+            $(this).addClass("animate__animated animate__pulse animate__faster");
+        });
+
+        $(".list-item").mouseleave(function () {
+            $(this).removeClass(
+                "animate__animated animate__pulse animate__faster"
+            );
+        });
+    });
+
+
+</script>
+
+
+</body>
+
+</html>

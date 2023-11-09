@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자식인_글작성_답변자</title>
+    <link  th:href="@{/css/normal-frame.css}" rel="stylesheet" />
+    <link  th:href="@{/css/knowledge-answer.css}" rel="stylesheet" />
+    
+       <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+  rel="stylesheet" />
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+  </head>
+  <body>
+  
+  <div th:insert="common/header :: header"></div>
+  
+ 
+    <div class="content">
+      <div class="section">
+        <div class="title">지식인</div>
+
+
+		
+        <form th:action="@{knowledgeanswerupdate}" method="post">
+          <!-- 회원가입form안에.txt -->
+          <input type="hidden" name="postNo" th:value="${postNo}" />
+          <input type="hidden" name="knowledgePostNo" th:value="${knowledgePostNo}" />
+          <table id="knowledge-table">
+            <tr>
+              <th>답변</th>
+              <td>
+                <textarea
+                  id="knowledge-content"
+                  name="postContent"
+                  required
+                  placeholder="내용을 입력하세요"
+                  th:text="${board.postContent}"
+                ></textarea>
+              </td>
+            </tr>
+          </table>
+          <div align="center">
+            <button type="button" id="knowledge-back">취소</button>
+             <button type="submit" id="knowledge-change">수정</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div th:insert="common/footer :: footer"></div>
+    
+    <script th:inline="javascript">
+		    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+		    var message = /*[[${message}]]*/ '';
+		
+		    // 메시지를 사용하여 alert를 생성합니다.
+		    if (message) {
+		        alert(message);
+		    }
+		</script>
+		
+  </body>
+</html>

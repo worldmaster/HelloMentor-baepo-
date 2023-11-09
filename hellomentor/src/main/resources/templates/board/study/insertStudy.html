@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelloMentor-스터디개설</title>
+  <link th:href="@{/css/insertStudy.css}" rel="stylesheet" />
+
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<div class="content">
+  <div class="study-build">
+    <div class="study-build-title">
+      <div id="study-build-title">스터디 개설</div>
+    </div>
+    <div class="study-form">
+      <form id="study-form" th:action="@{/study/insert}" method="post">
+        <div class="study-title">
+          <span>제목</span>
+          <input type="text" id="study-title" name="postTitle"/>
+        </div>
+        <div class="study-content">
+          <span>내용</span>
+          <textarea name="postContent" id="study-content"></textarea>
+        </div>
+        <div class="study-attch">
+          <span>정원</span>
+          <select id="study-member-count" name="people">
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+            <option value="5">5명</option>
+          </select>
+        </div>
+        <div class="report-btns">
+          <button type="button" onclick="" id="cancel-btn">취소</button>
+          <button type="submit" form="study-form" id="report-btn">작성</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+</body>
+<script th:inline="javascript">
+        var message = /*[[${message}]]*/ '';
+
+        if (message) {
+            alert(message);
+        }
+    </script>
+</html>

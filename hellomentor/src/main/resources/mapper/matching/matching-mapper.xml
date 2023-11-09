@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="matchingMapper">
+
+    <!-- mentoringResult resultMap -->
+    <resultMap id="mentoringResult" type="mentoring">
+        <id column="MENTOR_REGIS_NO" property="regisNo"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="TITLE" property="title"/>
+        <result column="CONTENT_1" property="content1"/>
+        <result column="CONTENT_2" property="content2"/>
+        <result column="CONTENT_3" property="content3"/>
+        <result column="CODE_LANG" property="codeLang"/>
+        <association property="member" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="mentoringResult2" type="mentoring">
+        <id column="MENTOR_REGIS_NO" property="regisNo"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="TITLE" property="title"/>
+        <result column="CONTENT_1" property="content1"/>
+        <result column="CONTENT_2" property="content2"/>
+        <result column="CONTENT_3" property="content3"/>
+        <result column="CODE_LANG" property="codeLang"/>
+    </resultMap>
+
+
+    <resultMap id="memberResultMap" type="Member">
+        <id column="USER_NO" property="userNo"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="INTRODUCTION" property="introduction"/>
+        <result column="MEMBER_TYPE" property="memberType"/>
+    </resultMap>
+
+    <resultMap id="profileResultMap" type="profile">
+        <result column="USER_NO" property="userNo"/>
+        <result column="FILE_CHANGE_NAME" property="changeName"/>
+        <result column="FILE_PATH" property="filePath"/>
+    </resultMap>
+
+    <resultMap id="matchingResult" type="matching">
+        <id column="MT_NO" property="matchNo"/>
+        <result column="MATCHING_REGIS_NO" property="matchingRegisNo"/>
+        <result column="MENTOR_REGIS_NO" property="mentorNo"/>
+        <result column="MENTEE_REGIS_NO" property="menteeNo"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_AT" property="createDate"/>
+    </resultMap>
+
+
+    <resultMap id="memberResultSet" type="member">
+        <id column="USER_NO" property="userNo"/>
+        <result column="USER_ID" property='userId'/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
+        <result column="ENROLL_DATE" property="enrollDate"/>
+        <result column="STATUS" property="status"/>
+        <result column="INTRODUCTION" property="introduction"/>
+        <result column="MEMBER_TYPE" property="memberType"/>
+        <result column="TOKEN" property="token"/>
+        <result column="GRADE" property="grade"/>
+    </resultMap>
+
+
+    <resultMap id="profileImgResultMap" type="profile">
+        <id column="ATTACHMENT_ID" property="attachmentId"/>
+        <result column="USER_NO" property='userNo'/>
+        <result column="FILE_ORIGIN_NAME" property="originName"/>
+        <result column="FILE_CHANGE_NAME" property="ChangeName"/>
+        <result column="FILE_PATH" property="filePath"/>
+        <result column="FILE_SIZE" property="fileSize"/>
+    </resultMap>
+
+
+
+
+    <!--전체게시글조회 리스트 -->
+    <select id="selectMentorList" parameterType="hashMap" resultMap="mentoringResult" useCache="false">
+        SELECT
+        M.MENTOR_REGIS_NO,M.USER_NO,O.USER_ID, O.INTRODUCTION, M.CODE_LANG
+        <if test='memberType.equals("E")'>
+            , M.TITLE
+        </if>
+        FROM MENTOR M
+        JOIN MEMBER O ON M.USER_NO = O.USER_NO
+        WHERE O.MEMBER_TYPE != #{memberType} AND O.MEMBER_TYPE != 'M'
+        <choose>
+            <when test="searchOption == 'codeLang'">
+                AND CODE_LANG LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="searchOption == 'title'">
+                AND M.TITLE LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="searchOption == 'id'">
+                AND O.USER_ID LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+
+        </choose>
+        ORDER BY M.MENTOR_REGIS_NO DESC
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+
+    <!-- selectStudyListCount-->
+    <select id="selectMentorListCount" parameterType="hashmap" resultType="int">
+        <choose>
+            <when test="memberType == 1">
+                <if test="searchOption == 'codeLang'">
+                    SELECT COUNT(*)
+                    FROM MENTOR M
+                    JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                    WHERE O.MEMBER_TYPE != 'E' AND O.MEMBER_TYPE != 'M'
+                    AND CODE_LANG LIKE CONCAT('%', #{keyword}, '%')
+                    ORDER BY M.MENTOR_REGIS_NO DESC
+                </if>
+                <if test="searchOption == 'title'">
+                    SELECT COUNT(*)
+                    FROM MENTOR M
+                    JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                    WHERE O.MEMBER_TYPE != 'E' AND O.MEMBER_TYPE != 'M'
+                    AND M.TITLE LIKE CONCAT('%', #{keyword}, '%')
+                    ORDER BY M.MENTOR_REGIS_NO DESC
+                </if>
+            </when>
+            <when test="memberType == 2">
+                <if test="searchOption == 'codeLang'">
+                    SELECT COUNT(*)
+                    FROM MENTOR M
+                    JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                    WHERE O.MEMBER_TYPE != 'O' AND O.MEMBER_TYPE != 'M'
+                    AND CODE_LANG LIKE CONCAT('%', #{keyword}, '%')
+                    ORDER BY M.MENTOR_REGIS_NO DESC
+                </if>
+                <if test="searchOption == 'id'">
+                    SELECT COUNT(*)
+                    FROM MENTOR M
+                    JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                    WHERE O.MEMBER_TYPE != 'O' AND O.MEMBER_TYPE != 'M'
+                    AND O.USER_ID LIKE CONCAT('%', #{keyword}, '%')
+                    ORDER BY M.MENTOR_REGIS_NO DESC
+                </if>
+            </when>
+        </choose>
+    </select>
+
+
+    <select id="getSideMentorList" resultMap="mentoringResult">
+        SELECT
+        <if test='memberType == "E"'>
+            M.MENTOR_REGIS_NO,M.USER_NO,O.USER_ID, O.INTRODUCTION, M.CODE_LANG, M.TITLE
+        </if>
+        <if test='memberType == "O"'>
+            M.MENTOR_REGIS_NO,M.USER_NO,O.USER_ID, O.INTRODUCTION, M.CODE_LANG
+        </if>
+        FROM MENTOR M
+        JOIN MEMBER O ON M.USER_NO = O.USER_NO
+        WHERE O.MEMBER_TYPE != #{memberType} AND O.MEMBER_TYPE != 'M'
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+
+    <select id="selectSListCount" parameterType="hashmap" resultType="int">
+        <choose>
+            <when test="memberType == 1">
+                <!-- 멘티로 로그인한 경우 -->
+                SELECT COUNT(*)
+                FROM MENTOR M
+                JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                WHERE O.MEMBER_TYPE = 'E'
+                ORDER BY M.MENTOR_REGIS_NO DESC
+            </when>
+            <when test="memberType == 2">
+                <!-- 멘토로 로그인한 경우 -->
+                SELECT COUNT(*)
+                FROM MENTOR M
+                JOIN MEMBER O ON M.USER_NO = O.USER_NO
+                WHERE O.MEMBER_TYPE = 'O'
+                ORDER BY M.MENTOR_REGIS_NO DESC
+            </when>
+        </choose>
+    </select>
+
+
+
+
+
+    <insert id="insertMentoring" parameterType="mentoring">
+        INSERT INTO MENTOR
+        (USER_NO,TITLE,CONTENT_1,CONTENT_2,CONTENT_3,CODE_LANG
+        )VALUES(
+        #{userNo},
+        #{title},
+        #{content1},
+        #{content2},
+        #{content3},
+        #{codeLang}
+        )
+    </insert>
+
+    <!--상세 모달 내용 조회 쿼리-->
+    <select id="getMemberByPostNo" parameterType="int" resultMap="memberResultSet">
+        SELECT * FROM MEMBER M
+        JOIN MENTOR O
+        ON M.USER_NO = O.USER_NO
+        WHERE O.MENTOR_REGIS_NO = #{postNo}
+    </select>
+
+    <select id="getProfileByPostNo" parameterType="int" resultMap="profileImgResultMap">
+        SELECT *
+        FROM PROFILE_IMG P
+        JOIN MENTOR O ON P.USER_NO = O.USER_NO
+        WHERE O.MENTOR_REGIS_NO = #{postNo}
+    </select>
+
+
+    <select id="getMentoringByPostNo" parameterType="int" resultMap="mentoringResult">
+        SELECT * FROM MENTOR O
+        JOIN MEMBER M
+        ON O.USER_NO = M.USER_NO
+        WHERE O.MENTOR_REGIS_NO = #{postNo}
+    </select>
+
+
+    <!--결제와 매칭-->
+    <insert id="insertPayment" parameterType="payment">
+        INSERT INTO PAYMENT
+        (USER_NO,PAY_DATE,PAY_CONTENT,PRICE,PAY_TYPE)
+        VALUES(#{userNo},current_date,'매칭결제',10000,'P')
+    </insert>
+
+    <insert id="insertMathcing" parameterType="matching">
+        INSERT INTO MATCHING
+        (MATCHING_REGIS_NO,MENTOR_REGIS_NO,MENTEE_REGIS_NO,STATUS,CREATE_AT)
+        VALUES(#{matchingRegisNo},#{mentorNo},#{menteeNo},'W',current_date)
+    </insert>
+
+
+    <update id="updateToken" parameterType="member">
+        UPDATE MEMBER
+        SET TOKEN = #{token}
+        WHERE USER_NO = #{userNo}
+    </update>
+
+    <select id="selectToken" parameterType="int" resultType="int">
+        SELECT TOKEN FROM
+        MEMBER
+        WHERE USER_NO = #{userNo}
+
+    </select>
+
+    <insert id="suggestMatching" parameterType="matching">
+        INSERT INTO MATCHING
+        (MATCHING_REGIS_NO,MENTOR_REGIS_NO,MENTEE_REGIS_NO,STATUS,CREATE_AT)
+        VALUES(#{matchingRegisNo},#{mentorNo},#{menteeNo},'W',current_date)
+    </insert>
+
+    <insert id="follow" parameterType="follow">
+        INSERT INTO FOLLOW
+        (FROM_USER,TO_USER)
+        VALUES(#{fromUser},#{toUser})
+    </insert>
+
+    <insert id="unfollow" parameterType="follow">
+        DELETE FROM FOLLOW WHERE TO_USER = #{toUser} AND FROM_USER = #{fromUser}
+    </insert>
+
+
+
+    <select id="getMentorList" parameterType="int" resultType="member" resultMap="memberResultMap">
+        SELECT DISTINCT MB.USER_ID, MB.INTRODUCTION, MB.MEMBER_TYPE, MB.USER_NO
+        FROM MENTOR MT
+                 LEFT JOIN MATCHING MAT ON MT.MENTOR_REGIS_NO = MAT.MATCHING_REGIS_NO
+                 LEFT JOIN MEMBER MB ON MAT.MENTEE_REGIS_NO = MB.USER_NO
+                 LEFT JOIN PROFILE_IMG PI ON MB.USER_NO = PI.USER_NO
+        WHERE MT.USER_NO = #{userId}
+          AND MB.USER_NO != #{userId}
+          AND MB.USER_ID IS NOT NULL;
+
+    </select>
+
+    <select id="getMentorProfileList" parameterType="int" resultType="profile" resultMap="profileResultMap">
+        SELECT DISTINCT PI.USER_NO, PI.FILE_CHANGE_NAME, PI.FILE_PATH
+        FROM MENTOR MT
+                 LEFT JOIN MATCHING MAT ON MT.MENTOR_REGIS_NO = MAT.MATCHING_REGIS_NO
+                 LEFT JOIN PROFILE_IMG PI ON MAT.MENTEE_REGIS_NO = PI.USER_NO
+        WHERE MT.USER_NO = #{userNo}
+          AND PI.FILE_CHANGE_NAME IS NOT NULL
+          AND PI.FILE_PATH IS NOT NULL;
+    </select>
+
+    <select id="getMentoringList" parameterType="int" resultType="mentoring" resultMap="mentoringResult2">
+        SELECT DISTINCT MT.*
+        FROM MATCHING MAT
+                 JOIN MENTOR MT ON MAT.MENTOR_REGIS_NO = USER_NO
+        WHERE MAT.MENTOR_REGIS_NO = #{userNo}
+    </select>
+
+    <select id="getMatchingList" parameterType="int" resultType="matching" resultMap="matchingResult">
+        SELECT MATCHING.*
+        FROM MATCHING
+        WHERE MATCHING.MENTOR_REGIS_NO = #{userNo}
+    </select>
+
+    <!--    여기서부터는 받은 요청 -->
+
+    <select id="getMentorList2" parameterType="int" resultType="member" resultMap="memberResultMap">
+        SELECT DISTINCT MB.USER_ID, MB.INTRODUCTION, MB.MEMBER_TYPE, MB.USER_NO
+        FROM MATCHING MAT
+                 JOIN MEMBER MB ON MAT.MENTOR_REGIS_NO = MB.USER_NO
+        WHERE MAT.MENTEE_REGIS_NO = #{userNo}
+    </select>
+
+    <select id="getMentorProfileList2" parameterType="int" resultType="profile" resultMap="profileResultMap">
+        SELECT DISTINCT PI.USER_NO, PI.FILE_CHANGE_NAME, PI.FILE_PATH
+        FROM MATCHING MAT
+                 JOIN MEMBER MB ON MAT.MENTOR_REGIS_NO = MB.USER_NO
+                 LEFT JOIN PROFILE_IMG PI ON MB.USER_NO = PI.USER_NO
+        WHERE MAT.MENTEE_REGIS_NO = #{userNo}
+          AND PI.FILE_CHANGE_NAME IS NOT NULL
+          AND PI.FILE_PATH IS NOT NULL;
+    </select>
+
+    <select id="getMentoringList2" parameterType="int" resultType="mentoring" resultMap="mentoringResult2">
+        SELECT MT.*
+        FROM MENTOR MT
+        WHERE MT.USER_NO = #{userNo};
+    </select>
+
+    <select id="getMatchingList2" parameterType="int" resultType="matching" resultMap="matchingResult">
+        SELECT MATCHING.*
+        FROM MATCHING
+        WHERE MATCHING.MENTEE_REGIS_NO = #{userNo}
+    </select>
+
+    <delete id="mentoringCancel">
+        DELETE
+        FROM MATCHING
+        WHERE MENTEE_REGIS_NO = #{userNo}
+          AND MATCHING_REGIS_NO = #{regisNo}
+    </delete>
+
+    <update id="mentoringAccept">
+        UPDATE MATCHING
+        SET STATUS = 'C'
+        WHERE MENTOR_REGIS_NO = #{userNo} AND MATCHING_REGIS_NO = #{regisNo} AND MENTEE_REGIS_NO = #{loginNo};
+    </update>
+
+    <update id="mentorupdateToken" parameterType="hashMap">
+        UPDATE MEMBER
+        SET TOKEN = #{token1}
+        WHERE USER_NO = #{userNo}
+    </update>
+
+</mapper>
+

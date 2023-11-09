@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight : 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'rg';
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.eot');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/LINESeedKR-Rg.woff') format('woff');
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "rg";
+    box-sizing: border-box;
+}
+
+.content {
+    margin: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: radial-gradient(circle,
+            rgba(232, 255, 252, 1.0) 35%,
+            rgba(144, 255, 241, 1.0) 80%);
+}
+
+.logo-container {
+    margin-top: 40px;
+}
+
+.logo-container>img {
+    width: 300px;
+}
+
+.logo-container:hover {
+    cursor: pointer;
+}
+
+.sign-upMain {
+    margin-top: 20px;
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    background-color: white;
+    border-radius: 10px;
+    width: 500px;
+    height: 840px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sign-upostTitle {
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#sign-up {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 100px;
+}
+
+#sign-up span {
+    font-size: 20px;
+    font-family: "bd";
+}
+
+#sign-up input {
+    padding-left: 4px;
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    width: 200px;
+    height: 32px;
+    font-size: 15px;
+}
+
+#introduce {
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid rgb(223, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    width: 200px;
+    height: 70px;
+    font-size: 15px;
+    resize: none;
+}
+
+#sign-up button {
+    width: 100px;
+    height: 32px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border: none;
+    background-color: #DFF6ED;
+    font-size: 16px;
+    font-family: "bd";
+}
+
+#sign-up button:hover {
+    cursor: pointer;
+    color: white;
+}
+
+#sign-upBtn {
+    width: 200px;
+    height: 32px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border: none;
+    background-color: #48917A;
+    font-size: 20px;
+    font-family: "bd";
+    position: relative;
+    left: 100px;
+}
+
+#sign-upBtn:hover {
+    cursor: pointer;
+    color: white;
+}

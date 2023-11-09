@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HelloMentor-채팅방목록</title>
+
+    <link th:href="@{/css/chatlist-style.css}" rel="stylesheet"/>
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:insert="common/header :: header"></div>
+
+<th:block th:fragment="content">
+    <div class="content">
+        <div class="chatlist">
+            <div class="chatlist-title">
+                <div id="chatlist-title">채팅방</div>
+            </div>
+
+            <div class="chatroom-area">
+                <th:block th:each="room : ${list}">
+                    <div class="chatroom" th:onclick="'location.href=\'' + @{/chat/room(roomId=${room.roomId})} + '\''">
+                        <!-- th:attr="onclick='movePage(\'' + ${room.roomId} + '\');'" -->
+                        <div class="chatroom-name">
+                            <th:block th:switch="${room.chatRoomType}">
+                                <span th:case="M" class="bold-span">멘토링 | </span>
+                                <span th:case="S" class="bold-span">스터디 | </span>
+                            </th:block>
+                            <span>[[${room.name}]]</span>
+                        </div>
+                        <div class="chat-count">new</div>
+                        <!--<div class="chatroom-info">
+                            <div class="chatroom-with">
+                                <span class="bold-span">with |</span>
+                                <span>mentee01</span>
+                            </div>
+                        </div>-->
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<div th:insert="common/footer :: footer"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#chatlist-mentoring")
+            .addClass("mainColor")
+            .removeClass("blackColor");
+        $("#chatlist-study").addClass("blackColor").removeClass("mainColor");
+
+        $("#chatlist-study").click(function () {
+            $(this).addClass("mainColor").removeClass("blackColor");
+            $("#chatlist-mentoring")
+                .addClass("blackColor")
+                .removeClass("mainColor");
+        });
+
+        $("#chatlist-mentoring").click(function () {
+            $(this).addClass("mainColor").removeClass("blackColor");
+            $("#chatlist-study").addClass("blackColor").removeClass("mainColor");
+        });
+    });
+</script>
+
+<script>
+    function movePage(roomId) {
+        var url = `/chat/room(roomId=` + roomId + `)`;
+        window.location.href = url;
+    }
+</script>
+</body>
+</html>

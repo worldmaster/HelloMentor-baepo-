@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    height: 1068px;
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+}
+
+.report {
+    width: 1000px;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.report-title {
+    width: 800px;
+    height: 40px;
+    margin-top: 100px;
+}
+
+#report-title {
+    font-size: 40px;
+    font-family: "bd";
+}
+
+.report-form {
+    width: 660px;
+    height: 544px;
+    margin-top: 94px;
+}
+
+#report-form>div {
+    display: flex;
+    margin-bottom: 32px;
+}
+
+#report-form span {
+    font-size: 20px;
+    font-family: "bd";
+    line-height: 32px;
+    margin-right: 20px;
+}
+
+#report-category {
+    padding-left: 10px;
+    width: 400px;
+    height: 32px;
+    border-radius: 10px;
+    border-color: rgb(226, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    font-size: 20px;
+    color: gray;
+}
+
+#report-content {
+    padding: 10px;
+    width: 600px;
+    height: 400px;
+    resize: none;
+    border-radius: 10px;
+    border-color: rgb(226, 219, 219);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+    font-size: 20px;
+}
+
+.upload-name {
+    height: 32px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: none;
+    color: #40E0D0;
+}
+
+.report-attch label {
+    display: inline-block;
+    width: 120px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #48917A;
+}
+
+#report-attch {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+.report-btns {
+    width: 240px;
+    height: 32px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.report-btns button {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    font-size: 20px;
+    font-family: "bd";
+    cursor: pointer;
+}
+
+.report-btns button:hover {
+    color: white;
+}
+
+#cancel-btn {
+    background-color: #48917A;
+}
+
+
+#report-btn {
+    background-color: #DFF6ED;
+}

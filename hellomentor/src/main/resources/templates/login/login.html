@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-로그인</title>
+    <link th:href="@{/css/login-style.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <canvas id="matrix" width="1920" height="1080"></canvas>
+    <script>
+      const canvas = document.getElementById("matrix");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const codeLines = [
+        "String id = 'HelloMentor';",
+        "int x = 10;",
+        "public static void main(String[] args) {",
+        "console.log('Hello, Mentor!');",
+        "const element = <div>Hello Mentor!</div>;",
+        "for (let i = 0; i < 10; i++) {",
+        "return x + y;",
+        "Array.from(arr);",
+        "document.getElementById('Hello Mentor');",
+        "setState({ count: count + 1 });",
+      ];
+
+      const particles = [];
+      const particleCount = 100;
+
+      for (let i = 0; i < particleCount; i++) {
+        let speedX, speedY;
+
+        // 무한 루프 방지를 위해 최대 100번의 시도를 할 수 있도록 설정
+        let attempts = 0;
+        do {
+          speedX = (Math.random() - 0.5) * 50;
+          speedY = (Math.random() - 0.5) * 30;
+          attempts++;
+        } while (
+          Math.abs(speedX) < 6 &&
+          Math.abs(speedY) < 6 &&
+          attempts < 100
+        ); // 속도가 x, y 모두 10보다 작을 때 재생성
+
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          size: 10,
+          speedX: speedX,
+          speedY: speedY,
+          text: codeLines[Math.floor(Math.random() * codeLines.length)],
+          playedOnce: false,
+        });
+      }
+
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        size: 40,
+        speedX: 0,
+        speedY: 0,
+        text: "HELLO MENTOR",
+        playedOnce: false,
+      });
+      function draw() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let particle of particles) {
+          // 파티클이 한 번도 재생되지 않았을 때만 애니메이션 진행
+          if (!particle.playedOnce) {
+            if (particle.text === "HELLO MENTOR") {
+              ctx.font = "550 " + particle.size + "px Courier New";
+            } else {
+              ctx.font = particle.size + "px Courier New";
+            }
+            const textWidth = ctx.measureText(particle.text).width;
+            ctx.fillStyle = "#40E0D0";
+            ctx.fillText(particle.text, particle.x - textWidth / 2, particle.y);
+
+            // "HELLO MENTOR" 텍스트의 크기가 100 이하일 때만 크기 증가
+            if (particle.text === "HELLO MENTOR" && particle.size < 100) {
+              particle.size += 0.5;
+            } else if (particle.text !== "HELLO MENTOR") {
+              particle.size += 0.5;
+            }
+
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+          }
+
+          // "HELLO MENTOR"를 제외한 다른 파티클이 80 이상의 크기로 커질 때 재생 완료 상태로 변경
+          if (
+            particle.text !== "HELLO MENTOR" &&
+            particle.size > 75 &&
+            !particle.playedOnce
+          ) {
+            particle.playedOnce = true;
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+      setTimeout(() => {
+        let opacityCanvas = 1;
+        let opacityContent = 0;
+
+        const fadeOutCanvas = setInterval(() => {
+          opacityCanvas -= 0.3;
+
+          if (opacityCanvas <= 0) {
+            canvas.style.display = "none";
+            clearInterval(fadeOutCanvas);
+
+            fadeInContent();
+            // canvas가 사라진 후 .content의 페이드인 시작
+          } else {
+            canvas.style.opacity = opacityCanvas;
+          }
+        }, 50);
+      }, 3000);
+
+      function fadeInContent() {
+        let opacityContent = 0;
+
+        const fadeInInterval = setInterval(() => {
+          opacityContent += 0.1;
+
+          if (opacityContent >= 1) {
+            document.querySelector(".content").style.opacity = 1; // .content의 최종 opacity를 1로 설정
+            clearInterval(fadeInInterval);
+          } else {
+            document.querySelector(".content").style.opacity = opacityContent;
+          }
+        }, 30);
+      }
+    </script>
+
+    <div class="content">
+      <div class="loginMain">
+        <div class="login-logo">
+          <img th:src="@{/img/HELLO_MENTOR_LOGO.png}" />
+        </div>
+         
+         <form action="/login.me" method="post" th:action="@{/login.me}">
+        <div class="login">
+          <input
+            type="text"
+            name="userId"
+            placeholder="아이디를 입력하세요"
+            size="33"
+            maxlength="25"
+            required
+          />
+          <input
+            type="password"
+            name="userPwd"
+            size="33"
+            placeholder="비밀번호를 입력하세요"
+            maxlength="25"
+            required
+          />
+        </div>
+        <div class="loginButton">
+          <button type="submit" id="login-btn">
+            로그인
+          </button>
+        </div>
+    </form>
+
+        <div class="sign-up">
+        <a th:href="@{/choose-sign-up}">회원가입</a>
+        </div>
+      </div>
+    </div>
+    <script th:inline="javascript">
+        // 컨트롤러에서 전달된 메시지를 받아옵니다.
+        var message = /*[[${message}]]*/ '';
+
+        // 메시지를 사용하여 alert를 생성합니다.
+        if (message) {
+            alert(message);
+        }
+    </script>
+  </body>
+</html>

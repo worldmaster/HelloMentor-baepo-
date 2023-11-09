@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/mypage.css">
+
+
+    <script>
+        $(document).ready(function () {
+            $('.my_following').html('');
+            loadInitialContent();
+        });
+
+        function loadInitialContent() {
+            loadPage1('home_following_list');
+        }
+
+        function loadPage1(pageName) {
+            $.get(pageName, function (data) {
+                $('.my_following').html(data);
+                attachButtonClickListeners();
+            });
+        }
+
+        function attachButtonClickListeners() {
+            $('.mypage_followbtn').click(function () {
+                $('.mypage_followbtn').removeClass('active');
+                $(this).addClass('active');
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="my_right_title">팔로잉/팔로워 목록</div>
+<br>
+<div class="my_btn_container1">
+    <div class="my_btn_container2">
+        <button class="mypage_followbtnpush" onclick="loadPage1('home_following_list')">팔로잉</button>
+    </div>
+    <div class="my_btn_container2">
+        <button class="mypage_followbtnpush2" onclick="loadPage1('home_follower_list')">팔로워</button>
+    </div>
+</div>
+<div class="my_following"></div>
+</body>
+</html>

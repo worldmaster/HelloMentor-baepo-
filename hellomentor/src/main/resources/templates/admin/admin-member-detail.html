@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelloMentor-회원상세</title>
+
+    
+    <link th:href="@{/css/admin-member-detail-style.css}" type="text/css" rel="stylesheet" />
+    
+    <link 
+    th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+    rel="stylesheet" 
+    />
+  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="sideMenuBar">
+        <div class="sideMenus">
+          <div class="sideMenu"><a th:href="@{/sideMember}">회원관리</a></div>
+            <div class="sideMenu"><a th:href="@{/inquirylist}">문의관리</a></div>
+            <div class="sideMenu"><a th:href="@{/admin/memberReport}">신고관리</a></div>
+            <div class="sideMenu"><a th:href="@{/noticelist}">공지사항</a></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="member-detail-wrap">
+          <div class="member-title">회원상세정보</div>
+          <div class="member-section">
+            <div class="member-info">
+               <div id="member-profile" th:if="${profile}">
+              <img th:src="@{${profile.filePath} + ${profile.changeName}}" />
+              </div>
+               <div th:unless="${profile}">
+              <p>프로필사진 없음</p> 
+              </div>
+              <div id="member-info">
+                <div>아이디 : <span th:text="${member.userId}"></span></div>
+                <div>이름 : <span th:text="${member.userName}"></span></div>
+                <div>전화번호 : <span th:text="${member.phone}"></span></p></div>
+                <div>회원 등록 : <span th:switch="${member.memberType}">
+                              <span th:case="'E'">멘티</span>
+                             <span th:case="'O'">멘토</span>
+                              </span></div>
+                <div>회원상태 : <span th:switch="${member.status}">
+                             <span th:case="'Y'">활동회원</span>
+                             <span th:case="'N'">탈퇴회원</span>
+                              </span>
+        </div>
+              </div>
+            </div>
+          
+            <div class="member-file">
+              <div class="member-file-option">
+                <div class="file-option" id="member-self-introduce">소개글</div>
+                <div class="file-option" id="member-board-write">
+                  게시글목록
+                </div>
+              </div>
+              <div class="member-file-body">
+                <!-- 소개글 클릭시 (페이지 기본 값)-->
+                <div class="member-file-content member-self-introduce" id="mentor" th:if="${member.memberType == 'O'}">
+                  <div class="member-self-info">
+                    <span>멘토링 선택 언어</span>
+                    <div id="language" th:if="${mentoring != null}">
+                    <span th:text="${mentoring.codeLang}"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="member-self-info">
+                    <span>멘토링 제목</span>
+                    <div id="title" th:if="${mentoring != null}">
+                    <span th:text="${mentoring.title}"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="member-self-info">
+                    <span>커리어 정보</span>
+                    <div id="jungbo" th:if="${mentoring != null}">
+                    <span th:text="${mentoring.content1}"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="member-self-info"> 
+                    <span>학력 정보 및 개발 능력</span>
+                    <div id="content2" th:if="${mentoring != null}">
+                      <span th:text="${mentoring.content2}"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="member-self-info">
+                    <span>자기 소개글</span>
+                    <div id="content3" th:if="${mentoring != null}">
+                      <span th:text="${mentoring.content3}"></span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 멘티가 하는거 -->
+                <div class="member-file-content member-self-introduce"  id="mentee" th:if="${member.memberType == 'E'}">
+                  <div class="member-self-info">
+                    <span>원하는 멘토링</span>
+                    <div id="" th:if="${mentoring != null}">
+                    <span th:text="${mentoring.content1}" ></span>
+                    </div>
+                  </div>
+                  
+                  <div class="member-self-info">
+                    <span>멘티 학력정보 및 개발 능력</span>
+                    <div id="content2" th:if="${mentoring != null}">
+                      <span th:text="${mentoring.content2}"></span>
+                    </div>
+                  </div>
+                  <div class="member-self-info">
+                    <span>멘티 소개글</span>
+                    <div id="content3" th:if="${mentoring != null}">
+                      <span th:text="${mentoring.content3}"></span>
+                    </div>
+                  </div>
+                </div> 
+                
+                <!-- 게시글 목록 클릭시 -->
+                <div class="member-file-content member-board-write">
+                  <div id="boards">
+                    <!-- 각 게시판 클릭시 뜨는 리스트를 조회해서 table에 넘겨준다(비동기식으로 진행) -->
+                    <div id="free-board">자유게시판</div>
+                    <div id="knowledge-board">지식인</div>
+                    <div id="study-board">스터디</div>
+                  </div>
+                  
+                  <div id="board-list" class="boardF">
+                    <table id="list">
+                      <tbody>
+                         <tr th:if="${not #lists.isEmpty(boardF)}" th:each="boardF : ${boardF}">
+                         <td th:text="${boardF.postTitle}"></td>
+                         <td th:text="${boardF.createDate}"></td>
+                         </tr>
+                         <tr th:if="${#lists.isEmpty(boardF)}">
+                         <h2>해당 회원의 게시글이 없습니다.</h2>
+                         </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                   <div id="board-list" class="boardK">
+                    <table id="list" >
+                      <tbody>
+                        <tr th:if="${not #lists.isEmpty(boardK)}" th:each="boardK : ${boardK}">
+                         <td th:text="${boardK.postTitle}"></td>
+                         <td th:text="${boardK.createDate}"></td>
+                         </tr>
+                         <tr th:if="${#lists.isEmpty(boardK)}">
+                         <h2>해당 회원의 게시글이 없습니다.</h2>
+                         </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <div id="board-list" class="boardS">
+                    <table id="list">
+                      <tbody>
+                        <tr th:if="${not #lists.isEmpty(boardS)}" th:each="boardS : ${boardS}">
+                         <td th:text="${boardS.postTitle}"></td>
+                         <td th:text="${boardS.createDate}"></td>
+                         </tr>
+                         <tr th:if="${#lists.isEmpty(boardS)}">
+                         <h2>해당 회원의 게시글이 없습니다.</h2>
+                         </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                
+               </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        const $memberSelfIntroBtn = $("#member-self-introduce");
+        const $memberBoardWriteBtn = $("#member-board-write");
+        const $memberSelfIntroduce = $(".member-self-introduce");
+        const $memberBoardWrite = $(".member-board-write");
+
+        $memberSelfIntroBtn.click(function () {
+          $memberBoardWriteBtn.css("backgroundColor", "#48917A");
+          $memberSelfIntroBtn.css("backgroundColor", "#DFF6ED");
+          $memberBoardWrite.css("display", "none");
+          $memberSelfIntroduce.css("display", "flex");
+        });
+
+        $memberBoardWriteBtn.click(function () {
+          $memberSelfIntroBtn.css("backgroundColor", "#48917A");
+          $memberBoardWriteBtn.css("backgroundColor", "#DFF6ED");
+          $memberSelfIntroduce.css("display", "none");
+          $memberBoardWrite.css("display", "flex");
+        });
+
+        const $freeBoard = $("#free-board");
+        const $knowledgeBoard = $("#knowledge-board");
+        const $studyBoard = $("#study-board");
+
+        $freeBoard.click(function () {
+          $freeBoard.css("color", "#48917A");
+          $knowledgeBoard.css("color", "black");
+          $studyBoard.css("color", "black");
+        });
+
+        $knowledgeBoard.click(function () {
+          $freeBoard.css("color", "black");
+          $knowledgeBoard.css("color", "#48917A");
+          $studyBoard.css("color", "black");
+        });
+
+        $studyBoard.click(function () {
+          $freeBoard.css("color", "black");
+          $knowledgeBoard.css("color", "black");
+          $studyBoard.css("color", "#48917A");
+        });
+      });
+    </script>
+    <script>
+    $(document).ready(function () {
+           $("#free-board").click(function () {
+        	   $(".boardF").css("display", "block");
+            $(".boardK").removeClass("active");
+            $(".boardS").removeClass("active");
+        }); 
+
+        $("#knowledge-board").click(function () {
+            $(".boardK").addClass("active");
+            $(".boardS").removeClass("active");
+            $(".boardF").css("display", "none");
+        });
+
+        $("#study-board").click(function () {
+            $(".boardS").addClass("active");
+            $(".boardF").css("display", "none");
+            $(".boardK").removeClass("active");
+        });
+    });
+</script>
+  </body>
+</html>
+
+

@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "sg";
+    box-sizing: border-box;
+}
+
+.content {
+    width: 1200px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    width: 800px;
+    margin-top: 100px;
+    font-size: 40px;
+    font-family: "bd";
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자식인_상세페이지</title>
+    <link  th:href="@{/css/normal-frame.css}" rel="stylesheet" />
+    <link  th:href="@{/css/knowledge-detail.css}" rel="stylesheet" />
+
+      <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" 
+  rel="stylesheet" />
+
+<link href="../../../static/css/normal-frame.css" rel="stylesheet" />
+<link href="../../../static/css/knowledge-detail.css" rel="stylesheet" />
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body>
+  
+  <script th:inline="javascript">
+					    // 컨트롤러에서 전달된 메시지를 받아옵니다.
+					    var message = /*[[${message}]]*/ '';
+					
+					    // 메시지를 사용하여 alert를 생성합니다.
+					    if (message) {
+					        alert(message);
+					    }
+			</script>
+  
+  <div th:insert="common/header :: header"></div>
+  
+  
+    <div class="content">
+      <div class="section">
+        <div class="title">지식인</div>
+
+        <div class="question-language">
+          <div id="question-language">Q.</div>
+
+          <div class="knowledge-info">
+            <div class="knowledge-title" th:text="${selectedPost.postTitle}">질문 제목</div>
+            <div id="knowledge-info">
+              <div th:text="${selectedPost.userNo}">작성자</div>
+              <div th:text="${selectedPost.createDate}">작성일자</div>
+              <div id="knowledge-count">
+                <img th:src="@{/img/see.png}" class="seeimg1" />
+                <span th:text="${selectedPost.views}">조회수</span>
+              </div>
+              <div  id="knowledge-chosen">
+				    <span th:if="${isAccepted == 1}">채택완료</span>
+				    <span th:unless="${isAccepted == 1}">답변대기중</span>
+				</div>
+							   
+
+            </div>
+          </div>
+        </div>
+
+
+			<div class="knowledge-content">
+			 <span th:text="${selectedPost.postContent}">내용</span>
+
+		      <div class="image-container" th:each="attach: ${attachList}">
+		        <a th:href="@{${attach.filePath} + ${attach.changeName}}"
+		           th:download="${attach.originName}">
+		          <img th:src="@{${attach.filePath} + ${attach.changeName}}">
+		        </a>
+		      </div>
+ 
+			</div>
+        <!--지식인 정보 및 내용 끝-->
+
+        <!--신고-->
+
+        <div id="move-to-report" th:if="${selectedPost.userNo != loginUser.userId}">
+            <a th:attr="onclick='movePage(\'' + ${selectedPost.postNo} + '\');'" class="report-this-board">신고하기</a>
+        </div>
+
+        <!--하단 버튼-->
+        <!-- 아래 버튼은 작성자만 보여진다. -->
+         <div class="knowledge-btns" th:if="${(selectedPost.userNo == loginUser.userId) and (isAccepted == 0)}">
+        	<a th:href="'/hellomentor/knowledgeupdate?kno=' + ${selectedPost.postNo}">
+            <button type="button" id="move-to-change">수정</button>
+            </a>
+            <a th:href="'/hellomentor/deleteknowledge?kno=' + ${selectedPost.postNo}">
+            <button type="button" id="move-to-delete">삭제</button>
+            </a>
+         </div>
+         <!--하단 버튼 끝-->
+      
+
+        <!--좋아요-->
+        <a th:href="'/hellomentor/increaseknowledgeupvotes?uno=' + ${selectedPost.userNo} + '&kno=' + ${selectedPost.postNo}">
+        <svg
+          class="heart-logo"
+          xmlns="http://www.w3.org/2000/svg"
+          width="60"
+          height="60"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="M19 14C20.49 12.54 22 10.79 22 8.5C22 7.04131 21.4205 5.64236 20.3891 4.61091C19.3576 3.57946 17.9587 3 16.5 3C14.74 3 13.5 3.5 12 5C10.5 3.5 9.26 3 7.5 3C6.04131 3 4.64236 3.57946 3.61091 4.61091C2.57946 5.64236 2 7.04131 2 8.5C2 10.8 3.5 12.55 5 14L12 21L19 14Z"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        </a>
+        <span id="count-love" th:text="${selectedPost2.upVotes}">추천수</span>
+
+<input type="hidden" id="postNo" th:value="${selectedPost.postNo}" />
+
+<!-- 답변 버튼, 작성자 제외 모든 사람들에게 보여짐 -->
+	<div class="knowledge-reply" th:if="${(selectedPost.userNo != loginUser.userId) and (isAccepted == 0)}">
+    <a th:href="'/hellomentor/knowledgeanswerinsert?ano=' + ${selectedPost.postNo}">
+        <button type="button" id="move-to-insert">답변하기</button>
+    </a>
+</div>
+
+
+
+
+        <div id="answer-language">
+          <span id="answer-logo">A.</span>
+          <span id="answer-quantity" th:text="${total} + '개'">답변갯수</span>
+        </div>
+
+
+
+
+        <!--채택된 답변 시작-->
+        <!-- 채택된 답변 존재시에만 뜬다. -->
+        <div class="chosen-reply-section" th:each="a : ${list}"  th:if="${a.boardType == '1'}">
+          <div class="chosen-reply-info">
+            <div th:text="${a.userNo}">작성자</div>
+            <div id="knowledge-chosen">채택된 답변</div>
+          </div>
+          <div class="correct-content" th:text="${a.postContent}">답변 내용</div>
+        </div>
+
+        <!--채택된 답변끝-->
+
+
+
+        <!--일반 답변 시작-->
+        <!-- 채택된 답변이 존재할시 insert-correct 버튼은 눌릴수 없게 설정하기 -->
+        <div class="knowledge-reply-list" th:each="a : ${list}"  th:if="${a.boardType == '0'}">
+          <div class="reply-section">
+            <div class="reply-info" >
+              <div th:text="${a.userNo}" >작성자</div>
+              <div th:text="${a.createDate}" >작성일자</div>
+              
+              <!-- 게시글 작성자 로그인 시에만 채택 버튼이 뜬다. -->
+              <a th:href="'/hellomentor/updateknowledgeacceped?ano=' + ${a.postNo} + '&kno=' + ${selectedPost.postNo}">
+              <button type="button" class="insert-correct" th:if="${selectedPost.userNo == loginUser.userId and isAccepted == 0}">채택하기</button>
+              </a>
+              
+              <!-- 답변 작성자 로그인 시에만 delete-reply가 뜬다. -->
+              <div class="delete-reply" th:if="${(a.userNo == loginUser.userId) and (isAccepted == 0)}">
+                <a th:href="'/hellomentor/deleteknowledgeanswer?ano=' + ${a.postNo} + '&kno=' + ${selectedPost.postNo}">
+                <svg class="trash-logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"fill="none">
+                  <path d="M3 6H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10 11V17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 11V17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </a>
+              </div>
+              
+            </div>
+
+            <div class="answer-content" th:text="${a.postContent}">답변 내용</div>
+            
+            <!-- 해당 작성자 로그인 시에만 answer-edit이 보인다.-->
+            <div class="answer-edit" th:if="${(a.userNo == loginUser.userId) and (isAccepted == 0)} ">
+            <a th:href="'/hellomentor/knowledgeanswerupdate?ano=' + ${a.postNo} + '&kno=' + ${selectedPost.postNo}" >
+              수정하기
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!--일반 답변끝-->
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $(".heart-logo").mouseenter(function () {
+          $(this).addClass("animate__animated animate__pulse animate__faster");
+        });
+
+        $(".heart-logo").mouseleave(function () {
+          $(this).removeClass(
+            "animate__animated animate__pulse animate__faster"
+          );
+        });
+
+        $(".heart-logo").click(function () {
+          $(this).toggleClass("heart-red");
+        });
+
+        $(".trash-logo").mouseenter(function () {
+          $(this).addClass("animate__animated animate__swing");
+        });
+
+        $(".trash-logo").mouseleave(function () {
+          $(this).removeClass("animate__animated animate__swing");
+        });
+      });
+    </script>
+    
+    <div th:insert="common/footer :: footer"></div>
+
+  <script>
+      function movePage(no) {
+          var url = "/hellomentor/report/" + no;
+          window.location.href = url;
+      }
+  </script>
+    
+    
+  </body>
+</html>

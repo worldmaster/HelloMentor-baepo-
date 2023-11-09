@@ -1,0 +1,84 @@
+/* 게시글 정보 테이블 시작 */
+#notice-table {
+    font-size: 17px;
+    text-align: left;
+    margin-top: 80px;
+}
+
+
+
+#notice-table thead tr th {
+    padding: 5px;
+}
+
+#notice-table tbody tr td {
+    padding: 5px;
+}
+
+/* 게시글 정보 테이블 끝 */
+
+
+
+
+/* 게시글 내용 시작 */
+.notice-content {
+    font-size: 17px;
+    width: 800px;
+    border-radius: 10px;
+    border: 1px solid #48917A;
+    margin: 0 auto;
+    text-align: left;
+    padding: 20px;
+    overflow: hidden;
+    height: auto;
+    min-height: 150px;
+    margin-top: 20px;
+}
+.notice-title {
+    font-size: 20px;
+}
+
+/* 게시글 내용 끝 */
+
+
+
+
+
+
+/*목록,삭제 버튼*/
+
+.notice-btns {
+    height: 32px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.notice-btns button {
+    width: 100px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+    font-size: 20px;
+    font-family: "bd";
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.notice-btns button:hover {
+    color: white;
+}
+
+#list-btn {
+    background-color: #48917A;
+}
+
+
+#delete-btn {
+    background-color: #DFF6ED;
+}
+
+
+/*목록 삭제 버튼 끝*/
